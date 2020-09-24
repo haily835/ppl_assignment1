@@ -1,0 +1,9 @@
+src
+  run.py:
+    - get the path of ANTLR_JAR
+    - define the instruction with arguments vector include the first argument is the action gen/clean/test and the second is the test suite either LexerSuite or ParserSuite. If users enter incorrect instruction then print the usage
+  
+  test:
+    testcases folder and solutions
+    - TestUtils.py
+
