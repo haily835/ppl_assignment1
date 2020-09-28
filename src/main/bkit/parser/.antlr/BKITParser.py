@@ -11,10 +11,10 @@ else:
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\13")
-        buf.write("\13\4\2\t\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\2\2\3\2\2\2\2")
-        buf.write("\t\2\4\3\2\2\2\4\5\7\6\2\2\5\6\7\5\2\2\6\7\7\3\2\2\7\b")
-        buf.write("\7\4\2\2\b\t\7\2\2\3\t\3\3\2\2\2\2")
+        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\f")
+        buf.write("\f\4\2\t\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\2\2\3\2\2\2")
+        buf.write("\2\n\2\4\3\2\2\2\4\5\7\6\2\2\5\6\7\5\2\2\6\7\7\3\2\2\7")
+        buf.write("\b\7\4\2\2\b\t\7\7\2\2\t\n\7\2\2\3\n\3\3\2\2\2\2")
         return buf.getvalue()
 
 
@@ -30,8 +30,9 @@ class BKITParser ( Parser ):
 
     literalNames = [ "<INVALID>", "<INVALID>", "';'", "':'", "'Var'" ]
 
-    symbolicNames = [ "<INVALID>", "ID", "SEMI", "COLON", "VAR", "WS", "ERROR_CHAR", 
-                      "UNCLOSE_STRING", "ILLEGAL_ESCAPE", "UNTERMINATED_COMMENT" ]
+    symbolicNames = [ "<INVALID>", "ID", "SEMI", "COLON", "VAR", "STRING", 
+                      "WS", "ERROR_CHAR", "ILLEGAL_ESCAPE", "UNCLOSE_STRING", 
+                      "UNTERMINATED_COMMENT" ]
 
     RULE_program = 0
 
@@ -42,11 +43,12 @@ class BKITParser ( Parser ):
     SEMI=2
     COLON=3
     VAR=4
-    WS=5
-    ERROR_CHAR=6
-    UNCLOSE_STRING=7
+    STRING=5
+    WS=6
+    ERROR_CHAR=7
     ILLEGAL_ESCAPE=8
-    UNTERMINATED_COMMENT=9
+    UNCLOSE_STRING=9
+    UNTERMINATED_COMMENT=10
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -75,6 +77,9 @@ class BKITParser ( Parser ):
         def SEMI(self):
             return self.getToken(BKITParser.SEMI, 0)
 
+        def STRING(self):
+            return self.getToken(BKITParser.STRING, 0)
+
         def EOF(self):
             return self.getToken(BKITParser.EOF, 0)
 
@@ -99,6 +104,8 @@ class BKITParser ( Parser ):
             self.state = 5
             self.match(BKITParser.SEMI)
             self.state = 6
+            self.match(BKITParser.STRING)
+            self.state = 7
             self.match(BKITParser.EOF)
         except RecognitionException as re:
             localctx.exception = re
