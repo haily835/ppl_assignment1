@@ -67,10 +67,11 @@ class LexerSuite(unittest.TestCase):
         self.assertTrue(TestLexer.checkLexeme(
             """0567""", """Error Token 0""", 115))
 
+    # catch error of ID first
     def test_hex_interger_with_error(self):
         self.assertTrue(TestLexer.checkLexeme(
-            """0xz""", """Error Token z""", 116))
+            """0xz""", """Error Token 0""", 116))
 
     def test_oct_interger_with_error(self):
         self.assertTrue(TestLexer.checkLexeme(
-            """0o89""", """Error Token """, 117))
+            """0o89""", """Error Token 0""", 117))

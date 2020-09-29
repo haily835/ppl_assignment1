@@ -30,34 +30,33 @@ options {
 
 program: VAR COLON ID SEMI STRING EOF;
 
-ID: [a-z][a-zA-Z0-9_]*;
+ID: ~[0][a-z][a-zA-Z0-9_];
 
 SEMI: ';';
 
 COLON: ':';
 
 VAR: 'Var';
-
+ 
 KEY_WORD: ('Body' | 'Break' | 'Continue' | 'Do' | 'Else' | 'ElseIf' | 'EndBody' | 'EndIf' | 'EndFor' | 'EndWhile' | 'For' | 'Function' | 'If' | 'Parameter' | 'Return' | 'Then' | 'Var' | 'While' | 'True' | 'False' | 'EndDo' );
 
 OPERATOR: ('+'|'+.'|'-'|'-.'|'*'|'*.'|'\\'|'\\.'|'%'|'!'|'&&'|'||'|'=='|'!='|'<'|'>'|'<='|'>='|'=/='|'<.'|'>.'|'<=.'|'>=.');
 
-SEPARATOR: ('('|')'|'['|']'|'{'|'}');
+SEPARATOR: ('('|')'|'['|']'|'{'|'}'|SEMI|COLON|VAR);
 
-fragment DEC: [+-]?[1-9]+;
+fragment DEC: '0'+ | [+-]?[1-9]+;
 fragment HEX: '0'[Xx][0-9A-F]+;
 fragment OCT: '0'[Oo][0-7]+;
-INT: DEC | HEX | OCT;
+fragment INT: DEC | HEX | OCT;
 
 fragment DIGIT: [0-9];
-FLOAT: [+-]?(DIGIT+ '.' DIGIT+ | DIGIT+[Ee][+-]DIGIT+ | DIGIT+'.'DIGIT+[Ee][+-]DIGIT+);
+fragment FLOAT: [+-]?(DIGIT+ '.' DIGIT+ | DIGIT+[Ee][+-]DIGIT+ | DIGIT+'.'DIGIT+[Ee][+-]DIGIT+);
 
-BOOL: 'True'|'False';
+fragment BOOL: 'True'|'False';
 
-STRING: '"' ([a-zA-Z0-9 ] | '\'"' | '\\' ['bfrnt\\])* '"';
+fragment STRING: '"' ([a-zA-Z0-9 ] | '\'"' | '\\' ['bfrnt\\])* '"';
 
-fragment ELEMENT: INT* | FLOAT* | STRING*;
-ARRAY: '{' (ELEMENT | ARRAY*) '}';
+fragment ARRAY: '{' (BOOL* | INT* | FLOAT* | STRING* | ARRAY*) '}';
 
 WS: [ \t\r\n]+ -> skip; // skip spaces, tabs, newlines
 ERROR_CHAR: .;
