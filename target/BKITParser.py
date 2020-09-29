@@ -11,10 +11,10 @@ else:
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\23")
+        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3C")
         buf.write("\f\4\2\t\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\2\2\3\2\2\2")
-        buf.write("\2\n\2\4\3\2\2\2\4\5\7\6\2\2\5\6\7\5\2\2\6\7\7\3\2\2\7")
-        buf.write("\b\7\4\2\2\b\t\7\r\2\2\t\n\7\2\2\3\n\3\3\2\2\2\2")
+        buf.write("\2\n\2\4\3\2\2\2\4\5\7\4\2\2\5\6\7\61\2\2\6\7\7\3\2\2")
+        buf.write("\7\b\7\60\2\2\b\t\7=\2\2\t\n\7\2\2\3\n\3\3\2\2\2\2")
         return buf.getvalue()
 
 
@@ -28,12 +28,28 @@ class BKITParser ( Parser ):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [ "<INVALID>", "<INVALID>", "';'", "':'", "'Var'" ]
+    literalNames = [ "<INVALID>", "<INVALID>", "'Var'", "'Body'", "'Break'", 
+                     "'Continue'", "'Do'", "'Else'", "'ElseIf'", "'EndBody'", 
+                     "'EndIf'", "'EndFor'", "'EndWhile'", "'For'", "'Function'", 
+                     "'If'", "'Parameter'", "'Return'", "'Then'", "'While'", 
+                     "'True'", "'False'", "'EndDo'", "'+'", "'+.'", "'-'", 
+                     "'-.'", "'*'", "'*.'", "'\\'", "'\\.'", "'%'", "'!'", 
+                     "'&&'", "'||'", "'=='", "'!='", "'<'", "'>'", "'<='", 
+                     "'>='", "'=/='", "'<.'", "'>.'", "'<=.'", "'>=.'", 
+                     "';'", "':'", "'('", "')'", "'['", "']'", "'{'", "'}'", 
+                     "'.'", "','" ]
 
-    symbolicNames = [ "<INVALID>", "ID", "SEMI", "COLON", "VAR", "KEY_WORD", 
-                      "OPERATOR", "SEPARATOR", "INT", "FLOAT", "BOOL", "STRING", 
-                      "ARRAY", "WS", "ERROR_CHAR", "ILLEGAL_ESCAPE", "UNCLOSE_STRING", 
-                      "UNTERMINATED_COMMENT" ]
+    symbolicNames = [ "<INVALID>", "ID", "VAR", "BODY", "BREAK", "CONTINUE", 
+                      "DO", "ELSE", "ELSEIF", "ENDBODY", "ENDIF", "ENDFOR", 
+                      "ENDWHILE", "FOR", "FUNCTION", "IF", "PARAMETER", 
+                      "RETURN", "THEN", "WHILE", "TRUE", "FALSE", "ENDDO", 
+                      "PLUS", "F_PLUS", "SUB", "F_SUB", "MUL", "F_MUL", 
+                      "DIV", "F_DIV", "REMAIN", "NEG", "AND", "OR", "EQ", 
+                      "NOT_EQ", "LT", "GT", "LTE", "GTE", "F_NOT_EQ", "F_LT", 
+                      "F_GT", "F_LTE", "F_GTE", "SEMI", "COLON", "O_BR", 
+                      "C_BR", "O_SB", "C_SB", "O_CB", "C_CB", "DOT", "COMMA", 
+                      "INT", "FLOAT", "BOOL", "STRING", "ARRAY", "WS", "ERROR_CHAR", 
+                      "ILLEGAL_ESCAPE", "UNCLOSE_STRING", "UNTERMINATED_COMMENT" ]
 
     RULE_program = 0
 
@@ -41,22 +57,70 @@ class BKITParser ( Parser ):
 
     EOF = Token.EOF
     ID=1
-    SEMI=2
-    COLON=3
-    VAR=4
-    KEY_WORD=5
-    OPERATOR=6
-    SEPARATOR=7
-    INT=8
-    FLOAT=9
-    BOOL=10
-    STRING=11
-    ARRAY=12
-    WS=13
-    ERROR_CHAR=14
-    ILLEGAL_ESCAPE=15
-    UNCLOSE_STRING=16
-    UNTERMINATED_COMMENT=17
+    VAR=2
+    BODY=3
+    BREAK=4
+    CONTINUE=5
+    DO=6
+    ELSE=7
+    ELSEIF=8
+    ENDBODY=9
+    ENDIF=10
+    ENDFOR=11
+    ENDWHILE=12
+    FOR=13
+    FUNCTION=14
+    IF=15
+    PARAMETER=16
+    RETURN=17
+    THEN=18
+    WHILE=19
+    TRUE=20
+    FALSE=21
+    ENDDO=22
+    PLUS=23
+    F_PLUS=24
+    SUB=25
+    F_SUB=26
+    MUL=27
+    F_MUL=28
+    DIV=29
+    F_DIV=30
+    REMAIN=31
+    NEG=32
+    AND=33
+    OR=34
+    EQ=35
+    NOT_EQ=36
+    LT=37
+    GT=38
+    LTE=39
+    GTE=40
+    F_NOT_EQ=41
+    F_LT=42
+    F_GT=43
+    F_LTE=44
+    F_GTE=45
+    SEMI=46
+    COLON=47
+    O_BR=48
+    C_BR=49
+    O_SB=50
+    C_SB=51
+    O_CB=52
+    C_CB=53
+    DOT=54
+    COMMA=55
+    INT=56
+    FLOAT=57
+    BOOL=58
+    STRING=59
+    ARRAY=60
+    WS=61
+    ERROR_CHAR=62
+    ILLEGAL_ESCAPE=63
+    UNCLOSE_STRING=64
+    UNTERMINATED_COMMENT=65
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)

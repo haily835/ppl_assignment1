@@ -30,37 +30,87 @@ options {
 
 program: VAR COLON ID SEMI STRING EOF;
 
-ID: ~[0][a-z][a-zA-Z0-9_];
+// IDENTIFIERS
+ID: ~[0][a-z][a-zA-Z0-9_]*;
 
-SEMI: ';';
-
-COLON: ':';
-
+// KEYWORDS
 VAR: 'Var';
- 
-KEY_WORD: ('Body' | 'Break' | 'Continue' | 'Do' | 'Else' | 'ElseIf' | 'EndBody' | 'EndIf' | 'EndFor' | 'EndWhile' | 'For' | 'Function' | 'If' | 'Parameter' | 'Return' | 'Then' | 'Var' | 'While' | 'True' | 'False' | 'EndDo' );
+BODY: 'Body';
+BREAK: 'Break';
+CONTINUE: 'Continue';
+DO: 'Do';
+ELSE: 'Else';
+ELSEIF: 'ElseIf';
+ENDBODY: 'EndBody';
+ENDIF: 'EndIf';
+ENDFOR: 'EndFor';
+ENDWHILE: 'EndWhile';
+FOR: 'For';
+FUNCTION: 'Function';
+IF: 'If';
+PARAMETER: 'Parameter';
+RETURN: 'Return';
+THEN: 'Then';
+WHILE: 'While';
+TRUE: 'True';
+FALSE: 'False';
+ENDDO: 'EndDo';
 
-OPERATOR: ('+'|'+.'|'-'|'-.'|'*'|'*.'|'\\'|'\\.'|'%'|'!'|'&&'|'||'|'=='|'!='|'<'|'>'|'<='|'>='|'=/='|'<.'|'>.'|'<=.'|'>=.');
+// OPERATORS
+PLUS: '+';
+F_PLUS: '+.';
+SUB: '-';
+F_SUB: '-.';
+MUL: '*';
+F_MUL: '*.';
+DIV: '\\';
+F_DIV: '\\.';
+REMAIN: '%';
+NEG: '!';
+AND: '&&';
+OR: '||';
+EQ: '==';
+NOT_EQ: '!=';
+LT: '<';
+GT: '>';
+LTE: '<=';
+GTE: '>=';
+F_NOT_EQ: '=/=';
+F_LT: '<.';
+F_GT: '>.';
+F_LTE: '<=.';
+F_GTE: '>=.';
 
-SEPARATOR: ('('|')'|'['|']'|'{'|'}'|SEMI|COLON|VAR);
+// SEPAERATORS
+SEMI: ';';
+COLON: ':';
+O_BR: '(';
+C_BR: ')';
+O_SB: '[';
+C_SB: ']';
+O_CB: '{';
+C_CB: '}';
+DOT: '.';
+COMMA: ',';
 
-fragment DEC: '0'+ | [+-]?[1-9]+;
+// LITERALS
+fragment DEC:  [+-]?[1-9]+ | '0'+;
 fragment HEX: '0'[Xx][0-9A-F]+;
 fragment OCT: '0'[Oo][0-7]+;
-fragment INT: DEC | HEX | OCT;
+INT: DEC | HEX | OCT;
 
 fragment DIGIT: [0-9];
-fragment FLOAT: [+-]?(DIGIT+ '.' DIGIT+ | DIGIT+[Ee][+-]DIGIT+ | DIGIT+'.'DIGIT+[Ee][+-]DIGIT+);
+FLOAT: [+-]?(DIGIT+ '.' DIGIT+ | DIGIT+[Ee][+-]DIGIT+ | DIGIT+'.'DIGIT+[Ee][+-]DIGIT+);
 
-fragment BOOL: 'True'|'False';
+BOOL: TRUE|FALSE;
 
-fragment STRING: '"' ([a-zA-Z0-9 ] | '\'"' | '\\' ['bfrnt\\])* '"';
+STRING: '"' ([a-zA-Z0-9 ] | '\'"' | '\\' ['bfrnt\\])* '"';
 
-fragment ARRAY: '{' (BOOL* | INT* | FLOAT* | STRING* | ARRAY*) '}';
+ARRAY: '{' (BOOL* | INT* | FLOAT* | STRING* | ARRAY*) '}';
 
+// LEXICAL ERRORS
 WS: [ \t\r\n]+ -> skip; // skip spaces, tabs, newlines
 ERROR_CHAR: .;
-ILLEGAL_ESCAPE: '"' [a-zA-Z0-9 ]* '\\' ~[btfrn'\\];
-
+ILLEGAL_ESCAPE: '"' [a-zA-Z0-9 ]* '\\' ~[btfrn'\\] '"'?;
 UNCLOSE_STRING: '"' ( [a-zA-Z0-9 ] | '\'"' | '\\' [btfrn\\])*;
 UNTERMINATED_COMMENT: .;
