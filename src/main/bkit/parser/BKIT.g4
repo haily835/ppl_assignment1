@@ -30,7 +30,7 @@ options {
 
 program: VAR COLON ID SEMI STRING EOF;
 
-ID: [a-z]+;
+ID: [a-z][a-zA-Z0-9_]*;
 
 SEMI: ';';
 
@@ -38,7 +38,26 @@ COLON: ':';
 
 VAR: 'Var';
 
-STRING: '"' ([a-zA-Z0-9 ] | '\'"' | '\\' [btfrn\\])* '"';
+KEY_WORD: ('Body' | 'Break' | 'Continue' | 'Do' | 'Else' | 'ElseIf' | 'EndBody' | 'EndIf' | 'EndFor' | 'EndWhile' | 'For' | 'Function' | 'If' | 'Parameter' | 'Return' | 'Then' | 'Var' | 'While' | 'True' | 'False' | 'EndDo' );
+
+OPERATOR: ('+'|'+.'|'-'|'-.'|'*'|'*.'|'\\'|'\\.'|'%'|'!'|'&&'|'||'|'=='|'!='|'<'|'>'|'<='|'>='|'=/='|'<.'|'>.'|'<=.'|'>=.');
+
+SEPARATOR: ('('|')'|'['|']'|'{'|'}');
+
+fragment DEC: '0'+ | [+-]?~[0][1-9]+;
+fragment HEX: '0'[Xx][0-9A-F]+;
+fragment OCT: '0'[Oo][0-7]+;
+INT: DEC | HEX | OCT;
+
+fragment DIGIT: [0-9];
+FLOAT: [+-]?(DIGIT+ '.' DIGIT+ | DIGIT+[Ee][+-]DIGIT+ | DIGIT+'.'DIGIT+[Ee][+-]DIGIT+);
+
+BOOL: 'True'|'False';
+
+STRING: '"' ([a-zA-Z0-9 ] | '\'"' | '\\' [bfrnt\\\'])* '"';
+
+fragment ELEMENT: INT* | FLOAT* | STRING*;
+ARRAY: '{' (ELEMENT | ARRAY*) '}';
 
 WS: [ \t\r\n]+ -> skip; // skip spaces, tabs, newlines
 ERROR_CHAR: .;
