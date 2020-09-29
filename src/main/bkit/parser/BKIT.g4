@@ -44,7 +44,7 @@ OPERATOR: ('+'|'+.'|'-'|'-.'|'*'|'*.'|'\\'|'\\.'|'%'|'!'|'&&'|'||'|'=='|'!='|'<'
 
 SEPARATOR: ('('|')'|'['|']'|'{'|'}');
 
-fragment DEC: '0'+ | [+-]?~[0][1-9]+;
+fragment DEC: [+-]?[1-9]+;
 fragment HEX: '0'[Xx][0-9A-F]+;
 fragment OCT: '0'[Oo][0-7]+;
 INT: DEC | HEX | OCT;
@@ -54,7 +54,7 @@ FLOAT: [+-]?(DIGIT+ '.' DIGIT+ | DIGIT+[Ee][+-]DIGIT+ | DIGIT+'.'DIGIT+[Ee][+-]D
 
 BOOL: 'True'|'False';
 
-STRING: '"' ([a-zA-Z0-9 ] | '\'"' | '\\' [bfrnt\\\'])* '"';
+STRING: '"' ([a-zA-Z0-9 ] | '\'"' | '\\' ['bfrnt\\])* '"';
 
 fragment ELEMENT: INT* | FLOAT* | STRING*;
 ARRAY: '{' (ELEMENT | ARRAY*) '}';
