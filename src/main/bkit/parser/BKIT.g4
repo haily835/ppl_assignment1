@@ -31,7 +31,7 @@ options {
 program: VAR COLON ID SEMI STRING EOF;
 
 // IDENTIFIERS
-ID: ~[0][a-z][a-zA-Z0-9_]*;
+ID: [a-z][a-zA-Z0-9_]*;
 
 // KEYWORDS
 VAR: 'Var';
