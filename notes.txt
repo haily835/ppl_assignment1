@@ -7,3 +7,36 @@ src
     testcases folder and solutions
     - TestUtils.py
 
+Testcases
+- LexerSuite
+- ParserSuite
+
++ program structure (5)
++ global variable declaration (10)
+Var: a = 5;
+Var: b[2][3] = {{2,3,4},{4,5,6}};
+Var: c, d = 6, e, f;
+Var: m, n[10];
+Multiple types
+5 cases error
+
++ Array declaration (10)
+different types
+mix types error 
+multi-dimension
+lack of tokens
+mix with other variable declarations
+
++ expression test (20)
+test unary
+test association errors
+test parentheses
+test index operators
+function call 
+
++ function declaration test (40)
+parameters test (4)
+local variables (2)
+statements (2)
+error when not follow the syntax (2)
+with while for(can test many) if(many too) dowhile assign break return continue (3 each = 24)
