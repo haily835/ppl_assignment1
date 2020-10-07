@@ -1,0 +1,4 @@
+Function: main
+	Body:
+		Var: c = True, d = "string", e=0.9, f=7;
+	EndBody.

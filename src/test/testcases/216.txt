@@ -1,4 +1,4 @@
 Function: main
 	Body:
-		Var: x = 1;
+		Var: b[2, m, n;
 	EndBody.
