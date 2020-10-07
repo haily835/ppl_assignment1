@@ -91,3 +91,13 @@ class ParserSuite(unittest.TestCase):
         input = """Function: main\n\tBody:\n\t\ta[3] = 4*5 + foo(3);\n\tEndBody."""
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input, expect, 217))
+
+    def test_stmt_expression_1(self):
+        input = """Function: main\n\tBody:\n\t\ta[3 + foo(2)] = a[b[2][3]] + 4;\n\tEndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 218))
+
+    def test_stmt_expression_2(self):
+        input = """Function: main\n\tBody:\n\t\ta = (a*b\\c) + d && h *. 0.006;\n\tEndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 219))
