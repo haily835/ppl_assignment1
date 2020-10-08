@@ -1,0 +1,4 @@
+Function: main
+	Body:
+		a = foo(True;incr(5), incr(6));
+	EndBody.

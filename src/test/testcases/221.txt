@@ -1,0 +1,4 @@
+Function: main
+	Body:
+		Var: a[][3], m, n;
+	EndBody.

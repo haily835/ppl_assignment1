@@ -1,0 +1,4 @@
+Function: main
+	Body:
+		k = (a == c) == (k == h);
+	EndBody.

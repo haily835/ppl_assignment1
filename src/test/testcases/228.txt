@@ -1,0 +1,4 @@
+Function: main
+	Body:
+		c = (a != b); c = a == b;d = a < b;d = a > b;
+	EndBody.

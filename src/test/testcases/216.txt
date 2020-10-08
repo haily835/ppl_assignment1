@@ -1,4 +1,4 @@
 Function: main
 	Body:
-		Var: b[2, m, n;
+		Var: b[2] = {1,2}, m=6, n="string";
 	EndBody.

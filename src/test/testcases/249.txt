@@ -1,0 +1,4 @@
+Function: main
+	Body:
+		c = a[foo(3)] + 4;
+	EndBody.

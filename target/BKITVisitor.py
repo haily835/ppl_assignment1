@@ -9,11 +9,6 @@ else:
 
 class BKITVisitor(ParseTreeVisitor):
 
-    # Visit a parse tree produced by BKITParser#literals.
-    def visitLiterals(self, ctx:BKITParser.LiteralsContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by BKITParser#relational_op.
     def visitRelational_op(self, ctx:BKITParser.Relational_opContext):
         return self.visitChildren(ctx)
@@ -49,13 +44,13 @@ class BKITVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by BKITParser#indexing.
-    def visitIndexing(self, ctx:BKITParser.IndexingContext):
+    # Visit a parse tree produced by BKITParser#expr.
+    def visitExpr(self, ctx:BKITParser.ExprContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by BKITParser#expr.
-    def visitExpr(self, ctx:BKITParser.ExprContext):
+    # Visit a parse tree produced by BKITParser#term.
+    def visitTerm(self, ctx:BKITParser.TermContext):
         return self.visitChildren(ctx)
 
 
@@ -96,16 +91,6 @@ class BKITVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by BKITParser#variable.
     def visitVariable(self, ctx:BKITParser.VariableContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by BKITParser#scalarVar.
-    def visitScalarVar(self, ctx:BKITParser.ScalarVarContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by BKITParser#compositeVar.
-    def visitCompositeVar(self, ctx:BKITParser.CompositeVarContext):
         return self.visitChildren(ctx)
 
 

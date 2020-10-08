@@ -27,7 +27,7 @@ class LexerSuite(unittest.TestCase):
     def test_illegal_escape_2(self):
         """test illegal escape"""
         self.assertTrue(TestLexer.checkLexeme(
-            """ "\\k\\m"  """, """Illegal Escape In String: abc\\h""", 126))
+            """ "\\k\\m"  """, """Illegal Escape In String: \\k""", 126))
 
     def test_unterminated_string(self):
         """test unclosed string"""
@@ -114,3 +114,7 @@ class LexerSuite(unittest.TestCase):
     def test_unclosed_comment(self):
         self.assertTrue(TestLexer.checkLexeme("""**This line will be ignore9990""",
                                               """Unterminated Comment""", 124))
+
+    def test_unclosed_comment_1(self):
+        self.assertTrue(TestLexer.checkLexeme("""** ***""",
+                                              """Unterminated Comment""", 125))

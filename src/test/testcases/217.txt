@@ -1,4 +1,4 @@
 Function: main
 	Body:
-		a[3] = 4*5 + foo(3);
+		Var: b[2, m, n;
 	EndBody.

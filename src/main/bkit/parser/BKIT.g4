@@ -96,7 +96,7 @@ ID: [a-z][a-zA-Z0-9_]*;
 fragment DIGIT: [0-9];
 
 // LITERALS
-literals: INT_LIT | FLOAT_LIT | ARRAY_LIT | STRING_LIT;
+
 fragment DEC:  [+-]? [1-9] DIGIT* | '0';
 fragment HEX: '0' [Xx] [0-9A-F]+;
 fragment OCT: '0' [Oo] [0-7]+;
@@ -119,7 +119,7 @@ ARRAY_LIT: LB
             | ' '* INT_LIT ' '* ( ' '* COMMA ' '*  INT_LIT ' '* )*
             | ' '* FLOAT_LIT ' '*  ( ' '* COMMA ' '* FLOAT_LIT ' '* )*
             | ' '* STRING_LIT ' '* ( ' '* COMMA ' '* STRING_LIT ' '* )*
-            | ' '* ARRAY_LIT ' '* ( ' '* COMMA ' '*  ARRAY_LIT ' '* )* )
+            | ' '* ARRAY_LIT ' '* ( ' '* COMMA ' '*  ARRAY_LIT ' '* )*)
             RB;
 
 
@@ -133,7 +133,6 @@ UNCLOSE_STRING: '"' ( [a-zA-Z0-9 ] | '\'"' | '\\' [btfrn'\\])*;
 UNTERMINATED_COMMENT: '**' .*?;
 ERROR_INTLIT: '0'[Xx] ~[A-F0-9]* | '0'[Oo] ~[0-7]*;
 
-
 // expression *******
 relational_op: EQ | NOT_EQ | LT | GT | LTE | GTE | F_NOT_EQ | F_LT | F_GT | F_LTE | F_GTE;
 logical_op: AND | OR;
@@ -144,19 +143,18 @@ sign_op: SUB | F_SUB;
 argList: (expr tailArg)?;
 tailArg: (COMMA expr tailArg)?;
 
-indexing: LS (expr | INT_LIT) RS;
 expr: LP expr RP
     | ID LP argList RP // function call
-    | ID (indexing)+ // indexing
+    | expr (LS expr RS)+ // indexing
     | <assoc=right> sign_op expr
     | <assoc=right> NEG expr
     | expr multiplying_op expr
     | expr adding_op expr
     | expr logical_op expr
-    | expr relational_op expr
-    | literals
-    | ID
+    | term relational_op term
+    | term
     ;
+term: INT_LIT | FLOAT_LIT | STRING_LIT | ARRAY_LIT | TRUE | FALSE | ID | LP expr RP;
 
 program: globalVar funcDeclPart mainFunc EOF;
 
@@ -168,9 +166,7 @@ mainFunc: FUNCTION COLON 'main' body DOT;
 varDecl: VAR COLON varList SEMI;
 varList: varInit (COMMA varList)*;
 varInit: variable ('=' (INT_LIT | FLOAT_LIT | TRUE | FALSE | STRING_LIT | ARRAY_LIT))?;
-variable: scalarVar | compositeVar;
-scalarVar: ID;
-compositeVar: ID (indexing)+;
+variable: ID | ID (LS expr RS)+;
 
 // Function declaration 
 funcDecl: FUNCTION COLON ID paraDecl body DOT;
@@ -181,7 +177,7 @@ paraList: variable (COMMA paraList)*;
 body: BODY COLON (varDecl)* stmtList ENDBODY;
 
 
-// statements
+// Statements
 stmt: varDecl | assignStmt | ifStmt | forStmt | whileStmt | dowhileStmt | breakStmt | continueStmt | callStmt | returnStmt;
 
 assignStmt: variable '=' expr SEMI;

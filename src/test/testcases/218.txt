@@ -1,4 +1,4 @@
 Function: main
 	Body:
-		a[3 + foo(2)] = a[b[2][3]] + 4;
+		Var: b[2] = {2, "String"}, m, n;
 	EndBody.

@@ -28,10 +28,10 @@ lack of tokens
 mix with other variable declarations
 
 + expression test (20)
-test unary
-test association errors
-test parentheses
-test index operators
+test unary ok
+test association errors ok
+test parentheses ok
+test index operators ok
 function call 
 
 + function declaration test (40)

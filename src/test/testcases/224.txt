@@ -1,0 +1,4 @@
+Function: main
+	Body:
+		b = b[3]b;
+	EndBody.

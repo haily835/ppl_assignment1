@@ -1,0 +1,4 @@
+Function: main
+	Body:
+		c = a[(4*3) + 5 + foo("string")] + 4;
+	EndBody.

@@ -1,4 +1,4 @@
 Function: main
 	Body:
-		a = (a*b\c) + d && h *. 0.006;
+		Var: b[2[3] = {2, "String"}, m, n;
 	EndBody.

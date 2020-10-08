@@ -1,0 +1,4 @@
+Function: main
+	Body:
+		c = a[8][6][9] + 4;
+	EndBody.

@@ -46,58 +46,234 @@ class ParserSuite(unittest.TestCase):
         expect = "Error on line 4 col 1: EndBody"
         self.assertTrue(TestParser.checkParser(input, expect, 208))
 
-    def test_declare_without_colon(self):
+    def test_declare_without_comma(self):
         input = """Function: main\n\tBody:\n\t\tVar: c d = 6, e, f\n\tEndBody."""
         expect = "Error on line 3 col 9: d"
         self.assertTrue(TestParser.checkParser(input, expect, 209))
 
+    def test_declare_without_colon(self):
+        input = """Function: main\n\tBody:\n\t\tVar c d = 6, e, f\n\tEndBody."""
+        expect = "Error on line 3 col 6: c"
+        self.assertTrue(TestParser.checkParser(input, expect, 210))
+
     def test_array_declare_1(self):
         input = """Function: main\n\tBody:\n\t\tVar: a[5];\n\tEndBody."""
         expect = "successful"
-        self.assertTrue(TestParser.checkParser(input, expect, 210))
+        self.assertTrue(TestParser.checkParser(input, expect, 211))
 
     def test_array_declare_2(self):
         input = """Function: main\n\tBody:\n\t\tVar: a[5][4];\n\tEndBody."""
         expect = "successful"
-        self.assertTrue(TestParser.checkParser(input, expect, 211))
+        self.assertTrue(TestParser.checkParser(input, expect, 212))
 
     def test_array_declare_with_initial_1(self):
         input = """Function: main\n\tBody:\n\t\tVar: a[5] = {1,4,3,2,0};\n\tEndBody."""
         expect = "successful"
-        self.assertTrue(TestParser.checkParser(input, expect, 212))
+        self.assertTrue(TestParser.checkParser(input, expect, 213))
 
     def test_array_declare_with_initial_2(self):
         input = """Function: main\n\tBody:\n\t\tVar: b[2][3]={{1,2,3},{4,5,6}};\n\tEndBody."""
         expect = "successful"
-        self.assertTrue(TestParser.checkParser(input, expect, 213))
+        self.assertTrue(TestParser.checkParser(input, expect, 214))
 
     def test_mix_composite_scale_var(self):
         input = """Function: main\n\tBody:\n\t\tVar: b[2][3], m, n;\n\tEndBody."""
         expect = "successful"
-        self.assertTrue(TestParser.checkParser(input, expect, 214))
+        self.assertTrue(TestParser.checkParser(input, expect, 215))
 
     def test_mix_composite_scale_var_with_init(self):
         input = """Function: main\n\tBody:\n\t\tVar: b[2] = {1,2}, m=6, n="string";\n\tEndBody."""
         expect = "successful"
-        self.assertTrue(TestParser.checkParser(input, expect, 215))
+        self.assertTrue(TestParser.checkParser(input, expect, 216))
 
     def test_error_declare_array_1(self):
         """mising close square bracket"""
         input = """Function: main\n\tBody:\n\t\tVar: b[2, m, n;\n\tEndBody."""
         expect = "Error on line 3 col 10: ,"
-        self.assertTrue(TestParser.checkParser(input, expect, 216))
-
-    def test_stmt_expression(self):
-        input = """Function: main\n\tBody:\n\t\ta[3] = 4*5 + foo(3);\n\tEndBody."""
-        expect = "successful"
         self.assertTrue(TestParser.checkParser(input, expect, 217))
 
-    def test_stmt_expression_1(self):
-        input = """Function: main\n\tBody:\n\t\ta[3 + foo(2)] = a[b[2][3]] + 4;\n\tEndBody."""
-        expect = "successful"
+    def test_declare_array_with_wrong_initial(self):
+        input = """Function: main\n\tBody:\n\t\tVar: b[2] = {2, "String"}, m, n;\n\tEndBody."""
+        expect = "Error on line 3 col 14: {"
         self.assertTrue(TestParser.checkParser(input, expect, 218))
 
-    def test_stmt_expression_2(self):
-        input = """Function: main\n\tBody:\n\t\ta = (a*b\\c) + d && h *. 0.006;\n\tEndBody."""
-        expect = "successful"
+    def test_error_declare_array_2(self):
+        input = """Function: main\n\tBody:\n\t\tVar: b[2[3] = {2, "String"}, m, n;\n\tEndBody."""
+        expect = "Error on line 3 col 14: ="
         self.assertTrue(TestParser.checkParser(input, expect, 219))
+
+    def test_error_declare_array_3(self):
+        input = """Function: main\n\tBody:\n\t\tVar: A[2][3], n;\n\tEndBody."""
+        expect = "A"
+        self.assertTrue(TestParser.checkParser(input, expect, 220))
+
+    def test_error_declare_array_4(self):
+        input = """Function: main\n\tBody:\n\t\tVar: a[][3], m, n;\n\tEndBody."""
+        expect = "Error on line 3 col 9: ]"
+        self.assertTrue(TestParser.checkParser(input, expect, 221))
+
+    # test ary of operator
+    def test_error_ary_1(self):
+        input = """Function: main\n\tBody:\n\t\ta = a!b;\n\tEndBody."""
+        expect = "Error on line 3 col 7: !"
+        self.assertTrue(TestParser.checkParser(input, expect, 222))
+
+    def test_error_ary_2(self):
+        input = """Function: main\n\tBody:\n\t\ta = *;\n\tEndBody."""
+        expect = "Error on line 3 col 6: *"
+        self.assertTrue(TestParser.checkParser(input, expect, 223))
+
+    def test_error_ary_3(self):
+        input = """Function: main\n\tBody:\n\t\tb = b[3]b;\n\tEndBody."""
+        expect = "Error on line 3 col 10: b"
+        self.assertTrue(TestParser.checkParser(input, expect, 224))
+
+    def test_error_ary_4(self):
+        input = """Function: main\n\tBody:\n\t\tb = b-;\n\tEndBody."""
+        expect = "Error on line 3 col 8: ;"
+        self.assertTrue(TestParser.checkParser(input, expect, 225))
+
+    def test_error_ary_5(self):
+        input = """Function: main\n\tBody:\n\t\tb!=;\n\tEndBody."""
+        expect = "Error on line 3 col 3: !="
+        self.assertTrue(TestParser.checkParser(input, expect, 226))
+
+    def test_ary_1(self):
+        input = """Function: main\n\tBody:\n\t\ta = a != a + b * c + (a\\b) + !h;\n\tEndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 227))
+
+    def test_ary_2(self):
+        input = """Function: main\n\tBody:\n\t\tc = (a != b); c = a == b;d = a < b;d = a > b;\n\tEndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 228))
+
+    # test association of operators
+    def test_assoc_1(self):
+        input = """Function: main\n\tBody:\n\t\ta = 1 + 2 + (3*4); \n\t\tc = 1 * 3 * 4;\n\tEndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 229))
+
+    def test_wrong_assoc_1(self):
+        input = """Function: main\n\tBody:\n\t\tk = (a == c == d);\n\tEndBody."""
+        expect = "Error on line 3 col 14: =="
+        self.assertTrue(TestParser.checkParser(input, expect, 230))
+
+    def test_wrong_assoc_2(self):
+        input = """Function: main\n\tBody:\n\t\tk = a < c < d\n\tEndBody."""
+        expect = "Error on line 3 col 12: <"
+        self.assertTrue(TestParser.checkParser(input, expect, 231))
+
+    def test_wrong_assoc_3(self):
+        input = """Function: main\n\tBody:\n\t\tk = a <. c <. d;\n\tEndBody."""
+        expect = "Error on line 3 col 13: <."
+        self.assertTrue(TestParser.checkParser(input, expect, 232))
+
+    # test parentheses
+    def test_parentheses_expression_1(self):
+        """This should raise no error"""
+        input = """Function: main\n\tBody:\n\t\tk = (a <. c) <. d;\n\tEndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 233))
+
+    def test_parentheses_expression_2(self):
+        """This should raise no error"""
+        input = """Function: main\n\tBody:\n\t\tk = (a == c) == (k == h);\n\tEndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 234))
+
+    def test_nested_parentheses_expression(self):
+        """This should raise no error"""
+        input = """Function: main\n\tBody:\n\t\tk = (a == c) == ((k == h) == (y == t));\n\tEndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 235))
+
+    def test_parentheses_expression_with_error(self):
+        """This should raise no error"""
+        input = """Function: main\n\tBody:\n\t\tk = (a == c) == (k == h) == (y == t);\n\tEndBody."""
+        expect = "Error on line 3 col 27: =="
+        self.assertTrue(TestParser.checkParser(input, expect, 236))
+
+    def test_parentheses__with_error(self):
+        """This should raise no error"""
+        input = """Function: main\n\tBody:\n\t\tk = (a == c == (k == h) == (y == t);\n\tEndBody."""
+        expect = "Error on line 3 col 14: =="
+        self.assertTrue(TestParser.checkParser(input, expect, 237))
+
+    # test expression function call
+    def test_function_call(self):
+        input = """Function: main\n\tBody:\n\t\ta = foo();\n\tEndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 238))
+
+    def test_function_call_with_single_argument(self):
+        """This should raise no error"""
+        input = """Function: main\n\tBody:\n\t\ta = foo(5);\n\tEndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 239))
+
+    def test_function_call_with_multiple_arguments(self):
+        """This should raise no error"""
+        input = """Function: main\n\tBody:\n\t\ta = foo(5,"string", True);\n\tEndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 240))
+
+    def test_function_call_with_expression_arguments(self):
+        """This should raise no error"""
+        input = """Function: main\n\tBody:\n\t\ta = foo(5 + 4 * 3 \ 5,"string", True);\n\tEndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 241))
+
+    def test_function_call_with_expression_arguments_1(self):
+        """This should raise no error"""
+        input = """Function: main\n\tBody:\n\t\ta = foo((5 + 4) * (3 \ 5),"string", True);\n\tEndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 242))
+
+    def test_function_call_with_other_operators(self):
+        """This should raise no error"""
+        input = """Function: main\n\tBody:\n\t\ta = foo(True) * incr(5) + decr(6);\n\tEndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 243))
+
+    def test_nested_function_call(self):
+        """This should raise no error"""
+        input = """Function: main\n\tBody:\n\t\ta = foo(True,incr(5), incr(6));\n\tEndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 244))
+
+    def test_function_call_with_error(self):
+        input = """Function: main\n\tBody:\n\t\ta = foo(True,incr(5), incr(6);\n\tEndBody."""
+        expect = "Error on line 3 col 31: ;"
+        self.assertTrue(TestParser.checkParser(input, expect, 245))
+
+    def test_function_call_with_error_2(self):
+        input = """Function: main\n\tBody:\n\t\ta = foo(True;incr(5), incr(6));\n\tEndBody."""
+        expect = "Error on line 3 col 14: ;"
+        self.assertTrue(TestParser.checkParser(input, expect, 246))
+
+    # test index operator
+    def test_idx_operator_expression(self):
+        input = """Function: main\n\tBody:\n\t\ta[3] = 4*5 + foo(3);\n\tEndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 247))
+
+    def test_idx_operator_expression_1(self):
+        input = """Function: main\n\tBody:\n\t\tc = a[b[2]] + 4;\n\tEndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 248))
+
+    def test_idx_operator_expression_2(self):
+        input = """Function: main\n\tBody:\n\t\tc = a[foo(3)] + 4;\n\tEndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 249))
+
+    def test_idx_operator_expression_3(self):
+        input = """Function: main\n\tBody:\n\t\tc = a[(4*3) + 5 + foo("string")] + 4;\n\tEndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 250))
+
+    def test_idx_operator_expression_4(self):
+        input = """Function: main\n\tBody:\n\t\tc = a[8][6][9] + 4;\n\tEndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 251))

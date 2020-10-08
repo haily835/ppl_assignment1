@@ -1,0 +1,4 @@
+Function: main
+	Body:
+		c = a[b[2]] + 4;
+	EndBody.
