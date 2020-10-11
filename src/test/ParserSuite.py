@@ -424,7 +424,7 @@ EndBody."""
         expect = "Error on line 5 col 4: Var"
         self.assertTrue(TestParser.checkParser(input, expect, 262))
 
-    def test_nested_function_error(self):
+    def test_nested_function_declaration_error(self):
         input = """Function: foo
 Parameter: y
 Body:
