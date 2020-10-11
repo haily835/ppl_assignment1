@@ -1,0 +1,8 @@
+Function: foo
+Parameter: a[5]; c
+Body:
+EndBody.
+
+Function: main
+Body:
+EndBody.

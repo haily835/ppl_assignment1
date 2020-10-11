@@ -1,0 +1,9 @@
+Function:
+Parameter: x, y, z
+Body:
+    x = 5;
+Endbody.
+
+Function: main
+Body:
+EndBody.

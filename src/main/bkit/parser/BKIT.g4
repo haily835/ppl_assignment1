@@ -174,11 +174,11 @@ funcDecl: FUNCTION COLON ID paraDecl body DOT;
 paraDecl: PARAMETER COLON paraList;
 paraList: variable (COMMA paraList)*;
 
-body: BODY COLON (varDecl)* stmtList ENDBODY;
+body: BODY COLON stmtList ENDBODY;
 
 
 // Statements
-stmt: varDecl | assignStmt | ifStmt | forStmt | whileStmt | dowhileStmt | breakStmt | continueStmt | callStmt | returnStmt;
+otherStmt: assignStmt | ifStmt | forStmt | whileStmt | dowhileStmt | breakStmt | continueStmt | callStmt | returnStmt;
 
 assignStmt: variable '=' expr SEMI;
 ifStmt: IF expr THEN stmtList (ELSEIF stmtList)* (ELSE stmtList)? DOT;
@@ -190,4 +190,4 @@ continueStmt: CONTINUE SEMI;
 callStmt: ID LP argList RP SEMI;
 returnStmt: RETURN (expr)? SEMI;
 
-stmtList: (stmt)*;
+stmtList: varDecl* otherStmt*;

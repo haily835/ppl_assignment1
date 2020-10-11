@@ -1,0 +1,10 @@
+Function: foo
+Parameter: y
+Body:
+    Var: x, sum = 0;
+    x = x + 1;
+EndBody.
+
+Function: main
+Body:
+EndBody.

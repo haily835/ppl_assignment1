@@ -277,3 +277,170 @@ class ParserSuite(unittest.TestCase):
         input = """Function: main\n\tBody:\n\t\tc = a[8][6][9] + 4;\n\tEndBody."""
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input, expect, 251))
+
+    # test fucntion declaration Parameter part
+    def test_normal_function_declaration_1(self):
+        input = """Function: foo
+Parameter: a[5], c
+Body:
+EndBody.
+
+Function: main
+Body:
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 252))
+
+    def test_normal_multiple_function_declarations(self):
+        input = """Function: foo
+Parameter: a[5], c, b[6][7]
+Body:
+EndBody.
+
+Function: foo1
+Parameter: a[5], c, b[6][7], d
+Body:
+EndBody.
+
+Function: main
+Body:
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 253))
+
+    def test_function_decl_empty_para_errors(self):
+        input = """Function: foo
+Parameter:
+Body:
+EndBody.
+
+Function: main
+Body:
+EndBody."""
+        expect = "Error on line 3 col 0: Body"
+        self.assertTrue(TestParser.checkParser(input, expect, 254))
+
+    def test_function_decl_para_separator_errors(self):
+        input = """Function: foo
+Parameter: a[5]; c
+Body:
+EndBody.
+
+Function: main
+Body:
+EndBody."""
+        expect = "Error on line 2 col 15: ;"
+        self.assertTrue(TestParser.checkParser(input, expect, 255))
+
+    def test_function_decl_para_with_initial_errors(self):
+        input = """Function: foo
+Parameter: a[5], c = 0
+Body:
+EndBody.
+
+Function: main
+Body:
+EndBody."""
+        expect = "Error on line 2 col 19: ="
+        self.assertTrue(TestParser.checkParser(input, expect, 256))
+
+    def test_function_decl_without_parameters(self):
+        input = """Function: foo
+Body:
+EndBody.
+
+Function: main
+Body:
+EndBody."""
+        expect = "Error on line 2 col 0: Body"
+        self.assertTrue(TestParser.checkParser(input, expect, 257))
+
+    def test_function_decl_without_body(self):
+        input = """Function: foo
+Parameter: x, y, z
+x = 5;
+
+Function: main
+Body:
+EndBody."""
+        expect = "Error on line 3 col 0: x"
+        self.assertTrue(TestParser.checkParser(input, expect, 258))
+
+    def test_function_decl_without_body_closing(self):
+        input = """Function: foo
+Parameter: x, y, z
+Body:
+    x = 5;
+
+Function: main
+Body:
+EndBody."""
+        expect = "Error on line 6 col 0: Function"
+        self.assertTrue(TestParser.checkParser(input, expect, 259))
+
+    def test_function_decl_without_identifier(self):
+        input = """Function:
+Parameter: x, y, z
+Body:
+    x = 5;
+Endbody.
+
+Function: main
+Body:
+EndBody."""
+        expect = "Error on line 2 col 0: Parameter"
+        self.assertTrue(TestParser.checkParser(input, expect, 260))
+    # test function declaration Body part variable declare
+
+    def test_function_normal_body(self):
+        input = """Function: foo
+Parameter: y
+Body:
+    Var: x, sum = 0;
+    x = x + 1;
+EndBody.
+
+Function: main
+Body:
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 261))
+
+    def test_function_error_body(self):
+        input = """Function: foo
+Parameter: y
+Body:
+    x = 5;
+    Var: x, sum = 0;
+    x = x + 1;
+    While (x < 10) Do
+        sum = sum + x;
+    EndWhile.
+EndBody.
+
+Function: main
+Body:
+EndBody."""
+        expect = "Error on line 5 col 4: Var"
+        self.assertTrue(TestParser.checkParser(input, expect, 262))
+
+    def test_nested_function_error(self):
+        input = """Function: foo
+Parameter: y
+Body:
+    Var: x, sum = 0;
+    x = x + 1;
+    While (x < 10) Do
+        sum = sum + x;
+    EndWhile.
+    Function: fooInside
+    Parameter: y
+    Body:
+    EndBody.
+EndBody.
+
+Function: main
+Body:
+EndBody."""
+        expect = "Error on line 9 col 4: Function"
+        self.assertTrue(TestParser.checkParser(input, expect, 263))

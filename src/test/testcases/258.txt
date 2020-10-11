@@ -1,0 +1,7 @@
+Function: foo
+Parameter: x, y, z
+x = 5;
+
+Function: main
+Body:
+EndBody.

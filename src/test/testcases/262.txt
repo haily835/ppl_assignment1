@@ -1,0 +1,14 @@
+Function: foo
+Parameter: y
+Body:
+    x = 5;
+    Var: x, sum = 0;
+    x = x + 1;
+    While (x < 10) Do
+        sum = sum + x;
+    EndWhile.
+EndBody.
+
+Function: main
+Body:
+EndBody.

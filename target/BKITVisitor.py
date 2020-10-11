@@ -114,8 +114,8 @@ class BKITVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by BKITParser#stmt.
-    def visitStmt(self, ctx:BKITParser.StmtContext):
+    # Visit a parse tree produced by BKITParser#otherStmt.
+    def visitOtherStmt(self, ctx:BKITParser.OtherStmtContext):
         return self.visitChildren(ctx)
 
 
