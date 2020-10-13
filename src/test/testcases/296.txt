@@ -1,0 +1,12 @@
+** Gobal variable declaration **
+Var: a,b,c;
+** Function declaration **
+Function: printArray
+Parameter: a, size
+Body:
+    ** Local variable declaration **
+    Var: i;
+    For (i = 0, i < size, 1) Do
+        printLn(a[i]);
+    EndFor.
+EndBody.

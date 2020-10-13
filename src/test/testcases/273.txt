@@ -1,0 +1,11 @@
+Function: main
+Body:
+    Var: x, sum;
+    If (x < 10) Then
+    ElseIf (x % 2) == 0 Then If(sum < 0) Then sum = 0; EndIf.
+    ElseIf (x % 3) == 0 Then If(sum < 0) Then sum = 1; EndIf.
+    ElseIf (x % 4) == 0 Then If(sum < 0) Then sum = 2; EndIf.
+    Else sum = sum - x;
+    EndIf.
+    
+EndBody.

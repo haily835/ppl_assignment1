@@ -1,0 +1,11 @@
+Function: main
+Body:
+    Var: i = 0, j = 10;
+    Do
+        i = i + 1;
+    While i < 20 Do
+        i = i + 1;
+    EndWhile.
+    EndDo.
+    
+EndBody.

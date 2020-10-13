@@ -1,0 +1,9 @@
+Function: double
+Parameter: a
+Body:
+    Return 2*a;
+EndBody.
+
+Function: main
+Body:
+EndBody.

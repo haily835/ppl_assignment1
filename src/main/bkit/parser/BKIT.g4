@@ -1,3 +1,5 @@
+// My ID: 1852348
+
 grammar BKIT;
 
 @lexer::header {
@@ -104,7 +106,7 @@ fragment OCT: '0' [Oo] [0-7]+;
 INT_LIT: DEC | HEX | OCT;
 
 FLOAT_LIT:  [+-]?(
-            DIGIT+ '.' DIGIT+ 
+            DIGIT+ '.' DIGIT* 
             | DIGIT+ [Ee] [+-] DIGIT+ 
             | DIGIT+ '.' DIGIT+ [Ee] [+-] DIGIT+
             );
@@ -112,7 +114,7 @@ FLOAT_LIT:  [+-]?(
 BOOL_LIT: TRUE | FALSE;
 
 fragment ESC: '\\' ['bfrnt\\];
-STRING_LIT: '"' ([a-zA-Z0-9 ] | '\'"' | ESC )* '"';
+STRING_LIT: '"' (. | '\'"' | ESC )*? '"';
 
 ARRAY_LIT: LB 
             ( ' '* BOOL_LIT ' '* ( ' '* COMMA ' '* BOOL_LIT ' '* )*
@@ -129,7 +131,7 @@ COMMENT: '**' .*? '**' -> skip; // skip comment
 // LEXICAL ERRORS ********
 ERROR_CHAR: .;
 ILLEGAL_ESCAPE: '"' [a-zA-Z0-9 ]* '\\' ~[btfrn'\\] '"'?;
-UNCLOSE_STRING: '"' ( [a-zA-Z0-9 ] | '\'"' | '\\' [btfrn'\\])*;
+UNCLOSE_STRING: '"' (. | '\'"' | ESC )*?;
 UNTERMINATED_COMMENT: '**' .*?;
 ERROR_INTLIT: '0'[Xx] ~[A-F0-9]* | '0'[Oo] ~[0-7]*;
 
@@ -180,7 +182,7 @@ mainFunc: FUNCTION COLON 'main' (paraDecl)? body DOT;
 otherStmt: assignStmt | ifStmt | forStmt | whileStmt | dowhileStmt | breakStmt | continueStmt | callStmt | returnStmt;
 
 assignStmt: variable '=' expr SEMI;
-ifStmt: IF expr THEN stmtList (ELSEIF stmtList)* (ELSE stmtList)? DOT;
+ifStmt: IF expr THEN stmtList (ELSEIF expr THEN stmtList)* (ELSE stmtList)? ENDIF DOT;
 forStmt: FOR LP varInit COMMA expr COMMA expr RP DO stmtList ENDFOR DOT;
 whileStmt: WHILE expr DO stmtList ENDWHILE DOT;
 dowhileStmt: DO stmtList WHILE expr ENDDO DOT;
