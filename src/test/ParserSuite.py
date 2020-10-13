@@ -46,12 +46,12 @@ class ParserSuite(unittest.TestCase):
         expect = "Error on line 4 col 1: EndBody"
         self.assertTrue(TestParser.checkParser(input, expect, 208))
 
-    def test_declare_without_comma(self):
+    def test_var_declare_without_comma(self):
         input = """Function: main\n\tBody:\n\t\tVar: c d = 6, e, f\n\tEndBody."""
         expect = "Error on line 3 col 9: d"
         self.assertTrue(TestParser.checkParser(input, expect, 209))
 
-    def test_declare_without_colon(self):
+    def test_var_declare_without_colon(self):
         input = """Function: main\n\tBody:\n\t\tVar c d = 6, e, f\n\tEndBody."""
         expect = "Error on line 3 col 6: c"
         self.assertTrue(TestParser.checkParser(input, expect, 210))
@@ -352,7 +352,7 @@ EndBody.
 Function: main
 Body:
 EndBody."""
-        expect = "Error on line 2 col 0: Body"
+        expect = "successful"
         self.assertTrue(TestParser.checkParser(input, expect, 257))
 
     def test_function_decl_without_body(self):
@@ -430,10 +430,7 @@ Parameter: y
 Body:
     Var: x, sum = 0;
     x = x + 1;
-    While (x < 10) Do
-        sum = sum + x;
-    EndWhile.
-    Function: fooInside
+    Function: fooIn
     Parameter: y
     Body:
     EndBody.
@@ -442,5 +439,73 @@ EndBody.
 Function: main
 Body:
 EndBody."""
-        expect = "Error on line 9 col 4: Function"
+        expect = "Error on line 6 col 4: Function"
         self.assertTrue(TestParser.checkParser(input, expect, 263))
+
+    # test while statement
+
+    def test_normal_while_stmt(self):
+        input = """Function: main
+Body:
+    While (x < 10) Do
+        sum = sum + x;
+    EndWhile.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 264))
+
+    def test_normal_nested_while_stmt(self):
+        input = """Function: main
+Body:
+    While (x < 10) Do
+        sum = sum + x;
+        While( z > 10 ) Do
+            z = z - 1;
+        EndWhile.
+    EndWhile.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 265))
+
+    def test_complex_condition_while_stmt(self):
+        input = """Function: main
+Body:
+    While (x < 10) && (x != 0) Do
+        sum = sum + x;
+    EndWhile.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 266))
+
+    def test_while_stmt_syntax_error_1(self):
+        input = """Function: main
+Body:
+    While (x < 10)
+        sum = sum + x;
+    EndWhile.
+EndBody."""
+        expect = "Error on line 3 col 4: While"
+        self.assertTrue(TestParser.checkParser(input, expect, 267))
+
+    def test_while_stmt_syntax_error_2(self):
+        input = """Function: main
+Body:
+    While (x < 10) Do
+        sum = sum + x;
+    
+EndBody."""
+        expect = "Error on line 6 col 0: EndBody"
+        self.assertTrue(TestParser.checkParser(input, expect, 268))
+
+    def test_nested_while_stmt_syntax_error_2(self):
+        input = """Function: main
+Body:
+    While (x < 10) Do
+        sum = sum + x;
+        While ( z > 10 ) Do
+            z = z - 1;
+    EndWhile.
+    
+EndBody."""
+        expect = "Error on line 9 col 0: EndBody"
+        self.assertTrue(TestParser.checkParser(input, expect, 269))

@@ -35,8 +35,8 @@ test index operators ok
 function call 
 
 + function declaration test (40)
-parameters test (4)
-local variables (2)
-statements (2)
-error when not follow the syntax (2)
+parameters test (4) ok 
+local variables (2) ok
+statements (2) ok 
+error when not follow the syntax (2) ok
 with while for(can test many) if(many too) dowhile assign break return continue (3 each = 24)

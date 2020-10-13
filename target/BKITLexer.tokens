@@ -67,8 +67,8 @@ ILLEGAL_ESCAPE=66
 UNCLOSE_STRING=67
 UNTERMINATED_COMMENT=68
 ERROR_INTLIT=69
-'main'=1
-'='=2
+'='=1
+'main'=2
 'Var'=3
 'Body'=4
 'Break'=5

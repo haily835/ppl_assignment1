@@ -3,10 +3,7 @@ Parameter: y
 Body:
     Var: x, sum = 0;
     x = x + 1;
-    While (x < 10) Do
-        sum = sum + x;
-    EndWhile.
-    Function: fooInside
+    Function: fooIn
     Parameter: y
     Body:
     EndBody.

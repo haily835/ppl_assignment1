@@ -12,7 +12,7 @@ else:
 def serializedATN():
     with StringIO() as buf:
         buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3G")
-        buf.write("\u013c\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
+        buf.write("\u0141\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
         buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16")
         buf.write("\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22\4\23\t\23")
         buf.write("\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31")
@@ -26,128 +26,131 @@ def serializedATN():
         buf.write("\t\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\5\n\u0093")
         buf.write("\n\n\3\13\3\13\3\13\3\13\3\13\3\f\7\f\u009b\n\f\f\f\16")
         buf.write("\f\u009e\13\f\3\r\7\r\u00a1\n\r\f\r\16\r\u00a4\13\r\3")
-        buf.write("\16\3\16\3\16\3\16\3\16\3\16\3\17\3\17\3\17\3\17\3\17")
-        buf.write("\3\20\3\20\3\20\7\20\u00b4\n\20\f\20\16\20\u00b7\13\20")
-        buf.write("\3\21\3\21\3\21\5\21\u00bc\n\21\3\22\3\22\3\22\3\22\3")
-        buf.write("\22\3\22\6\22\u00c4\n\22\r\22\16\22\u00c5\5\22\u00c8\n")
-        buf.write("\22\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\24\3\24\3\24")
-        buf.write("\3\24\3\25\3\25\3\25\7\25\u00d8\n\25\f\25\16\25\u00db")
-        buf.write("\13\25\3\26\3\26\3\26\3\26\3\26\3\27\3\27\3\27\3\27\3")
-        buf.write("\27\3\27\3\27\3\27\3\27\5\27\u00eb\n\27\3\30\3\30\3\30")
-        buf.write("\3\30\3\30\3\31\3\31\3\31\3\31\3\31\3\31\7\31\u00f8\n")
-        buf.write("\31\f\31\16\31\u00fb\13\31\3\31\3\31\5\31\u00ff\n\31\3")
-        buf.write("\31\3\31\3\32\3\32\3\32\3\32\3\32\3\32\3\32\3\32\3\32")
-        buf.write("\3\32\3\32\3\32\3\32\3\33\3\33\3\33\3\33\3\33\3\33\3\33")
-        buf.write("\3\34\3\34\3\34\3\34\3\34\3\34\3\34\3\35\3\35\3\35\3\36")
-        buf.write("\3\36\3\36\3\37\3\37\3\37\3\37\3\37\3\37\3 \3 \5 \u012c")
-        buf.write("\n \3 \3 \3!\7!\u0131\n!\f!\16!\u0134\13!\3!\7!\u0137")
-        buf.write("\n!\f!\16!\u013a\13!\3!\2\3\20\"\2\4\6\b\n\f\16\20\22")
-        buf.write("\24\26\30\32\34\36 \"$&(*,.\60\62\64\668:<>@\2\b\3\2&")
-        buf.write("\60\3\2$%\3\2\32\35\3\2\36\"\3\2\34\35\5\2\27\30<=?@\2")
-        buf.write("\u0142\2B\3\2\2\2\4D\3\2\2\2\6F\3\2\2\2\bH\3\2\2\2\nJ")
-        buf.write("\3\2\2\2\fO\3\2\2\2\16U\3\2\2\2\20k\3\2\2\2\22\u0092\3")
-        buf.write("\2\2\2\24\u0094\3\2\2\2\26\u009c\3\2\2\2\30\u00a2\3\2")
-        buf.write("\2\2\32\u00a5\3\2\2\2\34\u00ab\3\2\2\2\36\u00b0\3\2\2")
-        buf.write("\2 \u00b8\3\2\2\2\"\u00c7\3\2\2\2$\u00c9\3\2\2\2&\u00d0")
-        buf.write("\3\2\2\2(\u00d4\3\2\2\2*\u00dc\3\2\2\2,\u00ea\3\2\2\2")
-        buf.write(".\u00ec\3\2\2\2\60\u00f1\3\2\2\2\62\u0102\3\2\2\2\64\u010f")
-        buf.write("\3\2\2\2\66\u0116\3\2\2\28\u011d\3\2\2\2:\u0120\3\2\2")
-        buf.write("\2<\u0123\3\2\2\2>\u0129\3\2\2\2@\u0132\3\2\2\2BC\t\2")
-        buf.write("\2\2C\3\3\2\2\2DE\t\3\2\2E\5\3\2\2\2FG\t\4\2\2G\7\3\2")
-        buf.write("\2\2HI\t\5\2\2I\t\3\2\2\2JK\t\6\2\2K\13\3\2\2\2LM\5\20")
-        buf.write("\t\2MN\5\16\b\2NP\3\2\2\2OL\3\2\2\2OP\3\2\2\2P\r\3\2\2")
-        buf.write("\2QR\7:\2\2RS\5\20\t\2ST\5\16\b\2TV\3\2\2\2UQ\3\2\2\2")
-        buf.write("UV\3\2\2\2V\17\3\2\2\2WX\b\t\1\2XY\7\63\2\2YZ\5\20\t\2")
-        buf.write("Z[\7\64\2\2[l\3\2\2\2\\]\7;\2\2]^\7\63\2\2^_\5\f\7\2_")
-        buf.write("`\7\64\2\2`l\3\2\2\2ab\5\n\6\2bc\5\20\t\tcl\3\2\2\2de")
-        buf.write("\7#\2\2el\5\20\t\bfg\5\22\n\2gh\5\2\2\2hi\5\22\n\2il\3")
-        buf.write("\2\2\2jl\5\22\n\2kW\3\2\2\2k\\\3\2\2\2ka\3\2\2\2kd\3\2")
-        buf.write("\2\2kf\3\2\2\2kj\3\2\2\2l\u0084\3\2\2\2mn\f\7\2\2no\5")
-        buf.write("\b\5\2op\5\20\t\bp\u0083\3\2\2\2qr\f\6\2\2rs\5\6\4\2s")
-        buf.write("t\5\20\t\7t\u0083\3\2\2\2uv\f\5\2\2vw\5\4\3\2wx\5\20\t")
-        buf.write("\6x\u0083\3\2\2\2y~\f\n\2\2z{\7\65\2\2{|\5\20\t\2|}\7")
-        buf.write("\66\2\2}\177\3\2\2\2~z\3\2\2\2\177\u0080\3\2\2\2\u0080")
-        buf.write("~\3\2\2\2\u0080\u0081\3\2\2\2\u0081\u0083\3\2\2\2\u0082")
-        buf.write("m\3\2\2\2\u0082q\3\2\2\2\u0082u\3\2\2\2\u0082y\3\2\2\2")
-        buf.write("\u0083\u0086\3\2\2\2\u0084\u0082\3\2\2\2\u0084\u0085\3")
-        buf.write("\2\2\2\u0085\21\3\2\2\2\u0086\u0084\3\2\2\2\u0087\u0093")
-        buf.write("\7<\2\2\u0088\u0093\7=\2\2\u0089\u0093\7?\2\2\u008a\u0093")
-        buf.write("\7@\2\2\u008b\u0093\7\27\2\2\u008c\u0093\7\30\2\2\u008d")
-        buf.write("\u0093\7;\2\2\u008e\u008f\7\63\2\2\u008f\u0090\5\20\t")
-        buf.write("\2\u0090\u0091\7\64\2\2\u0091\u0093\3\2\2\2\u0092\u0087")
-        buf.write("\3\2\2\2\u0092\u0088\3\2\2\2\u0092\u0089\3\2\2\2\u0092")
-        buf.write("\u008a\3\2\2\2\u0092\u008b\3\2\2\2\u0092\u008c\3\2\2\2")
-        buf.write("\u0092\u008d\3\2\2\2\u0092\u008e\3\2\2\2\u0093\23\3\2")
-        buf.write("\2\2\u0094\u0095\5\26\f\2\u0095\u0096\5\30\r\2\u0096\u0097")
-        buf.write("\5\32\16\2\u0097\u0098\7\2\2\3\u0098\25\3\2\2\2\u0099")
-        buf.write("\u009b\5\34\17\2\u009a\u0099\3\2\2\2\u009b\u009e\3\2\2")
-        buf.write("\2\u009c\u009a\3\2\2\2\u009c\u009d\3\2\2\2\u009d\27\3")
-        buf.write("\2\2\2\u009e\u009c\3\2\2\2\u009f\u00a1\5$\23\2\u00a0\u009f")
-        buf.write("\3\2\2\2\u00a1\u00a4\3\2\2\2\u00a2\u00a0\3\2\2\2\u00a2")
-        buf.write("\u00a3\3\2\2\2\u00a3\31\3\2\2\2\u00a4\u00a2\3\2\2\2\u00a5")
-        buf.write("\u00a6\7\21\2\2\u00a6\u00a7\7\62\2\2\u00a7\u00a8\7\3\2")
-        buf.write("\2\u00a8\u00a9\5*\26\2\u00a9\u00aa\79\2\2\u00aa\33\3\2")
-        buf.write("\2\2\u00ab\u00ac\7\5\2\2\u00ac\u00ad\7\62\2\2\u00ad\u00ae")
-        buf.write("\5\36\20\2\u00ae\u00af\7\61\2\2\u00af\35\3\2\2\2\u00b0")
-        buf.write("\u00b5\5 \21\2\u00b1\u00b2\7:\2\2\u00b2\u00b4\5\36\20")
-        buf.write("\2\u00b3\u00b1\3\2\2\2\u00b4\u00b7\3\2\2\2\u00b5\u00b3")
-        buf.write("\3\2\2\2\u00b5\u00b6\3\2\2\2\u00b6\37\3\2\2\2\u00b7\u00b5")
-        buf.write("\3\2\2\2\u00b8\u00bb\5\"\22\2\u00b9\u00ba\7\4\2\2\u00ba")
-        buf.write("\u00bc\t\7\2\2\u00bb\u00b9\3\2\2\2\u00bb\u00bc\3\2\2\2")
-        buf.write("\u00bc!\3\2\2\2\u00bd\u00c8\7;\2\2\u00be\u00c3\7;\2\2")
-        buf.write("\u00bf\u00c0\7\65\2\2\u00c0\u00c1\5\20\t\2\u00c1\u00c2")
-        buf.write("\7\66\2\2\u00c2\u00c4\3\2\2\2\u00c3\u00bf\3\2\2\2\u00c4")
-        buf.write("\u00c5\3\2\2\2\u00c5\u00c3\3\2\2\2\u00c5\u00c6\3\2\2\2")
-        buf.write("\u00c6\u00c8\3\2\2\2\u00c7\u00bd\3\2\2\2\u00c7\u00be\3")
-        buf.write("\2\2\2\u00c8#\3\2\2\2\u00c9\u00ca\7\21\2\2\u00ca\u00cb")
-        buf.write("\7\62\2\2\u00cb\u00cc\7;\2\2\u00cc\u00cd\5&\24\2\u00cd")
-        buf.write("\u00ce\5*\26\2\u00ce\u00cf\79\2\2\u00cf%\3\2\2\2\u00d0")
-        buf.write("\u00d1\7\23\2\2\u00d1\u00d2\7\62\2\2\u00d2\u00d3\5(\25")
-        buf.write("\2\u00d3\'\3\2\2\2\u00d4\u00d9\5\"\22\2\u00d5\u00d6\7")
-        buf.write(":\2\2\u00d6\u00d8\5(\25\2\u00d7\u00d5\3\2\2\2\u00d8\u00db")
-        buf.write("\3\2\2\2\u00d9\u00d7\3\2\2\2\u00d9\u00da\3\2\2\2\u00da")
-        buf.write(")\3\2\2\2\u00db\u00d9\3\2\2\2\u00dc\u00dd\7\6\2\2\u00dd")
-        buf.write("\u00de\7\62\2\2\u00de\u00df\5@!\2\u00df\u00e0\7\f\2\2")
-        buf.write("\u00e0+\3\2\2\2\u00e1\u00eb\5.\30\2\u00e2\u00eb\5\60\31")
-        buf.write("\2\u00e3\u00eb\5\62\32\2\u00e4\u00eb\5\64\33\2\u00e5\u00eb")
-        buf.write("\5\66\34\2\u00e6\u00eb\58\35\2\u00e7\u00eb\5:\36\2\u00e8")
-        buf.write("\u00eb\5<\37\2\u00e9\u00eb\5> \2\u00ea\u00e1\3\2\2\2\u00ea")
-        buf.write("\u00e2\3\2\2\2\u00ea\u00e3\3\2\2\2\u00ea\u00e4\3\2\2\2")
-        buf.write("\u00ea\u00e5\3\2\2\2\u00ea\u00e6\3\2\2\2\u00ea\u00e7\3")
-        buf.write("\2\2\2\u00ea\u00e8\3\2\2\2\u00ea\u00e9\3\2\2\2\u00eb-")
-        buf.write("\3\2\2\2\u00ec\u00ed\5\"\22\2\u00ed\u00ee\7\4\2\2\u00ee")
-        buf.write("\u00ef\5\20\t\2\u00ef\u00f0\7\61\2\2\u00f0/\3\2\2\2\u00f1")
-        buf.write("\u00f2\7\22\2\2\u00f2\u00f3\5\20\t\2\u00f3\u00f4\7\25")
-        buf.write("\2\2\u00f4\u00f9\5@!\2\u00f5\u00f6\7\13\2\2\u00f6\u00f8")
-        buf.write("\5@!\2\u00f7\u00f5\3\2\2\2\u00f8\u00fb\3\2\2\2\u00f9\u00f7")
-        buf.write("\3\2\2\2\u00f9\u00fa\3\2\2\2\u00fa\u00fe\3\2\2\2\u00fb")
-        buf.write("\u00f9\3\2\2\2\u00fc\u00fd\7\n\2\2\u00fd\u00ff\5@!\2\u00fe")
-        buf.write("\u00fc\3\2\2\2\u00fe\u00ff\3\2\2\2\u00ff\u0100\3\2\2\2")
-        buf.write("\u0100\u0101\79\2\2\u0101\61\3\2\2\2\u0102\u0103\7\20")
-        buf.write("\2\2\u0103\u0104\7\63\2\2\u0104\u0105\5 \21\2\u0105\u0106")
-        buf.write("\7:\2\2\u0106\u0107\5\20\t\2\u0107\u0108\7:\2\2\u0108")
-        buf.write("\u0109\5\20\t\2\u0109\u010a\7\64\2\2\u010a\u010b\7\t\2")
-        buf.write("\2\u010b\u010c\5@!\2\u010c\u010d\7\16\2\2\u010d\u010e")
-        buf.write("\79\2\2\u010e\63\3\2\2\2\u010f\u0110\7\26\2\2\u0110\u0111")
-        buf.write("\5\20\t\2\u0111\u0112\7\t\2\2\u0112\u0113\5@!\2\u0113")
-        buf.write("\u0114\7\17\2\2\u0114\u0115\79\2\2\u0115\65\3\2\2\2\u0116")
-        buf.write("\u0117\7\t\2\2\u0117\u0118\5@!\2\u0118\u0119\7\26\2\2")
-        buf.write("\u0119\u011a\5\20\t\2\u011a\u011b\7\31\2\2\u011b\u011c")
-        buf.write("\79\2\2\u011c\67\3\2\2\2\u011d\u011e\7\7\2\2\u011e\u011f")
-        buf.write("\7\61\2\2\u011f9\3\2\2\2\u0120\u0121\7\b\2\2\u0121\u0122")
-        buf.write("\7\61\2\2\u0122;\3\2\2\2\u0123\u0124\7;\2\2\u0124\u0125")
-        buf.write("\7\63\2\2\u0125\u0126\5\f\7\2\u0126\u0127\7\64\2\2\u0127")
-        buf.write("\u0128\7\61\2\2\u0128=\3\2\2\2\u0129\u012b\7\24\2\2\u012a")
-        buf.write("\u012c\5\20\t\2\u012b\u012a\3\2\2\2\u012b\u012c\3\2\2")
-        buf.write("\2\u012c\u012d\3\2\2\2\u012d\u012e\7\61\2\2\u012e?\3\2")
-        buf.write("\2\2\u012f\u0131\5\34\17\2\u0130\u012f\3\2\2\2\u0131\u0134")
-        buf.write("\3\2\2\2\u0132\u0130\3\2\2\2\u0132\u0133\3\2\2\2\u0133")
-        buf.write("\u0138\3\2\2\2\u0134\u0132\3\2\2\2\u0135\u0137\5,\27\2")
-        buf.write("\u0136\u0135\3\2\2\2\u0137\u013a\3\2\2\2\u0138\u0136\3")
-        buf.write("\2\2\2\u0138\u0139\3\2\2\2\u0139A\3\2\2\2\u013a\u0138")
-        buf.write("\3\2\2\2\26OUk\u0080\u0082\u0084\u0092\u009c\u00a2\u00b5")
-        buf.write("\u00bb\u00c5\u00c7\u00d9\u00ea\u00f9\u00fe\u012b\u0132")
-        buf.write("\u0138")
+        buf.write("\16\3\16\3\16\3\16\3\16\3\17\3\17\3\17\7\17\u00ae\n\17")
+        buf.write("\f\17\16\17\u00b1\13\17\3\20\3\20\3\20\5\20\u00b6\n\20")
+        buf.write("\3\21\3\21\3\21\3\21\3\21\3\21\6\21\u00be\n\21\r\21\16")
+        buf.write("\21\u00bf\5\21\u00c2\n\21\3\22\3\22\3\22\3\22\5\22\u00c8")
+        buf.write("\n\22\3\22\3\22\3\22\3\23\3\23\3\23\3\23\3\24\3\24\3\24")
+        buf.write("\7\24\u00d4\n\24\f\24\16\24\u00d7\13\24\3\25\3\25\3\25")
+        buf.write("\3\25\3\25\3\26\3\26\3\26\3\26\5\26\u00e2\n\26\3\26\3")
+        buf.write("\26\3\26\3\27\3\27\3\27\3\27\3\27\3\27\3\27\3\27\3\27")
+        buf.write("\5\27\u00f0\n\27\3\30\3\30\3\30\3\30\3\30\3\31\3\31\3")
+        buf.write("\31\3\31\3\31\3\31\7\31\u00fd\n\31\f\31\16\31\u0100\13")
+        buf.write("\31\3\31\3\31\5\31\u0104\n\31\3\31\3\31\3\32\3\32\3\32")
+        buf.write("\3\32\3\32\3\32\3\32\3\32\3\32\3\32\3\32\3\32\3\32\3\33")
+        buf.write("\3\33\3\33\3\33\3\33\3\33\3\33\3\34\3\34\3\34\3\34\3\34")
+        buf.write("\3\34\3\34\3\35\3\35\3\35\3\36\3\36\3\36\3\37\3\37\3\37")
+        buf.write("\3\37\3\37\3\37\3 \3 \5 \u0131\n \3 \3 \3!\7!\u0136\n")
+        buf.write("!\f!\16!\u0139\13!\3!\7!\u013c\n!\f!\16!\u013f\13!\3!")
+        buf.write("\2\3\20\"\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&")
+        buf.write("(*,.\60\62\64\668:<>@\2\b\3\2&\60\3\2$%\3\2\32\35\3\2")
+        buf.write("\36\"\3\2\34\35\5\2\27\30<=?@\2\u0149\2B\3\2\2\2\4D\3")
+        buf.write("\2\2\2\6F\3\2\2\2\bH\3\2\2\2\nJ\3\2\2\2\fO\3\2\2\2\16")
+        buf.write("U\3\2\2\2\20k\3\2\2\2\22\u0092\3\2\2\2\24\u0094\3\2\2")
+        buf.write("\2\26\u009c\3\2\2\2\30\u00a2\3\2\2\2\32\u00a5\3\2\2\2")
+        buf.write("\34\u00aa\3\2\2\2\36\u00b2\3\2\2\2 \u00c1\3\2\2\2\"\u00c3")
+        buf.write("\3\2\2\2$\u00cc\3\2\2\2&\u00d0\3\2\2\2(\u00d8\3\2\2\2")
+        buf.write("*\u00dd\3\2\2\2,\u00ef\3\2\2\2.\u00f1\3\2\2\2\60\u00f6")
+        buf.write("\3\2\2\2\62\u0107\3\2\2\2\64\u0114\3\2\2\2\66\u011b\3")
+        buf.write("\2\2\28\u0122\3\2\2\2:\u0125\3\2\2\2<\u0128\3\2\2\2>\u012e")
+        buf.write("\3\2\2\2@\u0137\3\2\2\2BC\t\2\2\2C\3\3\2\2\2DE\t\3\2\2")
+        buf.write("E\5\3\2\2\2FG\t\4\2\2G\7\3\2\2\2HI\t\5\2\2I\t\3\2\2\2")
+        buf.write("JK\t\6\2\2K\13\3\2\2\2LM\5\20\t\2MN\5\16\b\2NP\3\2\2\2")
+        buf.write("OL\3\2\2\2OP\3\2\2\2P\r\3\2\2\2QR\7:\2\2RS\5\20\t\2ST")
+        buf.write("\5\16\b\2TV\3\2\2\2UQ\3\2\2\2UV\3\2\2\2V\17\3\2\2\2WX")
+        buf.write("\b\t\1\2XY\7\63\2\2YZ\5\20\t\2Z[\7\64\2\2[l\3\2\2\2\\")
+        buf.write("]\7;\2\2]^\7\63\2\2^_\5\f\7\2_`\7\64\2\2`l\3\2\2\2ab\5")
+        buf.write("\n\6\2bc\5\20\t\tcl\3\2\2\2de\7#\2\2el\5\20\t\bfg\5\22")
+        buf.write("\n\2gh\5\2\2\2hi\5\22\n\2il\3\2\2\2jl\5\22\n\2kW\3\2\2")
+        buf.write("\2k\\\3\2\2\2ka\3\2\2\2kd\3\2\2\2kf\3\2\2\2kj\3\2\2\2")
+        buf.write("l\u0084\3\2\2\2mn\f\7\2\2no\5\b\5\2op\5\20\t\bp\u0083")
+        buf.write("\3\2\2\2qr\f\6\2\2rs\5\6\4\2st\5\20\t\7t\u0083\3\2\2\2")
+        buf.write("uv\f\5\2\2vw\5\4\3\2wx\5\20\t\6x\u0083\3\2\2\2y~\f\n\2")
+        buf.write("\2z{\7\65\2\2{|\5\20\t\2|}\7\66\2\2}\177\3\2\2\2~z\3\2")
+        buf.write("\2\2\177\u0080\3\2\2\2\u0080~\3\2\2\2\u0080\u0081\3\2")
+        buf.write("\2\2\u0081\u0083\3\2\2\2\u0082m\3\2\2\2\u0082q\3\2\2\2")
+        buf.write("\u0082u\3\2\2\2\u0082y\3\2\2\2\u0083\u0086\3\2\2\2\u0084")
+        buf.write("\u0082\3\2\2\2\u0084\u0085\3\2\2\2\u0085\21\3\2\2\2\u0086")
+        buf.write("\u0084\3\2\2\2\u0087\u0093\7<\2\2\u0088\u0093\7=\2\2\u0089")
+        buf.write("\u0093\7?\2\2\u008a\u0093\7@\2\2\u008b\u0093\7\27\2\2")
+        buf.write("\u008c\u0093\7\30\2\2\u008d\u0093\7;\2\2\u008e\u008f\7")
+        buf.write("\63\2\2\u008f\u0090\5\20\t\2\u0090\u0091\7\64\2\2\u0091")
+        buf.write("\u0093\3\2\2\2\u0092\u0087\3\2\2\2\u0092\u0088\3\2\2\2")
+        buf.write("\u0092\u0089\3\2\2\2\u0092\u008a\3\2\2\2\u0092\u008b\3")
+        buf.write("\2\2\2\u0092\u008c\3\2\2\2\u0092\u008d\3\2\2\2\u0092\u008e")
+        buf.write("\3\2\2\2\u0093\23\3\2\2\2\u0094\u0095\5\26\f\2\u0095\u0096")
+        buf.write("\5\30\r\2\u0096\u0097\5*\26\2\u0097\u0098\7\2\2\3\u0098")
+        buf.write("\25\3\2\2\2\u0099\u009b\5\32\16\2\u009a\u0099\3\2\2\2")
+        buf.write("\u009b\u009e\3\2\2\2\u009c\u009a\3\2\2\2\u009c\u009d\3")
+        buf.write("\2\2\2\u009d\27\3\2\2\2\u009e\u009c\3\2\2\2\u009f\u00a1")
+        buf.write("\5\"\22\2\u00a0\u009f\3\2\2\2\u00a1\u00a4\3\2\2\2\u00a2")
+        buf.write("\u00a0\3\2\2\2\u00a2\u00a3\3\2\2\2\u00a3\31\3\2\2\2\u00a4")
+        buf.write("\u00a2\3\2\2\2\u00a5\u00a6\7\5\2\2\u00a6\u00a7\7\62\2")
+        buf.write("\2\u00a7\u00a8\5\34\17\2\u00a8\u00a9\7\61\2\2\u00a9\33")
+        buf.write("\3\2\2\2\u00aa\u00af\5\36\20\2\u00ab\u00ac\7:\2\2\u00ac")
+        buf.write("\u00ae\5\34\17\2\u00ad\u00ab\3\2\2\2\u00ae\u00b1\3\2\2")
+        buf.write("\2\u00af\u00ad\3\2\2\2\u00af\u00b0\3\2\2\2\u00b0\35\3")
+        buf.write("\2\2\2\u00b1\u00af\3\2\2\2\u00b2\u00b5\5 \21\2\u00b3\u00b4")
+        buf.write("\7\3\2\2\u00b4\u00b6\t\7\2\2\u00b5\u00b3\3\2\2\2\u00b5")
+        buf.write("\u00b6\3\2\2\2\u00b6\37\3\2\2\2\u00b7\u00c2\7;\2\2\u00b8")
+        buf.write("\u00bd\7;\2\2\u00b9\u00ba\7\65\2\2\u00ba\u00bb\5\20\t")
+        buf.write("\2\u00bb\u00bc\7\66\2\2\u00bc\u00be\3\2\2\2\u00bd\u00b9")
+        buf.write("\3\2\2\2\u00be\u00bf\3\2\2\2\u00bf\u00bd\3\2\2\2\u00bf")
+        buf.write("\u00c0\3\2\2\2\u00c0\u00c2\3\2\2\2\u00c1\u00b7\3\2\2\2")
+        buf.write("\u00c1\u00b8\3\2\2\2\u00c2!\3\2\2\2\u00c3\u00c4\7\21\2")
+        buf.write("\2\u00c4\u00c5\7\62\2\2\u00c5\u00c7\7;\2\2\u00c6\u00c8")
+        buf.write("\5$\23\2\u00c7\u00c6\3\2\2\2\u00c7\u00c8\3\2\2\2\u00c8")
+        buf.write("\u00c9\3\2\2\2\u00c9\u00ca\5(\25\2\u00ca\u00cb\79\2\2")
+        buf.write("\u00cb#\3\2\2\2\u00cc\u00cd\7\23\2\2\u00cd\u00ce\7\62")
+        buf.write("\2\2\u00ce\u00cf\5&\24\2\u00cf%\3\2\2\2\u00d0\u00d5\5")
+        buf.write(" \21\2\u00d1\u00d2\7:\2\2\u00d2\u00d4\5&\24\2\u00d3\u00d1")
+        buf.write("\3\2\2\2\u00d4\u00d7\3\2\2\2\u00d5\u00d3\3\2\2\2\u00d5")
+        buf.write("\u00d6\3\2\2\2\u00d6\'\3\2\2\2\u00d7\u00d5\3\2\2\2\u00d8")
+        buf.write("\u00d9\7\6\2\2\u00d9\u00da\7\62\2\2\u00da\u00db\5@!\2")
+        buf.write("\u00db\u00dc\7\f\2\2\u00dc)\3\2\2\2\u00dd\u00de\7\21\2")
+        buf.write("\2\u00de\u00df\7\62\2\2\u00df\u00e1\7\4\2\2\u00e0\u00e2")
+        buf.write("\5$\23\2\u00e1\u00e0\3\2\2\2\u00e1\u00e2\3\2\2\2\u00e2")
+        buf.write("\u00e3\3\2\2\2\u00e3\u00e4\5(\25\2\u00e4\u00e5\79\2\2")
+        buf.write("\u00e5+\3\2\2\2\u00e6\u00f0\5.\30\2\u00e7\u00f0\5\60\31")
+        buf.write("\2\u00e8\u00f0\5\62\32\2\u00e9\u00f0\5\64\33\2\u00ea\u00f0")
+        buf.write("\5\66\34\2\u00eb\u00f0\58\35\2\u00ec\u00f0\5:\36\2\u00ed")
+        buf.write("\u00f0\5<\37\2\u00ee\u00f0\5> \2\u00ef\u00e6\3\2\2\2\u00ef")
+        buf.write("\u00e7\3\2\2\2\u00ef\u00e8\3\2\2\2\u00ef\u00e9\3\2\2\2")
+        buf.write("\u00ef\u00ea\3\2\2\2\u00ef\u00eb\3\2\2\2\u00ef\u00ec\3")
+        buf.write("\2\2\2\u00ef\u00ed\3\2\2\2\u00ef\u00ee\3\2\2\2\u00f0-")
+        buf.write("\3\2\2\2\u00f1\u00f2\5 \21\2\u00f2\u00f3\7\3\2\2\u00f3")
+        buf.write("\u00f4\5\20\t\2\u00f4\u00f5\7\61\2\2\u00f5/\3\2\2\2\u00f6")
+        buf.write("\u00f7\7\22\2\2\u00f7\u00f8\5\20\t\2\u00f8\u00f9\7\25")
+        buf.write("\2\2\u00f9\u00fe\5@!\2\u00fa\u00fb\7\13\2\2\u00fb\u00fd")
+        buf.write("\5@!\2\u00fc\u00fa\3\2\2\2\u00fd\u0100\3\2\2\2\u00fe\u00fc")
+        buf.write("\3\2\2\2\u00fe\u00ff\3\2\2\2\u00ff\u0103\3\2\2\2\u0100")
+        buf.write("\u00fe\3\2\2\2\u0101\u0102\7\n\2\2\u0102\u0104\5@!\2\u0103")
+        buf.write("\u0101\3\2\2\2\u0103\u0104\3\2\2\2\u0104\u0105\3\2\2\2")
+        buf.write("\u0105\u0106\79\2\2\u0106\61\3\2\2\2\u0107\u0108\7\20")
+        buf.write("\2\2\u0108\u0109\7\63\2\2\u0109\u010a\5\36\20\2\u010a")
+        buf.write("\u010b\7:\2\2\u010b\u010c\5\20\t\2\u010c\u010d\7:\2\2")
+        buf.write("\u010d\u010e\5\20\t\2\u010e\u010f\7\64\2\2\u010f\u0110")
+        buf.write("\7\t\2\2\u0110\u0111\5@!\2\u0111\u0112\7\16\2\2\u0112")
+        buf.write("\u0113\79\2\2\u0113\63\3\2\2\2\u0114\u0115\7\26\2\2\u0115")
+        buf.write("\u0116\5\20\t\2\u0116\u0117\7\t\2\2\u0117\u0118\5@!\2")
+        buf.write("\u0118\u0119\7\17\2\2\u0119\u011a\79\2\2\u011a\65\3\2")
+        buf.write("\2\2\u011b\u011c\7\t\2\2\u011c\u011d\5@!\2\u011d\u011e")
+        buf.write("\7\26\2\2\u011e\u011f\5\20\t\2\u011f\u0120\7\31\2\2\u0120")
+        buf.write("\u0121\79\2\2\u0121\67\3\2\2\2\u0122\u0123\7\7\2\2\u0123")
+        buf.write("\u0124\7\61\2\2\u01249\3\2\2\2\u0125\u0126\7\b\2\2\u0126")
+        buf.write("\u0127\7\61\2\2\u0127;\3\2\2\2\u0128\u0129\7;\2\2\u0129")
+        buf.write("\u012a\7\63\2\2\u012a\u012b\5\f\7\2\u012b\u012c\7\64\2")
+        buf.write("\2\u012c\u012d\7\61\2\2\u012d=\3\2\2\2\u012e\u0130\7\24")
+        buf.write("\2\2\u012f\u0131\5\20\t\2\u0130\u012f\3\2\2\2\u0130\u0131")
+        buf.write("\3\2\2\2\u0131\u0132\3\2\2\2\u0132\u0133\7\61\2\2\u0133")
+        buf.write("?\3\2\2\2\u0134\u0136\5\32\16\2\u0135\u0134\3\2\2\2\u0136")
+        buf.write("\u0139\3\2\2\2\u0137\u0135\3\2\2\2\u0137\u0138\3\2\2\2")
+        buf.write("\u0138\u013d\3\2\2\2\u0139\u0137\3\2\2\2\u013a\u013c\5")
+        buf.write(",\27\2\u013b\u013a\3\2\2\2\u013c\u013f\3\2\2\2\u013d\u013b")
+        buf.write("\3\2\2\2\u013d\u013e\3\2\2\2\u013eA\3\2\2\2\u013f\u013d")
+        buf.write("\3\2\2\2\30OUk\u0080\u0082\u0084\u0092\u009c\u00a2\u00af")
+        buf.write("\u00b5\u00bf\u00c1\u00c7\u00d5\u00e1\u00ef\u00fe\u0103")
+        buf.write("\u0130\u0137\u013d")
         return buf.getvalue()
 
 
@@ -161,7 +164,7 @@ class BKITParser ( Parser ):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [ "<INVALID>", "'main'", "'='", "'Var'", "'Body'", "'Break'", 
+    literalNames = [ "<INVALID>", "'='", "'main'", "'Var'", "'Body'", "'Break'", 
                      "'Continue'", "'Do'", "'Else'", "'ElseIf'", "'EndBody'", 
                      "'EndIf'", "'EndFor'", "'EndWhile'", "'For'", "'Function'", 
                      "'If'", "'Parameter'", "'Return'", "'Then'", "'While'", 
@@ -197,15 +200,15 @@ class BKITParser ( Parser ):
     RULE_program = 9
     RULE_globalVar = 10
     RULE_funcDeclPart = 11
-    RULE_mainFunc = 12
-    RULE_varDecl = 13
-    RULE_varList = 14
-    RULE_varInit = 15
-    RULE_variable = 16
-    RULE_funcDecl = 17
-    RULE_paraDecl = 18
-    RULE_paraList = 19
-    RULE_body = 20
+    RULE_varDecl = 12
+    RULE_varList = 13
+    RULE_varInit = 14
+    RULE_variable = 15
+    RULE_funcDecl = 16
+    RULE_paraDecl = 17
+    RULE_paraList = 18
+    RULE_body = 19
+    RULE_mainFunc = 20
     RULE_otherStmt = 21
     RULE_assignStmt = 22
     RULE_ifStmt = 23
@@ -220,9 +223,9 @@ class BKITParser ( Parser ):
 
     ruleNames =  [ "relational_op", "logical_op", "adding_op", "multiplying_op", 
                    "sign_op", "argList", "tailArg", "expr", "term", "program", 
-                   "globalVar", "funcDeclPart", "mainFunc", "varDecl", "varList", 
-                   "varInit", "variable", "funcDecl", "paraDecl", "paraList", 
-                   "body", "otherStmt", "assignStmt", "ifStmt", "forStmt", 
+                   "globalVar", "funcDeclPart", "varDecl", "varList", "varInit", 
+                   "variable", "funcDecl", "paraDecl", "paraList", "body", 
+                   "mainFunc", "otherStmt", "assignStmt", "ifStmt", "forStmt", 
                    "whileStmt", "dowhileStmt", "breakStmt", "continueStmt", 
                    "callStmt", "returnStmt", "stmtList" ]
 
@@ -1195,62 +1198,6 @@ class BKITParser ( Parser ):
         return localctx
 
 
-    class MainFuncContext(ParserRuleContext):
-
-        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
-            super().__init__(parent, invokingState)
-            self.parser = parser
-
-        def FUNCTION(self):
-            return self.getToken(BKITParser.FUNCTION, 0)
-
-        def COLON(self):
-            return self.getToken(BKITParser.COLON, 0)
-
-        def body(self):
-            return self.getTypedRuleContext(BKITParser.BodyContext,0)
-
-
-        def DOT(self):
-            return self.getToken(BKITParser.DOT, 0)
-
-        def getRuleIndex(self):
-            return BKITParser.RULE_mainFunc
-
-        def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitMainFunc" ):
-                return visitor.visitMainFunc(self)
-            else:
-                return visitor.visitChildren(self)
-
-
-
-
-    def mainFunc(self):
-
-        localctx = BKITParser.MainFuncContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 24, self.RULE_mainFunc)
-        try:
-            self.enterOuterAlt(localctx, 1)
-            self.state = 163
-            self.match(BKITParser.FUNCTION)
-            self.state = 164
-            self.match(BKITParser.COLON)
-            self.state = 165
-            self.match(BKITParser.T__0)
-            self.state = 166
-            self.body()
-            self.state = 167
-            self.match(BKITParser.DOT)
-        except RecognitionException as re:
-            localctx.exception = re
-            self._errHandler.reportError(self, re)
-            self._errHandler.recover(self, re)
-        finally:
-            self.exitRule()
-        return localctx
-
-
     class VarDeclContext(ParserRuleContext):
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -1285,16 +1232,16 @@ class BKITParser ( Parser ):
     def varDecl(self):
 
         localctx = BKITParser.VarDeclContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 26, self.RULE_varDecl)
+        self.enterRule(localctx, 24, self.RULE_varDecl)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 169
+            self.state = 163
             self.match(BKITParser.VAR)
-            self.state = 170
+            self.state = 164
             self.match(BKITParser.COLON)
-            self.state = 171
+            self.state = 165
             self.varList()
-            self.state = 172
+            self.state = 166
             self.match(BKITParser.SEMI)
         except RecognitionException as re:
             localctx.exception = re
@@ -1343,21 +1290,21 @@ class BKITParser ( Parser ):
     def varList(self):
 
         localctx = BKITParser.VarListContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 28, self.RULE_varList)
+        self.enterRule(localctx, 26, self.RULE_varList)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 174
+            self.state = 168
             self.varInit()
-            self.state = 179
+            self.state = 173
             self._errHandler.sync(self)
             _alt = self._interp.adaptivePredict(self._input,9,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                 if _alt==1:
-                    self.state = 175
+                    self.state = 169
                     self.match(BKITParser.COMMA)
-                    self.state = 176
+                    self.state = 170
                     self.varList() 
-                self.state = 181
+                self.state = 175
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input,9,self._ctx)
 
@@ -1413,19 +1360,19 @@ class BKITParser ( Parser ):
     def varInit(self):
 
         localctx = BKITParser.VarInitContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 30, self.RULE_varInit)
+        self.enterRule(localctx, 28, self.RULE_varInit)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 182
+            self.state = 176
             self.variable()
-            self.state = 185
+            self.state = 179
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if _la==BKITParser.T__1:
-                self.state = 183
-                self.match(BKITParser.T__1)
-                self.state = 184
+            if _la==BKITParser.T__0:
+                self.state = 177
+                self.match(BKITParser.T__0)
+                self.state = 178
                 _la = self._input.LA(1)
                 if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << BKITParser.TRUE) | (1 << BKITParser.FALSE) | (1 << BKITParser.INT_LIT) | (1 << BKITParser.FLOAT_LIT) | (1 << BKITParser.STRING_LIT) | (1 << BKITParser.ARRAY_LIT))) != 0)):
                     self._errHandler.recoverInline(self)
@@ -1486,33 +1433,33 @@ class BKITParser ( Parser ):
     def variable(self):
 
         localctx = BKITParser.VariableContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 32, self.RULE_variable)
+        self.enterRule(localctx, 30, self.RULE_variable)
         self._la = 0 # Token type
         try:
-            self.state = 197
+            self.state = 191
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,12,self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 187
+                self.state = 181
                 self.match(BKITParser.ID)
                 pass
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 188
+                self.state = 182
                 self.match(BKITParser.ID)
-                self.state = 193 
+                self.state = 187 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 while True:
-                    self.state = 189
+                    self.state = 183
                     self.match(BKITParser.LS)
-                    self.state = 190
+                    self.state = 184
                     self.expr(0)
-                    self.state = 191
+                    self.state = 185
                     self.match(BKITParser.RS)
-                    self.state = 195 
+                    self.state = 189 
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
                     if not (_la==BKITParser.LS):
@@ -1545,16 +1492,16 @@ class BKITParser ( Parser ):
         def ID(self):
             return self.getToken(BKITParser.ID, 0)
 
-        def paraDecl(self):
-            return self.getTypedRuleContext(BKITParser.ParaDeclContext,0)
-
-
         def body(self):
             return self.getTypedRuleContext(BKITParser.BodyContext,0)
 
 
         def DOT(self):
             return self.getToken(BKITParser.DOT, 0)
+
+        def paraDecl(self):
+            return self.getTypedRuleContext(BKITParser.ParaDeclContext,0)
+
 
         def getRuleIndex(self):
             return BKITParser.RULE_funcDecl
@@ -1571,20 +1518,27 @@ class BKITParser ( Parser ):
     def funcDecl(self):
 
         localctx = BKITParser.FuncDeclContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 34, self.RULE_funcDecl)
+        self.enterRule(localctx, 32, self.RULE_funcDecl)
+        self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 199
+            self.state = 193
             self.match(BKITParser.FUNCTION)
-            self.state = 200
+            self.state = 194
             self.match(BKITParser.COLON)
-            self.state = 201
+            self.state = 195
             self.match(BKITParser.ID)
-            self.state = 202
-            self.paraDecl()
-            self.state = 203
+            self.state = 197
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            if _la==BKITParser.PARAMETER:
+                self.state = 196
+                self.paraDecl()
+
+
+            self.state = 199
             self.body()
-            self.state = 204
+            self.state = 200
             self.match(BKITParser.DOT)
         except RecognitionException as re:
             localctx.exception = re
@@ -1626,14 +1580,14 @@ class BKITParser ( Parser ):
     def paraDecl(self):
 
         localctx = BKITParser.ParaDeclContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 36, self.RULE_paraDecl)
+        self.enterRule(localctx, 34, self.RULE_paraDecl)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 206
+            self.state = 202
             self.match(BKITParser.PARAMETER)
-            self.state = 207
+            self.state = 203
             self.match(BKITParser.COLON)
-            self.state = 208
+            self.state = 204
             self.paraList()
         except RecognitionException as re:
             localctx.exception = re
@@ -1682,23 +1636,23 @@ class BKITParser ( Parser ):
     def paraList(self):
 
         localctx = BKITParser.ParaListContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 38, self.RULE_paraList)
+        self.enterRule(localctx, 36, self.RULE_paraList)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 210
+            self.state = 206
             self.variable()
-            self.state = 215
+            self.state = 211
             self._errHandler.sync(self)
-            _alt = self._interp.adaptivePredict(self._input,13,self._ctx)
+            _alt = self._interp.adaptivePredict(self._input,14,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                 if _alt==1:
-                    self.state = 211
+                    self.state = 207
                     self.match(BKITParser.COMMA)
-                    self.state = 212
+                    self.state = 208
                     self.paraList() 
-                self.state = 217
+                self.state = 213
                 self._errHandler.sync(self)
-                _alt = self._interp.adaptivePredict(self._input,13,self._ctx)
+                _alt = self._interp.adaptivePredict(self._input,14,self._ctx)
 
         except RecognitionException as re:
             localctx.exception = re
@@ -1743,17 +1697,86 @@ class BKITParser ( Parser ):
     def body(self):
 
         localctx = BKITParser.BodyContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 40, self.RULE_body)
+        self.enterRule(localctx, 38, self.RULE_body)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 218
+            self.state = 214
             self.match(BKITParser.BODY)
-            self.state = 219
+            self.state = 215
             self.match(BKITParser.COLON)
-            self.state = 220
+            self.state = 216
             self.stmtList()
-            self.state = 221
+            self.state = 217
             self.match(BKITParser.ENDBODY)
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class MainFuncContext(ParserRuleContext):
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def FUNCTION(self):
+            return self.getToken(BKITParser.FUNCTION, 0)
+
+        def COLON(self):
+            return self.getToken(BKITParser.COLON, 0)
+
+        def body(self):
+            return self.getTypedRuleContext(BKITParser.BodyContext,0)
+
+
+        def DOT(self):
+            return self.getToken(BKITParser.DOT, 0)
+
+        def paraDecl(self):
+            return self.getTypedRuleContext(BKITParser.ParaDeclContext,0)
+
+
+        def getRuleIndex(self):
+            return BKITParser.RULE_mainFunc
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMainFunc" ):
+                return visitor.visitMainFunc(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def mainFunc(self):
+
+        localctx = BKITParser.MainFuncContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 40, self.RULE_mainFunc)
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 219
+            self.match(BKITParser.FUNCTION)
+            self.state = 220
+            self.match(BKITParser.COLON)
+            self.state = 221
+            self.match(BKITParser.T__1)
+            self.state = 223
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            if _la==BKITParser.PARAMETER:
+                self.state = 222
+                self.paraDecl()
+
+
+            self.state = 225
+            self.body()
+            self.state = 226
+            self.match(BKITParser.DOT)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -1822,60 +1845,60 @@ class BKITParser ( Parser ):
         localctx = BKITParser.OtherStmtContext(self, self._ctx, self.state)
         self.enterRule(localctx, 42, self.RULE_otherStmt)
         try:
-            self.state = 232
+            self.state = 237
             self._errHandler.sync(self)
-            la_ = self._interp.adaptivePredict(self._input,14,self._ctx)
+            la_ = self._interp.adaptivePredict(self._input,16,self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 223
+                self.state = 228
                 self.assignStmt()
                 pass
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 224
+                self.state = 229
                 self.ifStmt()
                 pass
 
             elif la_ == 3:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 225
+                self.state = 230
                 self.forStmt()
                 pass
 
             elif la_ == 4:
                 self.enterOuterAlt(localctx, 4)
-                self.state = 226
+                self.state = 231
                 self.whileStmt()
                 pass
 
             elif la_ == 5:
                 self.enterOuterAlt(localctx, 5)
-                self.state = 227
+                self.state = 232
                 self.dowhileStmt()
                 pass
 
             elif la_ == 6:
                 self.enterOuterAlt(localctx, 6)
-                self.state = 228
+                self.state = 233
                 self.breakStmt()
                 pass
 
             elif la_ == 7:
                 self.enterOuterAlt(localctx, 7)
-                self.state = 229
+                self.state = 234
                 self.continueStmt()
                 pass
 
             elif la_ == 8:
                 self.enterOuterAlt(localctx, 8)
-                self.state = 230
+                self.state = 235
                 self.callStmt()
                 pass
 
             elif la_ == 9:
                 self.enterOuterAlt(localctx, 9)
-                self.state = 231
+                self.state = 236
                 self.returnStmt()
                 pass
 
@@ -1924,13 +1947,13 @@ class BKITParser ( Parser ):
         self.enterRule(localctx, 44, self.RULE_assignStmt)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 234
+            self.state = 239
             self.variable()
-            self.state = 235
-            self.match(BKITParser.T__1)
-            self.state = 236
+            self.state = 240
+            self.match(BKITParser.T__0)
+            self.state = 241
             self.expr(0)
-            self.state = 237
+            self.state = 242
             self.match(BKITParser.SEMI)
         except RecognitionException as re:
             localctx.exception = re
@@ -1995,37 +2018,37 @@ class BKITParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 239
+            self.state = 244
             self.match(BKITParser.IF)
-            self.state = 240
+            self.state = 245
             self.expr(0)
-            self.state = 241
+            self.state = 246
             self.match(BKITParser.THEN)
-            self.state = 242
-            self.stmtList()
             self.state = 247
-            self._errHandler.sync(self)
-            _la = self._input.LA(1)
-            while _la==BKITParser.ELSEIF:
-                self.state = 243
-                self.match(BKITParser.ELSEIF)
-                self.state = 244
-                self.stmtList()
-                self.state = 249
-                self._errHandler.sync(self)
-                _la = self._input.LA(1)
-
+            self.stmtList()
             self.state = 252
             self._errHandler.sync(self)
             _la = self._input.LA(1)
+            while _la==BKITParser.ELSEIF:
+                self.state = 248
+                self.match(BKITParser.ELSEIF)
+                self.state = 249
+                self.stmtList()
+                self.state = 254
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+
+            self.state = 257
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
             if _la==BKITParser.ELSE:
-                self.state = 250
+                self.state = 255
                 self.match(BKITParser.ELSE)
-                self.state = 251
+                self.state = 256
                 self.stmtList()
 
 
-            self.state = 254
+            self.state = 259
             self.match(BKITParser.DOT)
         except RecognitionException as re:
             localctx.exception = re
@@ -2099,29 +2122,29 @@ class BKITParser ( Parser ):
         self.enterRule(localctx, 48, self.RULE_forStmt)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 256
-            self.match(BKITParser.FOR)
-            self.state = 257
-            self.match(BKITParser.LP)
-            self.state = 258
-            self.varInit()
-            self.state = 259
-            self.match(BKITParser.COMMA)
-            self.state = 260
-            self.expr(0)
             self.state = 261
-            self.match(BKITParser.COMMA)
+            self.match(BKITParser.FOR)
             self.state = 262
-            self.expr(0)
+            self.match(BKITParser.LP)
             self.state = 263
-            self.match(BKITParser.RP)
+            self.varInit()
             self.state = 264
-            self.match(BKITParser.DO)
+            self.match(BKITParser.COMMA)
             self.state = 265
-            self.stmtList()
+            self.expr(0)
             self.state = 266
-            self.match(BKITParser.ENDFOR)
+            self.match(BKITParser.COMMA)
             self.state = 267
+            self.expr(0)
+            self.state = 268
+            self.match(BKITParser.RP)
+            self.state = 269
+            self.match(BKITParser.DO)
+            self.state = 270
+            self.stmtList()
+            self.state = 271
+            self.match(BKITParser.ENDFOR)
+            self.state = 272
             self.match(BKITParser.DOT)
         except RecognitionException as re:
             localctx.exception = re
@@ -2176,17 +2199,17 @@ class BKITParser ( Parser ):
         self.enterRule(localctx, 50, self.RULE_whileStmt)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 269
-            self.match(BKITParser.WHILE)
-            self.state = 270
-            self.expr(0)
-            self.state = 271
-            self.match(BKITParser.DO)
-            self.state = 272
-            self.stmtList()
-            self.state = 273
-            self.match(BKITParser.ENDWHILE)
             self.state = 274
+            self.match(BKITParser.WHILE)
+            self.state = 275
+            self.expr(0)
+            self.state = 276
+            self.match(BKITParser.DO)
+            self.state = 277
+            self.stmtList()
+            self.state = 278
+            self.match(BKITParser.ENDWHILE)
+            self.state = 279
             self.match(BKITParser.DOT)
         except RecognitionException as re:
             localctx.exception = re
@@ -2241,17 +2264,17 @@ class BKITParser ( Parser ):
         self.enterRule(localctx, 52, self.RULE_dowhileStmt)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 276
-            self.match(BKITParser.DO)
-            self.state = 277
-            self.stmtList()
-            self.state = 278
-            self.match(BKITParser.WHILE)
-            self.state = 279
-            self.expr(0)
-            self.state = 280
-            self.match(BKITParser.ENDDO)
             self.state = 281
+            self.match(BKITParser.DO)
+            self.state = 282
+            self.stmtList()
+            self.state = 283
+            self.match(BKITParser.WHILE)
+            self.state = 284
+            self.expr(0)
+            self.state = 285
+            self.match(BKITParser.ENDDO)
+            self.state = 286
             self.match(BKITParser.DOT)
         except RecognitionException as re:
             localctx.exception = re
@@ -2292,9 +2315,9 @@ class BKITParser ( Parser ):
         self.enterRule(localctx, 54, self.RULE_breakStmt)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 283
+            self.state = 288
             self.match(BKITParser.BREAK)
-            self.state = 284
+            self.state = 289
             self.match(BKITParser.SEMI)
         except RecognitionException as re:
             localctx.exception = re
@@ -2335,9 +2358,9 @@ class BKITParser ( Parser ):
         self.enterRule(localctx, 56, self.RULE_continueStmt)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 286
+            self.state = 291
             self.match(BKITParser.CONTINUE)
-            self.state = 287
+            self.state = 292
             self.match(BKITParser.SEMI)
         except RecognitionException as re:
             localctx.exception = re
@@ -2388,15 +2411,15 @@ class BKITParser ( Parser ):
         self.enterRule(localctx, 58, self.RULE_callStmt)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 289
+            self.state = 294
             self.match(BKITParser.ID)
-            self.state = 290
+            self.state = 295
             self.match(BKITParser.LP)
-            self.state = 291
+            self.state = 296
             self.argList()
-            self.state = 292
+            self.state = 297
             self.match(BKITParser.RP)
-            self.state = 293
+            self.state = 298
             self.match(BKITParser.SEMI)
         except RecognitionException as re:
             localctx.exception = re
@@ -2442,17 +2465,17 @@ class BKITParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 295
+            self.state = 300
             self.match(BKITParser.RETURN)
-            self.state = 297
+            self.state = 302
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << BKITParser.TRUE) | (1 << BKITParser.FALSE) | (1 << BKITParser.SUB) | (1 << BKITParser.F_SUB) | (1 << BKITParser.NEG) | (1 << BKITParser.LP) | (1 << BKITParser.ID) | (1 << BKITParser.INT_LIT) | (1 << BKITParser.FLOAT_LIT) | (1 << BKITParser.STRING_LIT) | (1 << BKITParser.ARRAY_LIT))) != 0):
-                self.state = 296
+                self.state = 301
                 self.expr(0)
 
 
-            self.state = 299
+            self.state = 304
             self.match(BKITParser.SEMI)
         except RecognitionException as re:
             localctx.exception = re
@@ -2502,26 +2525,26 @@ class BKITParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 304
+            self.state = 309
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==BKITParser.VAR:
-                self.state = 301
-                self.varDecl()
                 self.state = 306
+                self.varDecl()
+                self.state = 311
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 310
+            self.state = 315
             self._errHandler.sync(self)
-            _alt = self._interp.adaptivePredict(self._input,19,self._ctx)
+            _alt = self._interp.adaptivePredict(self._input,21,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                 if _alt==1:
-                    self.state = 307
+                    self.state = 312
                     self.otherStmt() 
-                self.state = 312
+                self.state = 317
                 self._errHandler.sync(self)
-                _alt = self._interp.adaptivePredict(self._input,19,self._ctx)
+                _alt = self._interp.adaptivePredict(self._input,21,self._ctx)
 
         except RecognitionException as re:
             localctx.exception = re

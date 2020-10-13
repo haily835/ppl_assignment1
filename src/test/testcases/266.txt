@@ -1,0 +1,6 @@
+Function: main
+Body:
+    While (x < 10) && (x != 0) Do
+        sum = sum + x;
+    EndWhile.
+EndBody.

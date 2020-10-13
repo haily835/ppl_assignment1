@@ -160,7 +160,6 @@ program: globalVar funcDeclPart mainFunc EOF;
 
 globalVar: (varDecl)*;
 funcDeclPart: (funcDecl)*;
-mainFunc: FUNCTION COLON 'main' body DOT;
 
 // Variable declaration
 varDecl: VAR COLON varList SEMI;
@@ -169,13 +168,13 @@ varInit: variable ('=' (INT_LIT | FLOAT_LIT | TRUE | FALSE | STRING_LIT | ARRAY_
 variable: ID | ID (LS expr RS)+;
 
 // Function declaration 
-funcDecl: FUNCTION COLON ID paraDecl body DOT;
+funcDecl: FUNCTION COLON ID (paraDecl)? body DOT;
 
 paraDecl: PARAMETER COLON paraList;
 paraList: variable (COMMA paraList)*;
 
 body: BODY COLON stmtList ENDBODY;
-
+mainFunc: FUNCTION COLON 'main' (paraDecl)? body DOT;
 
 // Statements
 otherStmt: assignStmt | ifStmt | forStmt | whileStmt | dowhileStmt | breakStmt | continueStmt | callStmt | returnStmt;
