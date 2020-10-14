@@ -1,1 +1,1 @@
-0XABC,<EOF>
+Do,While,EndDo,<EOF>

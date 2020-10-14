@@ -1,1 +1,1 @@
-0xFF,<EOF>
+For,Do,EndFor,<EOF>

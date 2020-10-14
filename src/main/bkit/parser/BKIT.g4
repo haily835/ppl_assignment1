@@ -99,7 +99,7 @@ fragment DIGIT: [0-9];
 
 // LITERALS
 
-fragment DEC:  [+-]? [1-9] DIGIT* | '0';
+fragment DEC:  [+-]? [1-9] DIGIT* | '0'+;
 fragment HEX: '0' [Xx] [0-9A-F]+;
 fragment OCT: '0' [Oo] [0-7]+;
 
@@ -113,8 +113,9 @@ FLOAT_LIT:  [+-]?(
 
 BOOL_LIT: TRUE | FALSE;
 
-fragment ESC: '\\' ['bfrnt\\];
-STRING_LIT: '"' (. | '\'"' | ESC )*? '"';
+fragment ESC: '\\' ['bfrnt\\] | '\'"';
+fragment STR_CHAR: ~[\b\t\n\f\r"'\\];
+STRING_LIT: '"' (STR_CHAR | ESC )* '"';
 
 ARRAY_LIT: LB 
             ( ' '* BOOL_LIT ' '* ( ' '* COMMA ' '* BOOL_LIT ' '* )*
@@ -130,10 +131,10 @@ COMMENT: '**' .*? '**' -> skip; // skip comment
 
 // LEXICAL ERRORS ********
 ERROR_CHAR: .;
-ILLEGAL_ESCAPE: '"' [a-zA-Z0-9 ]* '\\' ~[btfrn'\\] '"'?;
-UNCLOSE_STRING: '"' (. | '\'"' | ESC )*?;
+ILLEGAL_ESCAPE: '"' (STR_CHAR | ESC )* '\\' ~[btfrn'\\] '"'?;
+UNCLOSE_STRING: '"' (STR_CHAR | ESC )*;
 UNTERMINATED_COMMENT: '**' .*?;
-ERROR_INTLIT: '0'[Xx] ~[A-F0-9]* | '0'[Oo] ~[0-7]*;
+ERROR_INTLIT: '0'[Xx] [0-9A-F]* ~[0-9A-F]* | '0'[Oo] [0-7]* ~[0-7]*;
 
 // expression *******
 relational_op: EQ | NOT_EQ | LT | GT | LTE | GTE | F_NOT_EQ | F_LT | F_GT | F_LTE | F_GTE;
