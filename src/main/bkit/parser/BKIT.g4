@@ -1,4 +1,4 @@
-// My ID: 1852348
+// Student ID: 1852348
 
 grammar BKIT;
 
@@ -100,15 +100,15 @@ fragment DIGIT: [0-9];
 // LITERALS
 
 fragment DEC:  [+-]? [1-9] DIGIT* | '0'+;
-fragment HEX: '0' [Xx] [0-9A-F]+;
-fragment OCT: '0' [Oo] [0-7]+;
+fragment HEX: '0' [Xx] [1-9A-F][0-9A-F]*;
+fragment OCT: '0' [Oo] [1-7][0-7]*;
 
 INT_LIT: DEC | HEX | OCT;
 
 FLOAT_LIT:  [+-]?(
             DIGIT+ '.' DIGIT* 
-            | DIGIT+ [Ee] [+-] DIGIT+ 
-            | DIGIT+ '.' DIGIT+ [Ee] [+-] DIGIT+
+            | DIGIT+ [Ee] [+-]? DIGIT+ 
+            | DIGIT+ '.' DIGIT* [Ee] [+-]? DIGIT+
             );
 
 BOOL_LIT: TRUE | FALSE;
@@ -117,13 +117,13 @@ fragment ESC: '\\' ['bfrnt\\] | '\'"';
 fragment STR_CHAR: ~[\b\t\n\f\r"'\\];
 STRING_LIT: '"' (STR_CHAR | ESC )* '"';
 
-ARRAY_LIT: LB 
-            ( ' '* BOOL_LIT ' '* ( ' '* COMMA ' '* BOOL_LIT ' '* )*
+ARRAY_LIT: LB ( 
+            ' '* BOOL_LIT ' '* ( ' '* COMMA ' '* BOOL_LIT ' '* )*
             | ' '* INT_LIT ' '* ( ' '* COMMA ' '*  INT_LIT ' '* )*
             | ' '* FLOAT_LIT ' '*  ( ' '* COMMA ' '* FLOAT_LIT ' '* )*
             | ' '* STRING_LIT ' '* ( ' '* COMMA ' '* STRING_LIT ' '* )*
-            | ' '* ARRAY_LIT ' '* ( ' '* COMMA ' '*  ARRAY_LIT ' '* )*)
-            RB;
+            | ' '* ARRAY_LIT ' '* ( ' '* COMMA ' '*  ARRAY_LIT ' '* )*
+            ) RB;
 
 
 WS: [ \t\r\n]+ -> skip; // skip spaces, tabs, newlines
@@ -131,10 +131,10 @@ COMMENT: '**' .*? '**' -> skip; // skip comment
 
 // LEXICAL ERRORS ********
 ERROR_CHAR: .;
-ILLEGAL_ESCAPE: '"' (STR_CHAR | ESC )* '\\' ~[btfrn'\\] '"'?;
+ILLEGAL_ESCAPE: '"' (STR_CHAR | ESC )* ('\\' ~[btfrn'\\] | '\'' ~["]) '"'?;
 UNCLOSE_STRING: '"' (STR_CHAR | ESC )*;
 UNTERMINATED_COMMENT: '**' .*?;
-ERROR_INTLIT: '0'[Xx] [0-9A-F]* ~[0-9A-F]* | '0'[Oo] [0-7]* ~[0-7]*;
+ERROR_INTLIT: '0' [XxOo] '0' |'0'[Xx] [1-9A-F]* ~[0-9A-F]* | '0'[Oo] [1-7]* ~[0-7]*;
 
 // expression *******
 relational_op: EQ | NOT_EQ | LT | GT | LTE | GTE | F_NOT_EQ | F_LT | F_GT | F_LTE | F_GTE;

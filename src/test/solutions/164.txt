@@ -1,0 +1,1 @@
+Var,:,x,=,a\b\f\r\t\n,<EOF>

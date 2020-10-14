@@ -1,1 +1,1 @@
-Error Token 0o589
+0O124,<EOF>

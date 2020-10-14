@@ -1,0 +1,4 @@
+**This line will be ignore
+*This is a
+* multi-line
+* comment.**"somestring" 
