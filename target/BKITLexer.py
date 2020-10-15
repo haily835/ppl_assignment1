@@ -525,6 +525,8 @@ class BKITLexer(Lexer):
             endPos = len(result.text) - 1
             result.text = result.text[1:endPos]
             return result
+        elif tk == self.ARRAY_LIT:
+            result.text = result.text.replace(" ", "")
         elif tk == self.ERROR_INTLIT:
             raise ErrorToken(result.text)
         else:

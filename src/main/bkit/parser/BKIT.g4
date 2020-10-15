@@ -22,6 +22,8 @@ def emit(self):
         endPos = len(result.text) - 1
         result.text = result.text[1:endPos]
         return result
+    elif tk == self.ARRAY_LIT:
+        result.text = result.text.replace(" ", "")
     elif tk == self.ERROR_INTLIT:
         raise ErrorToken(result.text)
     else:
@@ -118,10 +120,10 @@ fragment STR_CHAR: ~[\b\t\n\f\r"'\\];
 STRING_LIT: '"' (STR_CHAR | ESC )* '"';
 
 ARRAY_LIT: LB ( 
-            ' '* BOOL_LIT ' '* ( ' '* COMMA ' '* BOOL_LIT ' '* )*
+            ' '* BOOL_LIT ' '* (' '* COMMA ' '* BOOL_LIT ' '* )*
             | ' '* INT_LIT ' '* ( ' '* COMMA ' '*  INT_LIT ' '* )*
-            | ' '* FLOAT_LIT ' '*  ( ' '* COMMA ' '* FLOAT_LIT ' '* )*
-            | ' '* STRING_LIT ' '* ( ' '* COMMA ' '* STRING_LIT ' '* )*
+            | ' '* FLOAT_LIT ' '* ( ' '* COMMA ' '* FLOAT_LIT ' '* )*
+            | ' '* STRING_LIT ' '* ( ' '* COMMA ' '* STRING_LIT ' '*)*
             | ' '* ARRAY_LIT ' '* ( ' '* COMMA ' '*  ARRAY_LIT ' '* )*
             ) RB;
 

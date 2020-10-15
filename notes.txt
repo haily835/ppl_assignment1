@@ -57,11 +57,11 @@ Lexer suite
   + oct: 5
   + dec: 5
 - float: 10
-- string: 10 
-- boolean: 2
+- string: 10 ok
+- boolean: 2 ok
 - Array: 10
 - comment: 5
-- ill esc: 5
-- unclose string: 5
+- ill esc: 5 ok 
+- unclose string: 5 ok 
 - unterminate comment: 5
 - some program code

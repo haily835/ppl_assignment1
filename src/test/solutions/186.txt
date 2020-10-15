@@ -1,1 +1,1 @@
-{567, 0x567, 0O345},<EOF>
+{True,False,True},<EOF>

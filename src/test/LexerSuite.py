@@ -356,35 +356,35 @@ class LexerSuite(unittest.TestCase):
     # ------------test array literals------------
     def test_normal_array_181(self):
         self.assertTrue(TestLexer.checkLexeme(
-            """{5, 6, 7}""", """{5, 6, 7},<EOF>""", 181))
+            """{5,6,7}""", """{5,6,7},<EOF>""", 181))
 
-    def test_normal_array_182(self):
+    def test_normal_array_space_182(self):
         self.assertTrue(TestLexer.checkLexeme(
-            """ {{"a" ,"b", "c"},{"e" ,"r", "h"},{"k","s","m"}} """, """{{"a" ,"b", "c"},{"e" ,"r", "h"},{"k","s","m"}},<EOF>""", 182))
+            """{5, 6, 7}""", """{5,6,7},<EOF>""", 182))
 
     def test_normal_array_183(self):
         self.assertTrue(TestLexer.checkLexeme(
-            """{5.6,5E-10,6.03}""", """{5.6,5E-10,6.03},<EOF>""", 183))
+            """ {{"a" ,"b", "c"},{"e" ,"r", "h"},{"k","s","m"}} """, """{{"a","b","c"},{"e","r","h"},{"k","s","m"}},<EOF>""", 183))
 
     def test_normal_array_184(self):
         self.assertTrue(TestLexer.checkLexeme(
-            """{5}""", """{5},<EOF>""", 184))
+            """{5.6,5E-10,6.03}""", """{5.6,5E-10,6.03},<EOF>""", 184))
 
     def test_normal_array_185(self):
         self.assertTrue(TestLexer.checkLexeme(
-            """{True, False, True}""", """{True, False, True},<EOF>""", 185))
+            """{5}""", """{5},<EOF>""", 185))
 
     def test_normal_array_186(self):
         self.assertTrue(TestLexer.checkLexeme(
-            """{567, 0x567, 0O345}""", """{567, 0x567, 0O345},<EOF>""", 186))
+            """{True, False, True}""", """{True,False,True},<EOF>""", 186))
 
-    def test_error_array_187(self):
+    def test_normal_array_187(self):
         self.assertTrue(TestLexer.checkLexeme(
-            """{5.6,True,6.03}""", """{,5.6,,,True,,,6.03,},<EOF>""", 187))
+            """{567, 0x567, 0O345}""", """{567,0x567,0O345},<EOF>""", 187))
 
     def test_error_array_188(self):
         self.assertTrue(TestLexer.checkLexeme(
-            """{True,{"True"},{"True", "False"}}""", """{,True,,,{"True"},,,{"True", "False"},},<EOF>""", 188))
+            """{True,{"True"},{"True", "False"}}""", """{,True,,,{"True"},,,{"True","False"},},<EOF>""", 188))
 
     def test_error_array_189(self):
         self.assertTrue(TestLexer.checkLexeme(
