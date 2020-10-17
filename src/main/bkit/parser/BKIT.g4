@@ -101,13 +101,13 @@ fragment DIGIT: [0-9];
 
 // LITERALS
 
-fragment DEC:  [+-]? [1-9] DIGIT* | '0'+;
+fragment DEC:  [1-9] DIGIT* | '0'+;
 fragment HEX: '0' [Xx] [1-9A-F][0-9A-F]*;
 fragment OCT: '0' [Oo] [1-7][0-7]*;
 
 INT_LIT: DEC | HEX | OCT;
 
-FLOAT_LIT:  [+-]?(
+FLOAT_LIT:  (
             DIGIT+ '.' DIGIT* 
             | DIGIT+ [Ee] [+-]? DIGIT+ 
             | DIGIT+ '.' DIGIT* [Ee] [+-]? DIGIT+
@@ -148,18 +148,28 @@ sign_op: SUB | F_SUB;
 argList: (expr tailArg)?;
 tailArg: (COMMA expr tailArg)?;
 
-expr: LP expr RP
-    | ID LP argList RP // function call
-    | expr (LS expr RS)+ // indexing
-    | <assoc=right> sign_op expr
-    | <assoc=right> NEG expr
-    | expr multiplying_op expr
-    | expr adding_op expr
-    | expr logical_op expr
-    | term relational_op term
-    | term
-    ;
-term: INT_LIT | FLOAT_LIT | STRING_LIT | ARRAY_LIT | TRUE | FALSE | ID | LP expr RP;
+// expr: LP expr RP
+//     | ID LP argList RP // function call
+//     | expr (LS expr RS)+ // indexing
+//     | <assoc=right> sign_op expr
+//     | <assoc=right> NEG expr
+//     | expr multiplying_op expr
+//     | expr adding_op expr
+//     | expr logical_op expr
+//     | term relational_op term
+//     | term
+//     ;
+
+expr: expr1 relational_op expr1 | expr1;
+expr1: expr1 logical_op expr2 | expr2;
+expr2: expr2 adding_op expr3 | expr3;
+expr3: expr3 multiplying_op expr4 | expr4;
+expr4: NEG expr4 | expr5;
+expr5: sign_op expr5 | expr6;
+expr6: expr6 index_op | expr7;
+index_op: LS expr RS | LS expr RS index_op;
+expr7: ID LP argList RP | term;
+term: LP expr RP | INT_LIT | FLOAT_LIT | STRING_LIT | ARRAY_LIT | TRUE | FALSE | ID ;
 
 program: globalVar funcDeclPart mainFunc EOF;
 

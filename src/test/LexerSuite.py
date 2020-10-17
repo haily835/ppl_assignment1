@@ -146,11 +146,11 @@ class LexerSuite(unittest.TestCase):
     # ---------test int literals------------
     def test_int_dec_literal_134(self):
         self.assertTrue(TestLexer.checkLexeme(
-            "Var: k = +5556", "Var,:,k,=,+5556,<EOF>", 134))
+            "Var: k = +5556", "Var,:,k,=,+,5556,<EOF>", 134))
 
     def test_int_dec_literal_135(self):
         self.assertTrue(TestLexer.checkLexeme(
-            "-5556", "-5556,<EOF>", 135))
+            "-5556", "-,5556,<EOF>", 135))
 
     def test_int_dec_literal_136(self):
         self.assertTrue(TestLexer.checkLexeme(
