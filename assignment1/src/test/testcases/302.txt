@@ -1,0 +1,4 @@
+Function: main
+Body:
+    a[3] = {True,{"True"},{"True", "False"}};
+EndBody.

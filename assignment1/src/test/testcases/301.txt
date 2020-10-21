@@ -1,0 +1,8 @@
+Function: main
+Body:
+    a[3] = {True, False, True};
+    b[3] = {567, 0x567, 0O345};
+    c[3] = {{"a" ,"b", "c"},{"e" ,"r", "h"},{"k","s","m"}};
+    d[3] = {5.6,5E-10,6.03};
+
+EndBody.

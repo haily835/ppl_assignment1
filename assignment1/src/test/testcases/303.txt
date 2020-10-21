@@ -1,0 +1,4 @@
+Function: main
+Body:
+    a[3] = {5.6,"TRUE",6.03};
+EndBody.
