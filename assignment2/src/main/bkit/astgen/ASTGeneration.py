@@ -10,7 +10,11 @@ class ASTGeneration(BKITVisitor):
 
     # globalVar: (varDecl)*;
     def visitGlobalVar(self, ctx:BKITParser.GlobalVarContext):
-        return [x.accept(self) for x in ctx.varDecl()]
+        if (ctx.varDecl()):
+            varList = [x.accept(self) for x in ctx.varDecl()]
+            return reduce(lambda acc,ele: acc + ele, varList, [])
+        else:
+            return []
 
     # funcDeclPart: (funcDecl)*;
     def visitFuncDeclPart(self, ctx:BKITParser.FuncDeclPartContext):
@@ -32,7 +36,10 @@ class ASTGeneration(BKITVisitor):
     varInit  : Literal   # null if no initial """
     def visitVarInit(self, ctx:BKITParser.VarInitContext):
         var = ctx.variable().accept(self)
-        return VarDecl(var[0], var[1], ctx.literal().accept(self))
+        if ctx.literal():
+            return VarDecl(var[0], var[1], ctx.literal().accept(self))
+        else:
+            return VarDecl(var[0], var[1], None) 
 
     # variable: ID | ID dimens;
     def visitVariable(self, ctx:BKITParser.VariableContext):
@@ -56,7 +63,7 @@ class ASTGeneration(BKITVisitor):
         elif (ctx.STRING_LIT()):
             return StringLiteral(ctx.STRING_LIT().getText())
         else:
-            return ArrayLiteral(ctx.array_lit().accept(self))
+            return ctx.array_lit().accept(self)
     
     # array_lit: LB (literal (COMMA literal)* | ) RB;
     # class ArrayLiteral(Literal): value:List[Literal]
@@ -65,6 +72,7 @@ class ASTGeneration(BKITVisitor):
             return ArrayLiteral([x.accept(self) for x in ctx.literal()])
         else:
             return ArrayLiteral([])
+
     def visitMainFunc(self, ctx:BKITParser.MainFuncContext):
         if ctx.paraDecl():
             return [FuncDecl(Id("main"), ctx.paraDecl().accept(self), ctx.body().accept(self))]
@@ -96,6 +104,7 @@ class ASTGeneration(BKITVisitor):
     # stmtList: varDecl* otherStmt*;
     def visitStmtList(self,ctx:BKITParser.StmtListContext):
         varList = [x.accept(self) for x in ctx.varDecl()]
+        varList = reduce(lambda acc,ele: acc+ele, varList, [])
         stmtList = [x.accept(self) for x in ctx.otherStmt()]
         return (varList, stmtList)
 

@@ -1,0 +1,6 @@
+
+Var: m, n[10] = {True,False,True,False,True,False,True,False,True};
+Function: main
+Body:
+Var: a = "string", c = 567e-11, d;
+EndBody.

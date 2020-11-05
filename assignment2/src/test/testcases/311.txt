@@ -1,0 +1,5 @@
+
+Function: main
+Body:
+a = 10 + 2 * 2;
+EndBody.

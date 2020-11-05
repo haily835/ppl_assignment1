@@ -1,0 +1,10 @@
+
+Var: m, n[10];
+Function: another
+Body:
+Var a,b,c = 10;
+EndBody.
+Function: main
+Body:
+Var a,b,c = 10;
+EndBody.

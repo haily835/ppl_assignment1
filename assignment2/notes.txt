@@ -69,7 +69,7 @@ class For(Stmt):
     expr2:Expr
     expr3:Expr
     loop: Tuple[List[VarDecl],List[Stmt]]
-    
+
 class Break(Stmt):
 class Continue(Stmt):
 class Return(Stmt):
@@ -86,3 +86,16 @@ class While(Stmt):
 class CallStmt(Stmt):
     method:Id
     param:List[Expr]
+
+
+test case:
+    - test var decl: 6
+    - test function decl: 6
+    - test assignment: 6
+    - test expression: 20
+    - if: 5
+    - for: 5
+    - While: 5
+    - Dowhile: 5
+    - CallStmt: 5
+
