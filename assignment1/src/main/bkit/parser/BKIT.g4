@@ -134,7 +134,7 @@ UNCLOSE_STRING: '"' (STR_CHAR | ESC )*;
 UNTERMINATED_COMMENT: '**' .*?;
 
 // expression
-relational_op: EQ | NOT_EQ | LT | GT | LTE | GTE | F_NOT_EQ | F_LT | F_GT | F_LTE | F_GTE;
+
 logical_op: AND | OR;
 adding_op: ADD | F_ADD | SUB | F_SUB;
 multiplying_op: MUL | F_MUL | DIV | F_DIV | REMAIN;
@@ -143,10 +143,10 @@ sign_op: SUB | F_SUB;
 argList: (expr tailArg)?;
 tailArg: (COMMA expr tailArg)?;
 
-expr: expr1 relational_op expr1 | expr1;
-expr1: expr1 logical_op expr2 | expr2;
-expr2: expr2 adding_op expr3 | expr3;
-expr3: expr3 multiplying_op expr4 | expr4;
+expr: expr1 EQ | NOT_EQ | LT | GT | LTE | GTE | F_NOT_EQ | F_LT | F_GT | F_LTE | F_GTE expr1 | expr1;
+expr1: expr1 (logical_op) expr2 | expr2;
+expr2: expr2 (adding_op) expr3 | expr3;
+expr3: expr3 (multiplying_op) expr4 | expr4;
 expr4: NEG expr4 | expr5;
 expr5: sign_op expr5 | expr6;
 expr6: expr6 index_op | expr7;

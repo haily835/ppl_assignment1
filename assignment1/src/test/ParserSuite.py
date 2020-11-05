@@ -117,7 +117,7 @@ class ParserSuite(unittest.TestCase):
     # --------------expression----------------------
     # test ary of operator
     def test_error_ary_1(self):
-        input = """Function: main\n\tBody:\n\t\ta = a!b;\n\tEndBody."""
+        input = """Function: main\n\tBody:\n\t\ta = a!;\n\tEndBody."""
         expect = "Error on line 3 col 7: !"
         self.assertTrue(TestParser.checkParser(input, expect, 222))
 

@@ -1,1 +1,1 @@
-Error on line 6 col 0: EndBody
+Error on line 3 col 4: While

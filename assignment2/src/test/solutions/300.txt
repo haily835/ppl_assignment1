@@ -1,1 +1,1 @@
-Program([VarDecl(Id(x))])
+Program([FuncDecl(Id(main)[],([[VarDecl(variable=Id(name='x'), varDimen=[], varInit=IntLiteral(value=5))]][]))])

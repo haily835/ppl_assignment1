@@ -115,15 +115,9 @@ fragment ESC: '\\' ['bfrnt\\] | '\'"';
 fragment STR_CHAR: ~[\n"'\\];
 STRING_LIT: '"' (STR_CHAR | ESC )* '"';
 
-array_lit: LB ( |
-             BOOL_LIT  ( COMMA  BOOL_LIT  )*
-            | INT_LIT ( COMMA  INT_LIT )*
-            | FLOAT_LIT ( COMMA FLOAT_LIT )*
-            | STRING_LIT ( COMMA STRING_LIT)*
-            | array_lit ( COMMA  array_lit )*
-            ) RB;
+array_lit: LB (literal (COMMA literal)* | ) RB;
 
-
+literal: INT_LIT | FLOAT_LIT | BOOL_LIT | STRING_LIT | array_lit;
 WS: [ \t\r\n]+ -> skip; // skip spaces, tabs, newlines
 COMMENT: '**' .*? '**' -> skip; // skip comment
 
@@ -134,25 +128,19 @@ UNCLOSE_STRING: '"' (STR_CHAR | ESC )*;
 UNTERMINATED_COMMENT: '**' .*?;
 
 // expression
-relational_op: EQ | NOT_EQ | LT | GT | LTE | GTE | F_NOT_EQ | F_LT | F_GT | F_LTE | F_GTE;
-logical_op: AND | OR;
-adding_op: ADD | F_ADD | SUB | F_SUB;
-multiplying_op: MUL | F_MUL | DIV | F_DIV | REMAIN;
-sign_op: SUB | F_SUB;
 
-argList: (expr tailArg)?;
-tailArg: (COMMA expr tailArg)?;
+argList: expr tailArg | ;
+tailArg: COMMA expr tailArg | ;
 
-expr: expr1 relational_op expr1 | expr1;
-expr1: expr1 logical_op expr2 | expr2;
-expr2: expr2 adding_op expr3 | expr3;
-expr3: expr3 multiplying_op expr4 | expr4;
+expr: expr1 (EQ | NOT_EQ | LT | GT | LTE | GTE | F_NOT_EQ | F_LT | F_GT | F_LTE | F_GTE) expr1 | expr1;
+expr1: expr1 (AND | OR) expr2 | expr2;
+expr2: expr2 (ADD | F_ADD | SUB | F_SUB) expr3 | expr3;
+expr3: expr3 (MUL | F_MUL | DIV | F_DIV | REMAIN) expr4 | expr4;
 expr4: NEG expr4 | expr5;
-expr5: sign_op expr5 | expr6;
-expr6: expr6 index_op | expr7;
-index_op: LS expr RS | LS expr RS index_op;
+expr5: (SUB | F_SUB) expr5 | expr6;
+expr6: expr6 (LS expr RS)+ | expr7;
 expr7: ID LP argList RP | term;
-term: LP expr RP | INT_LIT | FLOAT_LIT | STRING_LIT | array_lit | BOOL_LIT | ID ;
+term: (LP expr RP) | literal | ID;
 
 program: globalVar funcDeclPart mainFunc EOF;
 
@@ -162,14 +150,13 @@ funcDeclPart: (funcDecl)*;
 // Variable declaration
 varDecl: VAR COLON varList SEMI;
 varList: varInit (COMMA varInit)*;
-varInit: variable ('=' (INT_LIT | FLOAT_LIT | BOOL_LIT | STRING_LIT | array_lit))?;
-variable: ID | ID (LS INT_LIT RS)+;
-
+varInit: variable ('=' literal)?;
+variable: ID | ID dimens;
+dimens: (LS INT_LIT RS)+;
 // Function declaration 
 funcDecl: FUNCTION COLON ID (paraDecl)? body;
 
-paraDecl: PARAMETER COLON paraList;
-paraList: variable (COMMA variable)*;
+paraDecl: PARAMETER COLON variable (COMMA variable)*;
 
 body: BODY COLON stmtList ENDBODY DOT;
 mainFunc: FUNCTION COLON 'main' (paraDecl)? body;
@@ -177,7 +164,8 @@ mainFunc: FUNCTION COLON 'main' (paraDecl)? body;
 // Statements
 otherStmt: assignStmt | ifStmt | forStmt | whileStmt | dowhileStmt | breakStmt | continueStmt | callStmt | returnStmt;
 
-assignStmt: variable '=' expr SEMI;
+assignStmt: lhs  '=' expr SEMI;
+lhs: ID | expr6;
 ifStmt: IF expr THEN stmtList (ELSEIF expr THEN stmtList)* (ELSE stmtList)? ENDIF DOT;
 forStmt: FOR LP ID '=' expr COMMA expr COMMA expr RP DO stmtList ENDFOR DOT;
 whileStmt: WHILE expr DO stmtList ENDWHILE DOT;

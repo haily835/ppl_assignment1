@@ -1,4 +1,4 @@
 Function: main
 	Body:
-		a = a!b;
+		a = a!;
 	EndBody.

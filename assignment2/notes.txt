@@ -1,0 +1,88 @@
+class Stmt(AST)
+class Decl(AST)
+class Expr(AST)
+class Literal(Expr)
+class LHS(Expr)
+class Id(LHS)
+    name : str
+---------------
+class Program(AST):
+    decl : List[Decl]
+
+class VarDecl(Decl):
+    variable : Id
+    varDimen : List[int] # empty list for scalar variable
+    varInit  : Literal   # null if no initial
+
+class FuncDecl(Decl):
+    name: Id
+    param: List[VarDecl]
+    body: Tuple[List[VarDecl],List[Stmt]]
+
+class ArrayCell(LHS):
+    arr:Expr
+    idx:List[Expr]
+
+class BinaryOp(Expr):
+    op:str
+    left:Expr
+    right:Expr
+
+class UnaryOp(Expr):
+    op:str
+    body:Expr
+
+class CallExpr(Expr):
+    method:Id
+    param:List[Expr]
+
+class IntLiteral(Literal):
+    value:int
+
+class FloatLiteral(Literal):
+    value:float
+
+class StringLiteral(Literal):
+    value:str
+
+class BooleanLiteral(Literal):
+    value:bool
+
+class ArrayLiteral(Literal):
+    value:List[Literal]
+
+class Assign(Stmt):
+    lhs: LHS
+    rhs: Expr
+
+class If(Stmt):
+    """Expr is the condition, 
+        List[VarDecl] is the list of declaration in the beginning of Then branch, empty list if no declaration
+        List[Stmt] is the list of statement after the declaration in Then branch, empty list if no statement
+    """
+    ifthenStmt:List[Tuple[Expr,List[VarDecl],List[Stmt]]]
+    elseStmt:Tuple[List[VarDecl],List[Stmt]] # for Else branch, empty list if no Else
+
+class For(Stmt):
+    idx1: Id
+    expr1:Expr
+    expr2:Expr
+    expr3:Expr
+    loop: Tuple[List[VarDecl],List[Stmt]]
+    
+class Break(Stmt):
+class Continue(Stmt):
+class Return(Stmt):
+    expr:Expr # None if no expression
+
+class Dowhile(Stmt):
+    sl:Tuple[List[VarDecl],List[Stmt]]
+    exp: Expr
+
+class While(Stmt):
+    exp: Expr
+    sl:Tuple[List[VarDecl],List[Stmt]]
+
+class CallStmt(Stmt):
+    method:Id
+    param:List[Expr]

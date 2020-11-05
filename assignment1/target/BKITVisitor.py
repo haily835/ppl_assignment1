@@ -14,11 +14,6 @@ class BKITVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by BKITParser#relational_op.
-    def visitRelational_op(self, ctx:BKITParser.Relational_opContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by BKITParser#logical_op.
     def visitLogical_op(self, ctx:BKITParser.Logical_opContext):
         return self.visitChildren(ctx)

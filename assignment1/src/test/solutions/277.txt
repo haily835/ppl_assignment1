@@ -1,1 +1,1 @@
-Error on line 5 col 8: printLn
+Error on line 4 col 19: <

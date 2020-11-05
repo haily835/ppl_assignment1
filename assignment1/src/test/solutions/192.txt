@@ -1,1 +1,1 @@
-somestring,<EOF>
+Unterminated Comment
