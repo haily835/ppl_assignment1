@@ -266,9 +266,9 @@ class ASTGeneration(BKITVisitor):
     # returnStmt: RETURN (expr)? SEMI;
     def visitReturnStmt(self, ctx: BKITParser.ReturnStmtContext):
         if (ctx.expr()):
-            return None
-        else:
             return Return(ctx.expr().accept(self))
+        else:
+            return Return(None)
 
 
     

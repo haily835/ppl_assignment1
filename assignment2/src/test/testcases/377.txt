@@ -1,0 +1,5 @@
+Function: main
+Body:
+    a = 3.0 *. 4.6;
+
+EndBody.

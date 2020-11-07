@@ -1,0 +1,5 @@
+
+Function: main
+Body:
+    a[3*b[2][3][4]] = 5;
+EndBody.

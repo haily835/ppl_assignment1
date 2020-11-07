@@ -1,0 +1,22 @@
+
+Function: main
+Body:
+    Var: arrA[2][3] = {{2,3,5},{6,7,8}};
+    While i < 2 Do
+        Var: isEqual = True;
+        For (j = 0, j < 3, 1) Do
+            If((arrA[i][j]) != (arrB[i][j])) Then
+                Var: isEqual = True;
+                isEqual = False;
+                Do
+                    j = j - 1;
+                    While j > 0
+                EndDo.
+                Break;
+                foo();
+            EndIf.
+        EndFor.
+        i = i + 1;
+    EndWhile.
+    Return i + 3;
+EndBody.

@@ -1,0 +1,17 @@
+
+Function: main
+Body:
+    Var: arrA[2][3] = {{2,3,5},{6,7,8}};
+    Var: arrB[2][3] = {{2,3,5},{6,7,8}};
+    Var: isEqual = True;
+    Var: i = 0, j, sum;
+    While i < 2 Do
+        For (j = 0, j < 3, 1) Do
+            If((arrA[i][j]) != (arrB[i][j])) Then
+                isEqual = False;
+                Break;
+            EndIf.
+        EndFor.
+        i = i + 1;
+    EndWhile.
+EndBody.

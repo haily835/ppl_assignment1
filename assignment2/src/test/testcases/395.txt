@@ -1,0 +1,6 @@
+Function: main
+Body:
+    a[3] = {True, False, True};
+    d[3] = {5.6,5E-10,6.03};
+
+EndBody.
