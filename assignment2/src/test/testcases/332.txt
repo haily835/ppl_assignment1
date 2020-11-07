@@ -1,0 +1,5 @@
+
+Function: main
+Body:
+v = foo(124, a[3][6], a && b);
+EndBody.

@@ -1,6 +1,6 @@
 
 Function: main
 Body:
-Var b,c = 10;
+Var: b,c = 10;
 a = b + c[0] && 3;
 EndBody.

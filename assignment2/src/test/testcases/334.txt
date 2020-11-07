@@ -1,0 +1,5 @@
+
+Function: main
+Body:
+v = a != ((b != c) != d);
+EndBody.

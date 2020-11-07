@@ -1,0 +1,8 @@
+
+Function: main
+Body:
+Var: x = 0;
+If x < 20 Then
+        x = x + 1;
+EndIf.
+EndBody.

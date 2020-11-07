@@ -1,0 +1,20 @@
+
+Function: main
+Body:
+Var: x = 0;
+If x < 20 Then
+        x = x + 1;
+ElseIf x > 20 Then
+        If x > 50 Then Continue; EndIf.
+        Break;
+ElseIf x > 20 Then
+        If x > 50 Then Continue; EndIf.
+        Break;
+ElseIf x > 20 Then
+        Var: a[1] = {1};
+        Break;
+        If x > 50 Then Continue; EndIf.
+Else
+        Continue;
+EndIf.
+EndBody.

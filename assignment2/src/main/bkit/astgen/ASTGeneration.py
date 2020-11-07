@@ -231,11 +231,14 @@ class ASTGeneration(BKITVisitor):
     def visitIfStmt(self, ctx: BKITParser.IfStmtContext):
         stmtList = [x.accept(self) for x in ctx.stmtList()]
         exprList = [x.accept(self) for x in ctx.expr()]
-        elsePart = stmtList[-1]
+        if ctx.ELSE():
+            elsePart = stmtList[-1]
+            ifthenPart = list(map(lambda expr, stmt: (expr, stmt[0], stmt[1]),exprList, stmtList))
+            return If(ifthenPart, elsePart) 
+        else:
+            ifthenPart = list(map(lambda expr, stmt: (expr, stmt[0], stmt[1]),exprList, stmtList))
+            return If(ifthenPart, []) 
         
-        ifthenPart = list(map(lambda expr, stmt: (expr, stmt[0], stmt[1]),exprList, stmtList[1:]))
-        return If(ifthenPart, elsePart) 
-
     # forStmt: FOR LP ID '=' expr COMMA expr COMMA expr RP DO stmtList ENDFOR DOT;
     def visitForStmt(self, ctx: BKITParser.ForStmtContext):
         return For(Id(ctx.ID().getText()), ctx.expr(0).accept(self), ctx.expr(1).accept(self), ctx.expr(2).accept(self), ctx.stmtList().accept(self))

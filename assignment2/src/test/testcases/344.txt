@@ -1,0 +1,7 @@
+
+Function: main
+Body:
+    While (x < 10) && (x != 0) && foo(x,y) Do
+        sum = sum + x;
+    EndWhile.
+EndBody.

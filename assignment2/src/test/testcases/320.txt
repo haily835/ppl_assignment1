@@ -1,0 +1,6 @@
+
+Function: main
+Body:
+Var: b,c = 10;
+a = (!foo(-10 + (2 - 2)) && 3)[5+5];
+EndBody.

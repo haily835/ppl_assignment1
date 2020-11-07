@@ -1,0 +1,5 @@
+
+Function: main
+Body:
+a = !!!!!b[foo(x)][2][3][4];
+EndBody.

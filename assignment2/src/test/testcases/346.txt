@@ -1,0 +1,19 @@
+
+Function: main
+Body:
+    While (x < 10) && (x != 0) && foo(x,y) Do
+        Var: sum = 0, a[3];
+        sum = sum + x;
+        While ( x % 2 == 0 ) Do
+                Var: k = 0;
+                sum = sum - x;
+                Break;
+        EndWhile. 
+        While ( k % 2 == 0 ) Do
+                Var: k = 0;
+                sum = sum - x;
+                Break;
+        EndWhile. 
+        Continue;
+    EndWhile.
+EndBody.
