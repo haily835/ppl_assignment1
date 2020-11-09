@@ -12,7 +12,7 @@ Function: main
 Body:
 Var:x = 5;
 EndBody."""
-        expect = """Program([FuncDecl(Id(main)[],([VarDecl(Id(x),IntLiteral(5))][]))])"""
+        expect = str(Program([FuncDecl(Id("main"),[],([VarDecl(Id("x"),[],IntLiteral(5))],[]))]))
 
         self.assertTrue(TestAST.checkASTGen(input,expect,300))
 
