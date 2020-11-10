@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(r'main'),[],([VarDecl(Id(r'i'),[],,None)],[For(Id(r'i'),IntLiteral(1),BinaryOp(r'<',Id(r'i'),IntLiteral(10)),IntLiteral(2),([],[CallStmt(Id(r'printLn'),[Id(r'i')])]))]))])
+Program([FuncDecl(Id(main)[],([VarDecl(Id(i))][For(Id(i),IntLiteral(1),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[CallStmt(Id(printLn),[Id(i)])])]))])

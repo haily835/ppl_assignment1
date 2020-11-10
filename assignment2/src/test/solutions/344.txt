@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(r'main'),[],([],[While(BinaryOp(r'&&',BinaryOp(r'&&',BinaryOp(r'<',Id(r'x'),IntLiteral(10)),BinaryOp(r'!=',Id(r'x'),IntLiteral(0))),CallExpr(Id(r'foo'),[Id(r'x'),Id(r'y')])),([],[Assign(Id(r'sum'),BinaryOp(r'+',Id(r'sum'),Id(r'x')))]))]))])
+Program([FuncDecl(Id(main)[],([][While(BinaryOp(&&,BinaryOp(&&,BinaryOp(<,Id(x),IntLiteral(10)),BinaryOp(!=,Id(x),IntLiteral(0))),CallExpr(Id(foo),[Id(x),Id(y)])),[],[Assign(Id(sum),BinaryOp(+,Id(sum),Id(x)))])]))])

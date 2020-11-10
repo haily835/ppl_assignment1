@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(r'foo'),[VarDecl(Id(r'a'),[IntLiteral(5)],,None),VarDecl(Id(r'c'),[],,None)],([VarDecl(Id(r'x'),[],,None),VarDecl(Id(r'y'),[],,None),VarDecl(Id(r'z'),[],,None)],[])),FuncDecl(Id(r'main'),[],([VarDecl(Id(r'k'),[],,None),VarDecl(Id(r'm'),[],,None),VarDecl(Id(r'n'),[],,None),VarDecl(Id(r'o'),[],,None)],[]))])
+Program([FuncDecl(Id(foo)[VarDecl(Id(a),[IntLiteral(5)]),VarDecl(Id(c))],([VarDecl(Id(x)),VarDecl(Id(y)),VarDecl(Id(z))][])),FuncDecl(Id(main)[],([VarDecl(Id(k)),VarDecl(Id(m)),VarDecl(Id(n)),VarDecl(Id(o))][]))])

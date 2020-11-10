@@ -8,7 +8,7 @@ fs.copyFileSync(filepath, path.join(__dirname, '../test/', `ASTGenSuite_${new Da
 let text = fs.readFileSync(filepath);
 
 text = String(text)
-.replace(/(expect\s*=\s*)(r?"""|r?'''|r?["']|str\()([^\r\n]*)("""|'''|["']|\))(\s*[\r\n]\s*self.assertTrue\(\s*TestAST.test\(\s*input\s*,\s*expect\s*,\s*)(\d+)(\s*\)\))/g,
+.replace(/(expect\s*=\s*)(r?"""|r?'''|r?["']|str\()([^\r\n]*)("""|'''|["']|\))(\s*[\r\n]\s*self.assertTrue\(\s*TestAST.checkASTGen\(\s*input\s*,\s*expect\s*,\s*)(\d+)(\s*\)\))/g,
     (match, p1, p2, p3, p4, p5, p6, p7) => {
         let numFile = p6;
         console.log('Replacing file ' + numFile);
@@ -23,7 +23,7 @@ text = String(text)
 
         let solution = fs.readFileSync(solFilePath)
         console.log('File ' + numFile + ' OK');
-
+        console.log(p1 + 'str(' + solution + ')' + p5 + p6 + p7);
         return p1 + 'str(' + solution + ')' + p5 + p6 + p7
     })
 

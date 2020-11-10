@@ -41,8 +41,9 @@ class VarDecl(Decl):
         self.varInit = varInit
 
     def __str__(self):
-        initial = (","+str(self.varInit)) if self.varInit else ",None"
-        return "VarDecl(" + str(self.variable) + "," + printlist(self.varDimen) + ","+ initial + ")"
+        initial = ("," + str(self.varInit)) if self.varInit else ",None"
+        dimen = (","+printlist(self.varDimen)) if self.varDimen else ",[]"
+        return "VarDecl(" + str(self.variable) + dimen + initial + ")"
 
     def accept(self, v, param):
         return v.visitVarDecl(self, param)
@@ -80,25 +81,12 @@ class Assign(Stmt):
     def accept(self, v, param):
         return v.visitAssign(self, param)
 
-class AssignStmt(Stmt):
-    #lhs:Expr
-    #exp:Expr
-    def __init__(self, lhs, exp):
-        self.lhs = lhs
-        self.exp = exp
-
-    def __str__(self):
-        return "Assign(" + str(self.lhs) + "," +  str(self.exp) + ")"
-
-    def accept(self, v, param):
-        return v.visitAssign(self, param)
-
 def printListStmt(stmt):
 	return printlist(stmt[0]) + "," + printlist(stmt[1])
 
 
 def printIfThenStmt(stmt):
-	return str(stmt[0])+","+printListStmt((stmt[1],stmt[2]))
+	return "(" + str(stmt[0])+","+printListStmt((stmt[1],stmt[2])) + ")"
 
 
 
@@ -109,12 +97,14 @@ class If(Stmt):
     """
     # ifthenStmt:List[Tuple[Expr,List[VarDecl],List[Stmt]]]
     # elseStmt:Tuple[List[VarDecl],List[Stmt]] # for Else branch, empty list if no Else
-
+    # def printlist(lst,f=str,start="[",sepa=",",ending="]"):
     def __init__(self, ifthenStmt, elseStmt):
         self.ifthenStmt = ifthenStmt
         self.elseStmt = elseStmt
     def __str__(self):
-        return "If((" + str(self.ifthenStmt[0]) + printlist(self.ifthenStmt[1]) + "," + printlist(self.ifthenStmt[2]) + "),(" + printlist(self.elseStmt[0]) + printlist(self.elseStmt[1]) + "))"
+        ifstmt = printlist(self.ifthenStmt,printIfThenStmt,"[",",","]")
+        elsestmt = ("("+printListStmt(self.elseStmt)+")" ) if self.elseStmt else "[]"
+        return "If(" + ifstmt + "," + elsestmt + ")"
 
     def accept(self, v, param):
         return v.visitIf(self, param)
@@ -217,9 +207,6 @@ class LHS(Expr):
     __metaclass__ = ABCMeta
     pass
 
-class Expr(AST):
-    __metaclass__ = ABCMeta
-    pass
 
 class BinaryOp(Expr):
     #op:string: AND THEN => andthen; OR ELSE => orelse; other => keep it
@@ -231,7 +218,12 @@ class BinaryOp(Expr):
         self.right = right
 
     def __str__(self):
-        return "BinaryOp(r'" + self.op + "'," + str(self.left) + "," + str(self.right) + ")"
+        oper = ""
+        if (self.op == "\\"):
+            oper = "\\\\"
+        else:
+            oper = self.op
+        return "BinaryOp(\"" + oper + "\"," + str(self.left) + "," + str(self.right) + ")"
 
     def accept(self, v, param):
         return v.visitBinaryOp(self, param)
@@ -244,7 +236,7 @@ class UnaryOp(Expr):
         self.body = body
 
     def __str__(self):
-        return "UnaryOp(r'" + self.op + "'," + str(self.body) + ")"
+        return "UnaryOp(\"" + self.op + "\"," + str(self.body) + ")"
 
     def accept(self, v, param):
         return v.visitUnaryOp(self, param)
@@ -257,7 +249,7 @@ class CallExpr(Expr):
         self.param = param
 
     def __str__(self):
-        return "CallExpr(" + str(self.method) + ",[" +  ','.join(str(i) for i in self.param) + "])"
+        return "CallExpr(" + str(self.method) + "," +  printlist(self.param) + ")"
 
     def accept(self, v, param):
         return v.visitCallExpr(self, param)
@@ -268,7 +260,7 @@ class Id(LHS):
         self.name = name
 
     def __str__(self):
-        return "Id(r'" + self.name + "')"
+        return "Id(\"" + self.name + "\")"
 
     def accept(self, v, param):
         return v.visitId(self, param)
@@ -319,7 +311,7 @@ class StringLiteral(Literal):
         self.value = value
 
     def __str__(self):
-        return "StringLiteral(r'" + self.value + "')"
+        return "StringLiteral(\"" + self.value + "\")"
 
     def accept(self, v, param):
         return v.visitStringLiteral(self, param)
@@ -330,7 +322,7 @@ class BooleanLiteral(Literal):
         self.value = value
 
     def __str__(self):
-        return "BooleanLiteral(" + str(self.value).lower() + ")"
+        return "BooleanLiteral(" + str(self.value) + ")"
 
     def accept(self, v, param):
         return v.visitBooleanLiteral(self, param)
@@ -340,7 +332,7 @@ class ArrayLiteral(Literal):
     def __init__(self,value):
         self.value = value
     def __str__(self):
-        return printlist(self.value,start="ArrayLiteral(",ending=")")
+        return printlist(self.value,start="ArrayLiteral([",ending="])")
 
     def accept(self, v, param):
         return v.visitArrayLiteral(self, param)
