@@ -8,6 +8,7 @@ from antlr4 import *
 ANTLR_JAR = os.environ.get('ANTLR_JAR')
 TARGET = '../target/main/bkit/parser' if os.name == 'posix' else os.path.normpath('../target/')
 locpath = ['./main/bkit/parser/','./main/bkit/astgen/','./main/bkit/utils/']
+print(ANTLR_JAR)
 for p in locpath:
     if not p in sys.path:
         sys.path.append(p)
