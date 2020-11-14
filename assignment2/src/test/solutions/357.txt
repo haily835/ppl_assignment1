@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(main)[],([VarDecl(Id(i))][CallStmt(Id(foo),[BooleanLiteral(true),CallExpr(Id(incr),[IntLiteral(5)]),CallExpr(Id(incr),[IntLiteral(6)])])]))])
+Program([FuncDecl(Id("main"),[],([VarDecl(Id("i"),[],None)],[CallStmt(Id("foo"),[BooleanLiteral(True),CallExpr(Id("incr"),[IntLiteral(5)]),CallExpr(Id("incr"),[IntLiteral(6)])])]))])

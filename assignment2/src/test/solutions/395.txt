@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(main)[],([][Assign(ArrayCell(Id(a),[IntLiteral(3)]),ArrayLiteral(BooleanLiteral(true),BooleanLiteral(false),BooleanLiteral(true))),Assign(ArrayCell(Id(d),[IntLiteral(3)]),ArrayLiteral(FloatLiteral(5.6),FloatLiteral(5e-10),FloatLiteral(6.03)))]))])
+Program([FuncDecl(Id("main"),[],([],[Assign(ArrayCell(Id("a"),[IntLiteral(3)]),ArrayLiteral([BooleanLiteral(True),BooleanLiteral(False),BooleanLiteral(True)])),Assign(ArrayCell(Id("d"),[IntLiteral(3)]),ArrayLiteral([FloatLiteral(5.6),FloatLiteral(5e-10),FloatLiteral(6.03)]))]))])

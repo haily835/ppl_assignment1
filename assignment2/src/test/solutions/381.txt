@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(main)[],([][Assign(Id(a),UnaryOp(!,CallExpr(Id(foo),[Id(x)])))]))])
+Program([FuncDecl(Id("main"),[],([],[Assign(Id("a"),UnaryOp("!",CallExpr(Id("foo"),[Id("x")])))]))])

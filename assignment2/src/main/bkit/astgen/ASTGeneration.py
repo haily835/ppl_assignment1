@@ -1,6 +1,6 @@
 from BKITVisitor import BKITVisitor
 from BKITParser import BKITParser
-from AST import *
+from AntiAST import *
 from functools import reduce
 
 class ASTGeneration(BKITVisitor):

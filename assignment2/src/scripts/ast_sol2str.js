@@ -24,7 +24,7 @@ text = String(text)
         let solution = fs.readFileSync(solFilePath)
         console.log('File ' + numFile + ' OK');
         console.log(p1 + 'str(' + solution + ')' + p5 + p6 + p7);
-        return p1 + 'str(' + solution + ')' + p5 + p6 + p7
+        return p1 + solution + p5 + p6 + p7
     })
 
 
