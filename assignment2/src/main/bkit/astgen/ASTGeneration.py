@@ -50,7 +50,7 @@ class ASTGeneration(BKITVisitor):
 
     # dimens: (LS INT_LIT RS)+;
     def visitDimens(self, ctx:BKITParser.DimensContext):
-        return [IntLiteral(int(x.getText())) for x in ctx.INT_LIT()]
+        return [int(x.getText()) for x in ctx.INT_LIT()]
     
     # literal: INT_LIT | FLOAT_LIT | BOOL_LIT | STRING_LIT | array_lit;
     def visitLiteral(self, ctx: BKITParser.LiteralContext):
