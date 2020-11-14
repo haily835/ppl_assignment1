@@ -142,7 +142,7 @@ expr6: expr6 (LS expr RS)+ | expr7;
 expr7: ID LP argList RP | term;
 term: (LP expr RP) | literal | ID;
 
-program: globalVar funcDeclPart mainFunc EOF;
+program: globalVar funcDeclPart EOF;
 
 globalVar: (varDecl)*;
 funcDeclPart: (funcDecl)*;
@@ -159,7 +159,6 @@ funcDecl: FUNCTION COLON ID (paraDecl)? body;
 paraDecl: PARAMETER COLON variable (COMMA variable)*;
 
 body: BODY COLON stmtList ENDBODY DOT;
-mainFunc: FUNCTION COLON 'main' (paraDecl)? body;
 
 // Statements
 otherStmt: assignStmt | ifStmt | forStmt | whileStmt | dowhileStmt | breakStmt | continueStmt | callStmt | returnStmt;
