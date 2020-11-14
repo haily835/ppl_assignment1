@@ -1,6 +1,4 @@
-
 Function: main
 Body:
-Var: b,c = 10;
-a = b + c[0] && 3;
+    a = 3 \ 4;
 EndBody.

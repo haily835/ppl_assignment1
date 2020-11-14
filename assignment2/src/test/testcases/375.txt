@@ -1,5 +1,9 @@
+
 Function: main
 Body:
-    a = 3.0 -. 4.6;
-
+    Var: i;
+    For (i = 1, (i < 10) && (i % 2 == 0), 2*3) Do
+        printLn(i);
+    EndFor.
+    
 EndBody.

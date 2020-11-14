@@ -1,5 +1,6 @@
 
 Function: main
 Body:
-While x < 20 Do x = x + 1; EndWhile.
+Var: b,c = 10;
+a = !(-10 + (2 - 2)) && 3;
 EndBody.

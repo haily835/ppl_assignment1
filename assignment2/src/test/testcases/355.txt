@@ -1,7 +1,5 @@
 
 Function: main
 Body:
-    Var: i;
-    foo(5,"string", True);
-    
+v = foo(124, a[3][6], a && b);
 EndBody.

@@ -1,6 +1,42 @@
 
+Function: binarySearch
+Parameter: arr[10], l, r, x 
+Body:
+    If (r >= l) Then
+        Var: mid;
+        mid = l + (r - l) \ 2;
+        ** If the element is present at the middle 
+         itself **
+        If ((arr[mid]) == x) Then
+            Return mid;
+        EndIf.
+  
+        ** If element is smaller than mid, then 
+        it can only be present in left subarray **
+        If ((arr[mid]) > x) Then
+            Return binarySearch(arr, l, mid - 1, x); 
+        EndIf.
+        ** Else the element can only be present 
+        in right subarray **
+        Return binarySearch(arr, mid + 1, r, x); 
+    EndIf.
+  
+    ** We reach here when element is not 
+    present in array **
+    Return -1; 
+EndBody.
+  
 Function: main
 Body:
-    (a + foo())[1] = a[3][4];
-    4[1] = 5;
+    Var: arr[5] = { 2, 3, 4, 10, 40 }; 
+    Var: x = 10; 
+    Var: n , result;
+    n = sizeof(arr) \ sizeof(arr[0]); 
+    result = binarySearch(arr, 0, n - 1, x);
+    If (result == -1) Then 
+        printLn("Element is not present in array");
+    Else
+        printLn("Element is present at index: ");
+        printLn(result); 
+    EndIf.
 EndBody.

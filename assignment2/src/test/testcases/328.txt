@@ -1,5 +1,4 @@
-
 Function: main
 Body:
-a = foo(b, foo(c, foo(d, f(k))));
+    a = 4 =/= 3;
 EndBody.

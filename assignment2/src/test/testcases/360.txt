@@ -1,5 +1,15 @@
 
 Function: main
 Body:
-    Return;
+Var: x = 0;
+If x < 20 Then
+        Var: a = 10;
+        x = x + 1;
+ElseIf x > 20 Then
+        Var: x = 5;
+        Break;
+Else 
+        Var: x = 6;
+        Continue;
+EndIf.
 EndBody.

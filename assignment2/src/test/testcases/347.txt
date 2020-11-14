@@ -1,10 +1,5 @@
 
 Function: main
 Body:
-    Var: i;
-    Do
-        i = i + 1;
-    While i < 20
-    EndDo.
-    
+a = b[foo(x)][2][3][4];
 EndBody.

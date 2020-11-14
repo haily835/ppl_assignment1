@@ -1,17 +1,6 @@
 
 Function: main
 Body:
-Var: x = 0;
-If x < 20 Then
-        Var: a = 0;
-        x = x + 1;
-ElseIf x > 20 Then Break;
-ElseIf x > 20 Then Break;
-ElseIf x > 20 Then 
-        Break;
-        If x > 50 Then Continue; EndIf.
-Else
-        Var: b = 0;
-        Continue;
-EndIf.
+Var: b,c = 10;
+a = b + c[0] && 3;
 EndBody.

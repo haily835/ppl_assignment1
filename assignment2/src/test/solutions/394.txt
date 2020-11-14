@@ -1,1 +1,1 @@
-Program([FuncDecl(Id("main"),[],([],[Assign(Id("a"),BinaryOp("<=.",IntLiteral(4),IntLiteral(3)))]))])
+Program([FuncDecl(Id(main)[],([][Assign(ArrayCell(Id(a),[IntLiteral(3)]),ArrayLiteral(BooleanLiteral(true),BooleanLiteral(false),BooleanLiteral(true))),Assign(ArrayCell(Id(d),[IntLiteral(3)]),ArrayLiteral(FloatLiteral(5.6),FloatLiteral(5e-10),FloatLiteral(6.03)))]))])

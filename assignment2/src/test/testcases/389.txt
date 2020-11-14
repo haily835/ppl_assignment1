@@ -1,5 +1,7 @@
+Function: foo
+Parameter: a[5], c
+Body:
+EndBody.
 Function: main
 Body:
-    a = 4 >= 3;
-
 EndBody.

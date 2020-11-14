@@ -1,5 +1,4 @@
-
 Function: main
 Body:
-a = ---a;
+    a = foo(x) != True;
 EndBody.

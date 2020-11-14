@@ -1,1 +1,1 @@
-Program([FuncDecl(Id("main"),[],([VarDecl(Id("i"),[],None)],[For(Id("i"),IntLiteral(1),BinaryOp("<",Id("i"),IntLiteral(10)),IntLiteral(2),([VarDecl(Id("isEqual"),[],BooleanLiteral(True))],[For(Id("j"),IntLiteral(1),BinaryOp("<",Id("j"),IntLiteral(10)),IntLiteral(3),([],[CallStmt(Id("printLn"),[BinaryOp("*",Id("i"),Id("j"))])]))]))]))])
+Program([FuncDecl(Id(main)[],([][Assign(Id(a),CallExpr(Id(foo),[Id(b),CallExpr(Id(foo),[Id(c),CallExpr(Id(foo),[Id(d),CallExpr(Id(f),[Id(k)])])])]))]))])

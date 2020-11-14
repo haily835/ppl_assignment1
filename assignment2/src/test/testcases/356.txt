@@ -1,7 +1,5 @@
 
 Function: main
 Body:
-    Var: i;
-    foo(5 + 4 * 3 \ 5,"string", True);
-    
+v = !!!!!-------.-.-.-.a%b;
 EndBody.

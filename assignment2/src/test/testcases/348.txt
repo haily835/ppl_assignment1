@@ -1,14 +1,5 @@
 
 Function: main
 Body:
-    Var: i = 0, j = 10;
-    Do
-        i = i + 1;
-        Do
-            j = j - 1;
-        While j > 0
-        EndDo.
-    While i < 20
-    EndDo.
-    
+a = !!!!!b[foo(x)][2][3][4];
 EndBody.

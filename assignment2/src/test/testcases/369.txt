@@ -1,23 +1,19 @@
 
-Function: foo
-Parameter: a[5], c
-Body:
-    Var: x,y,z;
-    While i < 2 Do
-        For (j = 0, j < 3, 1) Do
-            printLn(arr[i][j]);
-            sum = sum + arr[i][j];
-        EndFor.
-        i = i + 1;
-    EndWhile.
-EndBody.
-
 Function: main
-Parameter: d[5], e
 Body:
-    Var: k,m,n,o;
-    For (j = 1, j < 10, 3) Do
-            Var: j;
-            printLn(i*j);
-    EndFor.
+    While (x < 10) && (x != 0) && foo(x,y) Do
+        Var: sum = 0, a[3];
+        sum = sum + x;
+        While ( x % 2 == 0 ) Do
+                Var: k = 0;
+                sum = sum - x;
+                Break;
+        EndWhile. 
+        While ( k % 2 == 0 ) Do
+                Var: k = 0;
+                sum = sum - x;
+                Break;
+        EndWhile. 
+        Continue;
+    EndWhile.
 EndBody.

@@ -1,5 +1,9 @@
+Function: foo
+Parameter: a[5], c
+Body:
+    Var: x,y,z;
+EndBody.
 Function: main
 Body:
-    a = 4 <. 3;
-
+    Var: k,m,n,o;
 EndBody.

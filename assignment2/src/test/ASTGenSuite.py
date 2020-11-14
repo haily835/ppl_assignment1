@@ -1121,7 +1121,7 @@ EndBody."""
         expect = Program([FuncDecl(Id("main"),[],([],[Assign(ArrayCell(Id("a"),[BinaryOp("*",IntLiteral(3),ArrayCell(Id("b"),[IntLiteral(2),IntLiteral(3),IntLiteral(4)]))]),IntLiteral(5))]))])
         self.assertTrue(TestAST.checkASTGen(input, expect, 396))
 
-    def test_99_array(self):
+    def test_98_array(self):
         input = """
 Function: main
 Body:
@@ -1129,9 +1129,9 @@ Body:
     4[1] = 5;
 EndBody."""
         expect = Program([FuncDecl(Id("main"),[],([],[Assign(ArrayCell(BinaryOp("+",Id("a"),CallExpr(Id("foo"),[])),[IntLiteral(1)]),ArrayCell(Id("a"),[IntLiteral(3),IntLiteral(4)])),Assign(ArrayCell(IntLiteral(4),[IntLiteral(1)]),IntLiteral(5))]))])
-        self.assertTrue(TestAST.checkASTGen(input, expect, 398))
+        self.assertTrue(TestAST.checkASTGen(input, expect, 397))
 
-    def test_100_complex_program(self):
+    def test_99_complex_program(self):
         input = """
 Function: binarySearch
 Parameter: arr[10], l, r, x 
@@ -1175,10 +1175,10 @@ Body:
     EndIf.
 EndBody."""
         expect = Program([FuncDecl(Id("binarySearch"),[VarDecl(Id("arr"),[10],None),VarDecl(Id("l"),[],None),VarDecl(Id("r"),[],None),VarDecl(Id("x"),[],None)],([],[If([(BinaryOp(">=",Id("r"),Id("l")),[VarDecl(Id("mid"),[],None)],[Assign(Id("mid"),BinaryOp("+",Id("l"),BinaryOp("\\",BinaryOp("-",Id("r"),Id("l")),IntLiteral(2)))),If([(BinaryOp("==",ArrayCell(Id("arr"),[Id("mid")]),Id("x")),[],[Return(Id("mid"))])],[]),If([(BinaryOp(">",ArrayCell(Id("arr"),[Id("mid")]),Id("x")),[],[Return(CallExpr(Id("binarySearch"),[Id("arr"),Id("l"),BinaryOp("-",Id("mid"),IntLiteral(1)),Id("x")]))])],[]),Return(CallExpr(Id("binarySearch"),[Id("arr"),BinaryOp("+",Id("mid"),IntLiteral(1)),Id("r"),Id("x")]))])],[]),Return(UnaryOp("-",IntLiteral(1)))])),FuncDecl(Id("main"),[],([VarDecl(Id("arr"),[5],ArrayLiteral([IntLiteral(2),IntLiteral(3),IntLiteral(4),IntLiteral(10),IntLiteral(40)])),VarDecl(Id("x"),[],IntLiteral(10)),VarDecl(Id("n"),[],None),VarDecl(Id("result"),[],None)],[Assign(Id("n"),BinaryOp("\\",CallExpr(Id("sizeof"),[Id("arr")]),CallExpr(Id("sizeof"),[ArrayCell(Id("arr"),[IntLiteral(0)])]))),Assign(Id("result"),CallExpr(Id("binarySearch"),[Id("arr"),IntLiteral(0),BinaryOp("-",Id("n"),IntLiteral(1)),Id("x")])),If([(BinaryOp("==",Id("result"),UnaryOp("-",IntLiteral(1))),[],[CallStmt(Id("printLn"),[StringLiteral("Element is not present in array")])])],([],[CallStmt(Id("printLn"),[StringLiteral("Element is present at index: ")]),CallStmt(Id("printLn"),[Id("result")])]))]))])
-        self.assertTrue(TestAST.checkASTGen(input, expect, 399))
+        self.assertTrue(TestAST.checkASTGen(input, expect, 398))
 
 
-    def test_101_complex_program(self):
+    def test_100_complex_program(self):
         input = """
 ** Gobal variable declaration **
 Var: a,b,c;
@@ -1200,9 +1200,9 @@ EndBody.
 """
         expect = Program([VarDecl(Id("a"),[],None),VarDecl(Id("b"),[],None),VarDecl(Id("c"),[],None),FuncDecl(Id("printArray"),[VarDecl(Id("a"),[],None),VarDecl(Id("size"),[],None)],([VarDecl(Id("i"),[],None)],[For(Id("i"),IntLiteral(0),BinaryOp("<",Id("i"),Id("size")),IntLiteral(1),([],[CallStmt(Id("printLn"),[ArrayCell(Id("a"),[Id("i")])])]))])),FuncDecl(Id("main"),[],([VarDecl(Id("a"),[5],ArrayLiteral([IntLiteral(5),IntLiteral(6),IntLiteral(7),IntLiteral(8),IntLiteral(9)]))],[CallStmt(Id("printArray"),[Id("a"),IntLiteral(5)])]))])
 
-        self.assertTrue(TestAST.checkASTGen(input, expect, 400))
+        self.assertTrue(TestAST.checkASTGen(input, expect, 399))
 
-    def test_102_complex_program(self):
+    def test_101_complex_program(self):
         input = """Var: x;
 Function: fact
 Parameter: n
@@ -1220,4 +1220,4 @@ Body:
 EndBody."""
         expect = Program([VarDecl(Id("x"),[],None),FuncDecl(Id("fact"),[VarDecl(Id("n"),[],None)],([],[If([(BinaryOp("==",Id("n"),IntLiteral(0)),[],[Return(IntLiteral(1))])],([],[Return(BinaryOp("*",Id("n"),CallExpr(Id("fact"),[BinaryOp("-",Id("n"),IntLiteral(1))])))]))])),FuncDecl(Id("main"),[],([],[Assign(Id("x"),IntLiteral(10)),CallStmt(Id("fact"),[Id("x")])]))])
 
-        self.assertTrue(TestAST.checkASTGen(input, expect, 401))
+        self.assertTrue(TestAST.checkASTGen(input, expect, 400))

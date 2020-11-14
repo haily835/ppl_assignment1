@@ -1,9 +1,5 @@
 
 Function: main
 Body:
-    Var: i;
-    For (i = 1, (i < 10) && (i % 2 == 0), 2*3) Do
-        printLn(i);
-    EndFor.
-    
+a = foo(b, foo(c, foo(d, f(k))))[6\7][a[2]];
 EndBody.

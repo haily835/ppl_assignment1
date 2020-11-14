@@ -1,22 +1,5 @@
 
 Function: main
 Body:
-    Var: i;
-    For (i = 1, i < 10, 2) Do
-        For (j = 1, j < 10, 3) Do
-            Var: j;
-            printLn(i*j);
-        EndFor.
-        For (j = 1, j < 10, 3) Do
-            Var: isFalse = True;
-            printLn(i*j);
-        EndFor.
-        For (j = 1, j < 10, 3) Do
-            printLn(i*j);
-            For (j = 1, j < 10, 3) Do
-            printLn(i*j);
-            EndFor.
-        EndFor.
-    EndFor.
-    
+a[3 + foo(2)] = a[b[2][3]] + 4;
 EndBody.

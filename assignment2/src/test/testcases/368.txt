@@ -1,10 +1,12 @@
-Function: foo
-Parameter: a[5], c
-Body:
-    Var: x,y,z;
-EndBody.
 
 Function: main
 Body:
-    Var: k,m,n,o;
+    While (x < 10) && (x != 0) && foo(x,y) Do
+        Var: sum = 0, a[3];
+        sum = sum + x;
+        While ( x % 2 == 0 ) Do
+                Var: k = 0;
+                sum = sum - x;
+        EndWhile. 
+    EndWhile.
 EndBody.

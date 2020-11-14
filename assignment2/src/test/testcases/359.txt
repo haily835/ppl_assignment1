@@ -1,5 +1,10 @@
 
 Function: main
 Body:
-    Return foo(True,incr(5), incr(6));  
+Var: x = 0;
+If x < 20 Then
+        x = x + 1;
+Else 
+        Break;
+EndIf.
 EndBody.

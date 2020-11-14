@@ -8,14 +8,6 @@ Body:
             j = j - 1;
         While j > 0
         EndDo.
-        Do
-            j = j - 1;
-            Do
-            j = j - 1;
-            While j > 0
-            EndDo.
-        While j > 0
-        EndDo.
     While i < 20
     EndDo.
     

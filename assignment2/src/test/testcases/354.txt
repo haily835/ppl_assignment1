@@ -1,7 +1,5 @@
 
 Function: main
 Body:
-    Var: i;
-    foo(5);
-    
+v = foo() + !(foo() * a[4][5][6]);
 EndBody.

@@ -1,10 +1,6 @@
 
 Function: main
 Body:
-Var: x = 0;
-If x < 20 Then
-        x = x + 1;
-Else 
-        Break;
-EndIf.
+Var: b,c = 10;
+a = 10 + 2 - 2 && 3 || 4 && 6;
 EndBody.

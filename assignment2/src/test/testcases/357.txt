@@ -1,7 +1,5 @@
 
 Function: main
 Body:
-    Var: i;
-    foo(True,incr(5), incr(6));
-    
+v = a != ((b != c) != d);
 EndBody.

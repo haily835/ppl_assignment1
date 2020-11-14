@@ -1,5 +1,6 @@
 
 Function: main
 Body:
-    a[3*b[2][3][4]] = 5;
+    (a + foo())[1] = a[3][4];
+    4[1] = 5;
 EndBody.

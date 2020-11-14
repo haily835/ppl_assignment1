@@ -1,5 +1,4 @@
-
 Function: main
 Body:
-a = b[foo(x)][2][3][4];
+    a = 4 < 3;
 EndBody.

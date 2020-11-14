@@ -1,5 +1,7 @@
+
 Function: main
 Body:
-    a = 3 % 4;
-
+    Var: i;
+    foo(True,incr(5), incr(6));
+    
 EndBody.

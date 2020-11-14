@@ -1,5 +1,11 @@
+Function: foo
+Parameter: a[5], c, b[6][7]
+Body:
+EndBody.
+Function: foo1
+Parameter: a[5], c, b[6][7], d
+Body:
+EndBody.
 Function: main
 Body:
-    a = 4 =/= 3;
-
 EndBody.

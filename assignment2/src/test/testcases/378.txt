@@ -1,5 +1,7 @@
+
 Function: main
 Body:
-    a = 3 \ 4;
-
+    Var: i;
+    foo(5,"string", True);
+    
 EndBody.

@@ -1,6 +1,4 @@
-
 Function: main
 Body:
-Var: b,c = 10;
-a = 10 + (2 - 2) && 3;
+    a = 3.0 *. 4.6;
 EndBody.

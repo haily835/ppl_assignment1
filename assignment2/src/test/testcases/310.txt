@@ -1,5 +1,4 @@
-
 Function: main
 Body:
-a = 10 + 2 + 2 - 4 + 6;
+    a = 3 + 4;
 EndBody.
