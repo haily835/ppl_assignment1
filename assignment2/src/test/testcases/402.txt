@@ -1,5 +1,6 @@
 
 Function: main
-Body:
-    x[10] = 1 + 3 + 2*6 - 4;
-EndBody.
+                    Body:
+                    If (a >b) Then
+                    EndIf.
+                    EndBody.

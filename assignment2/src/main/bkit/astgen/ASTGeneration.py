@@ -237,7 +237,7 @@ class ASTGeneration(BKITVisitor):
             return If(ifthenPart, elsePart) 
         else:
             ifthenPart = list(map(lambda expr, stmt: (expr, stmt[0], stmt[1]),exprList, stmtList))
-            return If(ifthenPart, []) 
+            return If(ifthenPart, ([],[])) 
         
     # forStmt: FOR LP ID '=' expr COMMA expr COMMA expr RP DO stmtList ENDFOR DOT;
     def visitForStmt(self, ctx: BKITParser.ForStmtContext):

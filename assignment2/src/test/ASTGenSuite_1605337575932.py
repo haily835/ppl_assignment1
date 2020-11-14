@@ -1257,11 +1257,11 @@ EndBody."""
     def test_103_array(self):
         input = """
 Function: main
-                    Body:
-                    If (a >b) Then
-                    EndIf.
-                    EndBody.
-"""
+Body:
+    Body:
+    If (a >b) Then
+    EndIf.
+EndBody."""
         expect = Program([FuncDecl(Id("main"),[],([],[Assign(ArrayCell(Id("x"),[IntLiteral(10)]),BinaryOp("-",BinaryOp("+",BinaryOp("+",IntLiteral(1),IntLiteral(3)),BinaryOp("*",IntLiteral(2),IntLiteral(6))),IntLiteral(4)))]))])
         self.assertTrue(TestAST.checkASTGen(input, expect, 402))
 
