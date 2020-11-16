@@ -1,5 +1,8 @@
 
-Function: main
-Body:
-a = b[1][2] + (c[1])[3] ;
-EndBody.
+                    Function: fact
+                    Body:
+                    Do 
+                    While a < 3
+                    EndDo.
+                    EndBody.
+            

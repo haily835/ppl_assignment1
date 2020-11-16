@@ -1,4 +1,5 @@
-Function: main
-Body:
-    a = foo(x) && True;
-EndBody.
+
+                Function: main
+                    Body:
+                    EndBody.
+            

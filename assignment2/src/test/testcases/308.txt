@@ -1,6 +1,2 @@
-
-Var: m, n[10] = {True,False,True,False,True,False,True,False,True};
-Function: main
-Body:
-Var: a = "string", c = 567e-11, d;
-EndBody.
+Var : z =  2,y,x,h, ccx3;
+                

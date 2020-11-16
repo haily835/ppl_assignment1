@@ -1,4 +1,14 @@
-Function: main
-Body:
-    a = 4 >. 3;
-EndBody.
+
+                Var: x_y_k,y,z;
+                Var: l0323 = 4;
+                Function: fact
+                Parameter: n
+                Body:
+                    Var: x,y,z;
+                EndBody.
+                Function: act
+                Parameter: n
+                Body:
+                    Var: x,y,z;
+                EndBody.
+            

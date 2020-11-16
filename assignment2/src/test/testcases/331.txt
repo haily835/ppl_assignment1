@@ -1,4 +1,7 @@
-Function: main
-Body:
-    a = 4 >=. 3;
-EndBody.
+
+                Function: main
+                    Body:
+                        Var: x;
+                        x = 3 == 4;
+                    EndBody.
+            

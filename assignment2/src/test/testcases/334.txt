@@ -1,5 +1,8 @@
 
-Function: main
-Body:
-a = 10 + 2 * 2;
-EndBody.
+                    Var : n = 30;
+                    Function: fact
+                    Parameter: n
+                    Body:
+                    a = 3 || c;
+                    EndBody.
+            

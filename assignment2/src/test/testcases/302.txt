@@ -1,5 +1,1 @@
-
-Function: main
-Body:
-Var: c, d = 6, e, f;
-EndBody.
+Var:x[1][2][3],y[2],z;

@@ -1,4 +1,2 @@
-Function: main
-Body:
-    a = 3 - 4;
-EndBody.
+Var : z =  3.14;
+                

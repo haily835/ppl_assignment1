@@ -1,5 +1,10 @@
 
-Function: main
-Body:
-a = -.b[1][2] +. (c[1])[3] * foo(f(x), y);
-EndBody.
+                    Function: fact
+                    Body:
+                    Do 
+                    Return ;
+                    Continue;
+                    While a < 3
+                    EndDo.
+                    EndBody.
+            

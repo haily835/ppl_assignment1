@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(main)[],([VarDecl(Id(b)),VarDecl(Id(c),IntLiteral(10))][Assign(Id(a),BinaryOp(&&,BinaryOp(+,Id(b),ArrayCell(Id(c),[IntLiteral(0)])),IntLiteral(3)))]))])
+Program([FuncDecl(Id(fact)[],([][If(BinaryOp(>,Id(a),Id(b)),[VarDecl(Id(x),IntLiteral(3))],[Assign(Id(abcs),BinaryOp(+,BinaryOp(-,BinaryOp(*,IntLiteral(3),IntLiteral(3)),IntLiteral(3)),IntLiteral(4)))])ElseIf(BinaryOp(==,Id(a),Id(b)),[VarDecl(Id(c),FloatLiteral(31.23))],[Assign(Id(kuc),BinaryOp(-,BinaryOp(+,IntLiteral(32),IntLiteral(25)),IntLiteral(23)))])Else([],[])]))])

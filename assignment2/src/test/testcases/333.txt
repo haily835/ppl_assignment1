@@ -1,5 +1,11 @@
 
-Function: main
-Body:
-a = 10 + 2 + 2 - 4 + 6;
-EndBody.
+                Function: main
+                    Body:
+                        Var: x;
+                        k = 3 =/= 4;
+                        h = 5 <. 3;
+                        z = 3 >. 4;
+                        t = 2 <=. 10;
+                        ku = 12 >=. 11;
+                    EndBody.
+            

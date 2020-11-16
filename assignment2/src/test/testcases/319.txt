@@ -1,4 +1,1 @@
-Function: main
-Body:
-    a = !foo(x);
-EndBody.
+    

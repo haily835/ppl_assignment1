@@ -1,4 +1,7 @@
-Function: main
-Body:
-    a = 4 >= 3;
-EndBody.
+
+                Function: fact
+                Parameter: n,a[2][3]
+                Body:
+                    Var: x,y,z;
+                EndBody.
+            

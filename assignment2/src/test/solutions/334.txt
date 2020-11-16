@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(main)[],([][Assign(Id(a),BinaryOp(+,IntLiteral(10),BinaryOp(*,IntLiteral(2),IntLiteral(2))))]))])
+Program([VarDecl(Id(n),IntLiteral(30)),FuncDecl(Id(fact)[VarDecl(Id(n))],([][Assign(Id(a),BinaryOp(||,IntLiteral(3),Id(c)))]))])

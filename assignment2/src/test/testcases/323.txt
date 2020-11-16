@@ -1,4 +1,8 @@
-Function: main
-Body:
-    a = foo(x) != True;
-EndBody.
+
+                Function: main
+                    Body:
+
+                        Var: x= 3,z=32.2122,k="sasaas";
+                        Var: x= True;
+                    EndBody.
+            

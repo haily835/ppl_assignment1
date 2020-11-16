@@ -1,5 +1,3 @@
-
-Function: main
-Body:
-Var: m, n[10];
-EndBody.
+Var:x;
+                    Var:z;
+                

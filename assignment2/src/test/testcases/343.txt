@@ -1,6 +1,9 @@
 
-Function: main
-Body:
-Var: b,c = 10;
-a = (!foo(-10 + (2 - 2)) && 3)[5+5];
-EndBody.
+                    Function: fact
+                    Body:
+                    For (i = 0, i < 10, i + 2) Do
+                    Var: x[3] = {"abc","cdf","sasa"};
+                    anh = em + em;
+                    EndFor.
+                    EndBody.
+            

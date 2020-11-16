@@ -1,4 +1,2 @@
-Function: main
-Body:
-    a = 3.0 \. 4.6;
-EndBody.
+Var : k[4] = {"abc","adc","assa","mmhmmh"}, y[2]={21.23,12.21};
+                

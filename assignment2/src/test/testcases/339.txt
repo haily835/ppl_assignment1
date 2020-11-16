@@ -1,6 +1,12 @@
 
-Function: main
-Body:
-Var: b,c = 10;
-a = b + c[0] && 3;
-EndBody.
+                    Function: fact
+                    Body:
+                    If (a >b) Then
+                    Var: x = 3;
+                    abcs = 3 * 3 - 3 + 4;
+                    ElseIf (a == b) Then
+                    Var: c = 31.23;
+                    kuc = 32 + 25 - 23;
+                    EndIf.
+                    EndBody.
+            

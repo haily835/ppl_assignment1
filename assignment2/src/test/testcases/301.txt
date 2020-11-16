@@ -1,5 +1,1 @@
-
-Function: main
-Body:
-Var: b[2][3] = {{2,3,4},{4,5,6}};
-EndBody.
+Var:asasx,y32223,z2213;
