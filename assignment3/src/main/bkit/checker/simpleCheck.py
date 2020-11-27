@@ -1,0 +1,217 @@
+from functools import reduce
+class StaticCheck(Visitor):
+    def infer(self,o, name, expect):
+        for scope in o:
+            done = 0
+            for x in scope:
+                if name == x[0]:
+                    x[2] = expect
+                    done = 1 
+                    break
+            if done:
+                break
+                
+    def visitProgram(self,ctx:Program,o):
+        o = reduce(lambda acc,ele: acc + [ele.accept(self,[acc])], ctx.decl,[])
+        # print(o)
+        for x in ctx.stmts:
+            x.accept(self, [o])
+        
+    def visitVarDecl(self,ctx:VarDecl,o):
+        for x in o[0]:
+            if ctx.name == x[0]:
+                raise Redeclared(ctx)
+        return [ctx.name, '', '']
+
+    def visitFuncDecl(self,ctx:FuncDecl,o):
+        # print(o)
+        # check if the id is already used
+        for x in o[0]:
+            if ctx.name == x[0]:
+                raise Redeclared(ctx)
+        
+        # get the list of parameter
+        param_name = [x.name for x in ctx.param]
+        
+        # visit local each declaration is in the form [name, type, expect]
+        local = reduce(lambda acc,ele: acc + [ele.accept(self, [acc] + o)], ctx.param + ctx.local,[[ctx.name, [], []]])
+        
+        # the environment to check statements after local declarations
+        env = [local] + o
+        
+        # this array holds the expect in put of the this function:
+        # ie. foo(a, b, c) => ['foo', [[x, 'type of x'], [y, 'type of y']], '']
+        # func_expect = [[x, 'type of x'], [y, 'type of y']]
+        func_expect = []
+        
+        # visit the statements list, during this the parameter type may be infered.
+        for x in ctx.stmts:
+            x.accept(self,env)
+
+        for x in local:
+            # add to func_expect the parameter and type of it
+            if x[0] in param_name:
+                func_expect.append([x[0],x[1]])
+                
+        return [ctx.name, func_expect, '']
+
+    def visitAssign(self,ctx:Assign,o):
+        typeRight = ctx.rhs.accept(self,o)
+        typeLeft = ctx.lhs.accept(self,o)
+        # print(typeLeft)
+        # print(typeRight)
+        if(typeLeft == "" and typeRight):
+            self.infer(o, ctx.lhs.name, typeRight)
+            typeLeft = ctx.lhs.accept(self,o)
+        if(typeRight == "" and typeLeft):
+            self.infer(o, ctx.rhs.name, typeLeft)
+            typeRight = ctx.rhs.accept(self,o)
+        if(typeRight != "" and typeLeft != "" and typeLeft != typeRight ):
+            raise TypeMismatchInStatement(ctx)
+        if(typeRight == "" and typeLeft == "" ):
+            raise TypeCannotBeInferred(ctx)
+    
+    # name:str,args:List[Exp]
+    def visitCallStmt(self,ctx:CallStmt,o):
+        expect = []
+        found = 0 # find the function
+        
+        # try to infer the function expect inputs by the args type if expect input is not known
+        expect_back = [x.accept(self,o) for x in ctx.args]
+        for scope in o:
+            done = 0
+            for x in scope:
+                if ctx.name == x[0]:
+                    if isinstance(x[1], list):
+                        if len(x[1]) == len(expect_back):
+                            for i in range(0, len(x[1])):
+                                if x[1][i][1] == "" and expect_back[i] != "":
+                                    x[1][i][1] = expect_back[i]
+                        # print("After trying to match:")
+                        # print(x)
+                        expect = [k[1] for k in x[1]]
+                        done = 1
+                        found = 1
+                        break
+            if done:
+                break
+        if found == 0:
+            raise UndeclaredIdentifier(ctx.name)
+        if len(expect) == len(ctx.args):
+            # try to infer type
+            res = []
+            for i in range(0, len(expect)):
+                if ctx.args[i].accept(self,o) == "":
+                    for scope in o:
+                        done = False
+                        for x in scope:
+                            if ctx.args[i].name == x[0]:
+                                x[2] = expect[i]
+                                done = True
+                                break
+                        if done:
+                            break
+                res.append(ctx.args[i].accept(self,o))
+            # print(res)
+            if ( "" in res ):
+                raise TypeCannotBeInferred(ctx)
+            if (res != expect):
+                raise TypeMismatchInStatement(ctx)
+        else:
+            raise TypeMismatchInStatement(ctx)
+
+    def visitBinOp(self,ctx:BinOp,o):
+        if (ctx.op == "+" or ctx.op == "-" or ctx.op == "*" or ctx.op == "/"):
+            # if either or both operands types is unclear
+            if (ctx.e1.accept(self,o) == ""):
+                self.infer(o, ctx.e1.name, "int")
+            if (ctx.e2.accept(self,o) == ""):
+                self.infer(o, ctx.e2.name, "int")
+            if (ctx.e1.accept(self,o) == "int" and ctx.e2.accept(self,o) == "int"):
+                return "int"
+        if ctx.op == "+." or ctx.op == "-." or ctx.op == "*." or ctx.op == "/.":
+            if (ctx.e1.accept(self,o) == ""):
+                self.infer(o, ctx.e1.name, "float")
+            if (ctx.e2.accept(self,o) == ""):
+                self.infer(o, ctx.e2.name, "float")
+            if (ctx.e1.accept(self,o) == "float" and ctx.e2.accept(self,o) == "float"):
+                return "float"
+        if ctx.op == "&&" or ctx.op == "||" or ctx.op == ">b" or ctx.op == "=b":
+            if (ctx.e1.accept(self,o) == ""):
+                self.infer(o, ctx.e1.name, "bool")
+            if (ctx.e2.accept(self,o) == ""):
+                self.infer(o, ctx.e2.name, "bool")
+            if (ctx.e1.accept(self,o) == "bool" and ctx.e2.accept(self,o) == "bool"):
+                return "bool"
+        if ctx.op == ">" or ctx.op == "=":
+            if (ctx.e1.accept(self,o) == ""):
+                self.infer(o, ctx.e1.name, "int")
+            if (ctx.e2.accept(self,o) == ""):
+                self.infer(o, ctx.e2.name, "int")
+            if (ctx.e1.accept(self,o) == "int" and ctx.e2.accept(self,o) == "int"):
+                return "int"
+        if ctx.op == ">." or ctx.op == "=.":
+            if (ctx.e1.accept(self,o) == ""):
+                self.infer(o, ctx.e1.name, "float")
+            if (ctx.e2.accept(self,o) == ""):
+                self.infer(o, ctx.e2.name, "float")
+            if (ctx.e1.accept(self,o) == "float" and ctx.e2.accept(self,o) == "float"):
+                return "float"
+        raise TypeMismatchInExpression(ctx)
+
+    def visitUnOp(self,ctx:UnOp,o):
+        operandType = ctx.e.accept(self,o)
+        
+        if ctx.op == "-":
+            if (operandType == ""):
+                self.infer(o, ctx.e.name, "int")
+            if (ctx.e.accept(self,o) == "int"):
+                return "int"
+                
+        if ctx.op == "-.":
+            if (operandType == ""):
+                self.infer(o, ctx.e.name, "float")
+            if (ctx.e.accept(self,o) == "float"):
+                return "float"
+                
+        if ctx.op == "i2f":
+            if (operandType == ""):
+                self.infer(o, ctx.e.name, "int")
+            if (ctx.e.accept(self,o) == "int"):
+                return "float"
+                
+        if ctx.op == "floor":
+            if (operandType == ""):
+                self.infer(o, ctx.e.name, "float")
+            if (ctx.e.accept(self,o) == "float"):
+                return "int"
+                
+        if ctx.op == "!":
+            if (operandType == ""):
+                self.infer(o, ctx.e.name, "bool")
+            if (ctx.e.accept(self,o) == "bool"):
+                return "bool"
+        
+        raise TypeMismatchInExpression(ctx)
+
+    def visitIntLit(self,ctx:IntLit,o):
+        return "int"
+
+    def visitFloatLit(self,ctx,o):
+        return "float"
+
+    def visitBoolLit(self,ctx,o):
+        return "bool"
+
+    def visitId(self,ctx,o):
+        unfound = 1
+        # print(o)
+        for scope in o:
+            for x in scope:
+                if ctx.name == x[0]:
+                    unfound = 0
+                    if (x[1] == "" and x[2]):
+                        x[1] = x[2]
+                    return x[1]
+        if unfound:
+            raise UndeclaredIdentifier(ctx.name)
