@@ -69,71 +69,71 @@ Symbol("printStrLn",MType([StringType()],VoidType()))]
         # get the basic types in the parameters, if some parameters dont initialize just let them Type()
         # don't go to the statements inside because it can contain a call to another function that have not been declared
 
-        func_list = list(map(lambda x: Symbol(x.name.name, MType([var.accept(self,c) for var in x.param]))))
+        func_list = list(map(lambda x: Symbol(x.name.name, MType([var.accept(self,c) for var in x.c]))))
         c.append(func_list)
         [self.visit(x,c) for x in ast.decl]
 
-    def visitVarDecl(self, ast, param):
+    def visitVarDecl(self, ast, c):
         return None
     
-    def visitFuncDecl(self, ast, param):
+    def visitFuncDecl(self, ast, c):
         return None
     
-    def visitBinaryOp(self, ast, param):
+    def visitBinaryOp(self, ast, c):
         return None
     
-    def visitUnaryOp(self, ast, param):
+    def visitUnaryOp(self, ast, c):
         return None
     
-    def visitCallExpr(self, ast, param):
+    def visitCallExpr(self, ast, c):
         return None
     
-    def visitId(self, ast, param):
+    def visitId(self, ast, c):
         return None
     
-    def visitArrayCell(self, ast, param):
+    def visitArrayCell(self, ast, c):
         return None
     
-    def visitAssign(self, ast, param):
+    def visitAssign(self, ast, c):
         return None
     
-    def visitIf(self, ast, param):
+    def visitIf(self, ast, c):
         return None
     
-    def visitFor(self, ast, param):
+    def visitFor(self, ast, c):
         return None
     
-    def visitContinue(self, ast, param):
+    def visitContinue(self, ast, c):
         return None
     
-    def visitBreak(self, ast, param):
+    def visitBreak(self, ast, c):
         return None
     
-    def visitReturn(self, ast, param):
+    def visitReturn(self, ast, c):
         return None
     
-    def visitDowhile(self, ast, param):
+    def visitDowhile(self, ast, c):
         return None
 
-    def visitWhile(self, ast, param):
+    def visitWhile(self, ast, c):
         return None
 
-    def visitCallStmt(self, ast, param):
+    def visitCallStmt(self, ast, c):
         return None
     
-    def visitIntLiteral(self, ast, param):
+    def visitIntLiteral(self, ast, c):
         return None
     
-    def visitFloatLiteral(self, ast, param):
+    def visitFloatLiteral(self, ast, c):
         return None
     
-    def visitBooleanLiteral(self, ast, param):
+    def visitBooleanLiteral(self, ast, c):
         return None
     
-    def visitStringLiteral(self, ast, param):
+    def visitStringLiteral(self, ast, c):
         return None
 
-    def visitArrayLiteral(self, ast, param):
+    def visitArrayLiteral(self, ast, c):
         return None
 
 
