@@ -1,1 +1,1 @@
-Program([])
+Program([VarDecl(Id(x),IntLiteral(6)),VarDecl(Id(y),FloatLiteral(0.2)),VarDecl(Id(z),FloatLiteral(12.2)),VarDecl(Id(a),StringLiteral(Hello)),VarDecl(Id(b),StringLiteral(Nihao)),VarDecl(Id(lst),[2,3],ArrayLiteral(ArrayLiteral(BooleanLiteral(true),IntLiteral(1),IntLiteral(0)),ArrayLiteral(BooleanLiteral(false),IntLiteral(2),BooleanLiteral(true)))),VarDecl(Id(str),StringLiteral(1852086))])

@@ -1,5 +1,6 @@
-
-Function: main
-Body:
-a = foo(b, foo(c, foo(d, f(k))))[6\7][a[2]];
-EndBody.
+Function: callStmt
+                        Body:
+                            f(2 + x, 4. \. y);
+                            goo(f() + arr[2]);
+                        EndBody.
+                

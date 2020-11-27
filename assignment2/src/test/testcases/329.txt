@@ -1,9 +1,15 @@
+Function: fact1
+                        Parameter: q, w, r, t
+                        Body:
+                        EndBody.
 
-                Var: x_y_k,y,z;
-                Var: l0323 = 4;
-                Function: fact
-                Parameter: n
-                Body:
-                    Var: x,y,z;
-                EndBody.
-            
+                    Function: fact2
+                        Parameter: x[2][3], y, z, w[2]
+                        Body:
+                        EndBody.
+
+                    Function: main
+                        Parameter: a[1], b[2]
+                        Body:
+                        EndBody.
+                

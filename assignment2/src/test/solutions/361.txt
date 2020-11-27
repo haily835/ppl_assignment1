@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(main)[],([VarDecl(Id(x),IntLiteral(0))][If(BinaryOp(<,Id(x),IntLiteral(20)),[],[Assign(Id(x),BinaryOp(+,Id(x),IntLiteral(1)))])ElseIf(BinaryOp(>,Id(x),IntLiteral(20)),[],[Break()])ElseIf(BinaryOp(>,Id(x),IntLiteral(20)),[],[Break()])ElseIf(BinaryOp(>,Id(x),IntLiteral(20)),[],[Break()])]))])
+Program([FuncDecl(Id(whileDoStmt)[VarDecl(Id(a))],([VarDecl(Id(x),[1],IntLiteral(2))][While(BinaryOp(>,Id(a),IntLiteral(10)),[],[CallStmt(Id(println),[BinaryOp(+,Id(a),Id(b))])])]))])

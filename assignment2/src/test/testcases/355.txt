@@ -1,5 +1,8 @@
-
-Function: main
-Body:
-v = foo(124, a[3][6], a && b);
-EndBody.
+Function: callStmt
+                        Body:
+                            drawLine(10,5);
+                            drawLine1(10, drawLine());
+                            drawLine2(drawLine1(),7);
+                            drawLine(10,10);
+                        EndBody.
+                

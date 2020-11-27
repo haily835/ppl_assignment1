@@ -1,8 +1,4 @@
-
-                Function: main
-                    Body:
-
-                        Var: x= 3,z=32.2122,k="sasaas";
-                        Var: x= True;
-                    EndBody.
-            
+Function: main
+                        Parameter: a, b[1], c[2][3]
+                        Body:
+                        EndBody.

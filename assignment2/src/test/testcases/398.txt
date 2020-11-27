@@ -1,42 +1,31 @@
-
-Function: binarySearch
-Parameter: arr[10], l, r, x 
-Body:
-    If (r >= l) Then
-        Var: mid;
-        mid = l + (r - l) \ 2;
-        ** If the element is present at the middle 
-         itself **
-        If ((arr[mid]) == x) Then
-            Return mid;
-        EndIf.
-  
-        ** If element is smaller than mid, then 
-        it can only be present in left subarray **
-        If ((arr[mid]) > x) Then
-            Return binarySearch(arr, l, mid - 1, x); 
-        EndIf.
-        ** Else the element can only be present 
-        in right subarray **
-        Return binarySearch(arr, mid + 1, r, x); 
-    EndIf.
-  
-    ** We reach here when element is not 
-    present in array **
-    Return -1; 
-EndBody.
-  
-Function: main
-Body:
-    Var: arr[5] = { 2, 3, 4, 10, 40 }; 
-    Var: x = 10; 
-    Var: n , result;
-    n = sizeof(arr) \ sizeof(arr[0]); 
-    result = binarySearch(arr, 0, n - 1, x);
-    If (result == -1) Then 
-        printLn("Element is not present in array");
-    Else
-        printLn("Element is present at index: ");
-        printLn(result); 
-    EndIf.
-EndBody.
+Var: x[1][2] = {{1,2}};  
+                    Function: foo
+                        Parameter: a, b
+                        Body:
+                            Var: z[2] = 1;
+                            While a[0][1] > 10
+                            Do
+                                foo(goo(1));
+                                lmao();
+                            EndWhile.
+                            For (i = 0, i < 10, 2) Do
+                                writeln(i);
+                            EndFor.
+                            Return a + b;
+                        EndBody.
+                    
+                    Function: main
+                        Body:
+                            Var: m = 2;
+                            If bool_of_string ("True") Then
+                                a = int_of_string (read ());
+                                b = float_of_int (a) +. 2.0;
+                            EndIf.
+                            drawLine(10,5);
+                            drawLine(10,6);
+                            drawLine(10,7);
+                            drawLine(10,10);
+                            boo[1] = arr[10 + grrr()];
+                            foo(x , m);
+                        EndBody.
+                

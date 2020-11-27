@@ -1,5 +1,5 @@
-
-Function: main
-Body:
-a = a*b*c*.d\d\.c && a || (b || d || k);
-EndBody.
+Function: assign
+                        Body:
+                            x = (2 + 10) * -10 && True == 4 +. 5 || False;
+                        EndBody.
+                

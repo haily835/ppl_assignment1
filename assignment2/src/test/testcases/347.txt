@@ -1,5 +1,5 @@
-
-Function: main
-Body:
-a = b[foo(x)][2][3][4];
-EndBody.
+Function: assign
+                        Body:
+                            boo = boo1(boo2(boo3()));
+                        EndBody.
+                

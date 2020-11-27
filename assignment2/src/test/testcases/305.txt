@@ -1,3 +1,1 @@
-Var:x,y,f;
-                    Var:z,k,h;
-                
+Var: x[1], y[2], z[3];

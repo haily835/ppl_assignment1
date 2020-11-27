@@ -1,8 +1,10 @@
-
-Function: main
-Body:
-Var: x = 0;
-If x < 20 Then
-        x = x + 1;
-EndIf.
-EndBody.
+Function: whileDoStmt
+                        Body:
+                            Var: i = 0;
+                            While (i < 5)
+                            Do 
+                                a[i] = b +. 1.0;
+                                i = i + 1;
+                            EndWhile.
+                        EndBody.
+                

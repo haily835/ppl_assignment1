@@ -1,2 +1,1 @@
-Var : z =  2,y,x,h, ccx3;
-                
+Var: a = 5, b = 10, c = 16;

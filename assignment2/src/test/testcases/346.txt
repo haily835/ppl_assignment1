@@ -1,5 +1,5 @@
-
-Function: main
-Body:
-a = ---a;
-EndBody.
+Function: assign
+                        Body:
+                            boo[1] = arr[10 + grrr()];
+                        EndBody.
+                

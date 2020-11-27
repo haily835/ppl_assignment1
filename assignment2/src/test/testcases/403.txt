@@ -1,0 +1,8 @@
+
+    Var: a[0] = -1;
+    Function: a
+    Parameter: a[0]
+    Body:
+       Return a --a --10 --10 -.-.1.5;
+    EndBody. 
+                

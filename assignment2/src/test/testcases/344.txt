@@ -1,8 +1,6 @@
-
-                    Function: fact
-                    Body:
-                    Do 
-                    While a < 3
-                    EndDo.
-                    EndBody.
-            
+Function: assign
+                        Body:
+                            boolFlag1 = v < foo(r + f(r + g(x)));
+                            boolFlag2 = 20 - (a + foo())[7] >= 2;
+                        EndBody.
+                

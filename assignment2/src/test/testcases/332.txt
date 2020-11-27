@@ -1,4 +1,7 @@
 Function: main
-Body:
-    a = 4 <=. 3;
-EndBody.
+                        Parameter: a, b
+                        Body:
+                            Var: x;
+                            Var: y[2] = {1,2};
+                        EndBody.
+                

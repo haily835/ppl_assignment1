@@ -1,6 +1,5 @@
-
-Function: main
-Body:
-    Var: i;
-    Return i * 2 * 3;  
-EndBody.
+Function: returnStmt
+                        Body:
+                            Return;
+                        EndBody.
+                

@@ -1,4 +1,4 @@
 Function: main
-Body:
-    a = 4 < 3;
-EndBody.
+                        Parameter: x[3], y[1], z[2]
+                        Body:
+                        EndBody.

@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(fact)[],([][If(BinaryOp(>,Id(a),Id(b)),[],[])Else([],[])]))])
+Program([FuncDecl(Id(assign)[VarDecl(Id(a)),VarDecl(Id(b))],([][Assign(Id(a),IntLiteral(11)),Assign(Id(b),IntLiteral(12))]))])

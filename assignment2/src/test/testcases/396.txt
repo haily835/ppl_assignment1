@@ -1,5 +1,23 @@
-
-Function: main
-Body:
-    a[3*b[2][3][4]] = 5;
-EndBody.
+Var: x[1][2] = {{1,2}};  
+                    Function: foo
+                        Parameter: a, b
+                        Body:
+                            Var: z[2] = 1;
+                            While a[0][1] > 10
+                            Do
+                                foo(goo(1));
+                                lmao();
+                            EndWhile.
+                            For (i = 0, i < 10, 2) Do
+                                writeln(i);
+                            EndFor.
+                            Return a + b;
+                        EndBody.
+                    
+                    Function: main
+                        Body:
+                            Var: m = 2;
+                            boo[1] = arr[10 + grrr()];
+                            foo(x , m);
+                        EndBody.
+                

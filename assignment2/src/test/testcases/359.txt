@@ -1,10 +1,9 @@
-
-Function: main
-Body:
-Var: x = 0;
-If x < 20 Then
-        x = x + 1;
-Else 
-        Break;
-EndIf.
-EndBody.
+Function: whileDoStmt
+                        Body:
+                            While i != 0 
+                            Do
+                                i = i - 1;
+                                writeln(i);
+                            EndWhile.
+                        EndBody.
+                

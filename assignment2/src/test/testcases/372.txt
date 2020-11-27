@@ -1,22 +1,9 @@
-
-Function: main
-Body:
-    Var: i = 0, j = 10;
-    Do
-        i = i + 1;
-        Do
-            j = j - 1;
-        While j > 0
-        EndDo.
-        Do
-            j = j - 1;
-            Do
-            j = j - 1;
-            While j > 0
-            EndDo.
-        While j > 0
-        EndDo.
-    While i < 20
-    EndDo.
-    
-EndBody.
+Function: doWhileStmt
+                        Body:
+                            Var: i = 10;
+                            Do 
+                                Continue;
+                            While i != 0
+                            EndDo.
+                        EndBody.
+                

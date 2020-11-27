@@ -55,7 +55,7 @@ class ASTGeneration(BKITVisitor):
     # literal: INT_LIT | FLOAT_LIT | BOOL_LIT | STRING_LIT | array_lit;
     def visitLiteral(self, ctx: BKITParser.LiteralContext):
         if (ctx.INT_LIT()):
-            return IntLiteral(int(ctx.INT_LIT().getText()))
+            return IntLiteral(int(ctx.INT_LIT().getText(),0))
         elif (ctx.FLOAT_LIT()):
             return FloatLiteral(float(ctx.FLOAT_LIT().getText()))
         elif (ctx.BOOL_LIT()):

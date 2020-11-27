@@ -1,1 +1,1 @@
-Program([VarDecl(Id(z),IntLiteral(2)),VarDecl(Id(y),IntLiteral(4)),VarDecl(Id(x),IntLiteral(3)),VarDecl(Id(z),IntLiteral(2)),VarDecl(Id(y),IntLiteral(4)),VarDecl(Id(x),IntLiteral(3))])
+Program([VarDecl(Id(a),BooleanLiteral(true)),VarDecl(Id(b),BooleanLiteral(true)),VarDecl(Id(c),BooleanLiteral(false))])

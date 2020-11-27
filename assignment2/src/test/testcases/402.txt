@@ -1,6 +1,2 @@
 
-Function: main
-                    Body:
-                    If (a >b) Then
-                    EndIf.
-                    EndBody.
+Var: x = 0o12;

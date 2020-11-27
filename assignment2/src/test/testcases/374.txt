@@ -1,12 +1,11 @@
-
-Function: main
-Body:
-    Var: i;
-    For (i = 1, i < 10, 2) Do
-        Var: isEqual = True;
-        For (j = 1, j < 10, 3) Do
-            printLn(i*j);
-        EndFor.
-    EndFor.
-    
-EndBody.
+Function: doWhileStmt
+                        Body:
+                            While fx()
+                            Do
+                                While gx()
+                                Do
+                                    writeln(i);
+                                EndWhile.
+                            EndWhile.
+                        EndBody.
+                

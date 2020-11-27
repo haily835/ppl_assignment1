@@ -1,6 +1,27 @@
-
-Function: main
-Body:
-    (a + foo())[1] = a[3][4];
-    4[1] = 5;
-EndBody.
+Var: x[1][2] = {{1,2}};  
+                    Function: foo
+                        Parameter: a, b
+                        Body:
+                            Var: z[2] = 1;
+                            While a[0][1] > 10
+                            Do
+                                foo(goo(1));
+                                lmao();
+                            EndWhile.
+                            For (i = 0, i < 10, 2) Do
+                                writeln(i);
+                            EndFor.
+                            Return a + b;
+                        EndBody.
+                    
+                    Function: main
+                        Body:
+                            Var: m = 2;
+                            drawLine(10,5);
+                            drawLine(10,6);
+                            drawLine(10,7);
+                            drawLine(10,10);
+                            boo[1] = arr[10 + grrr()];
+                            foo(x , m);
+                        EndBody.
+                

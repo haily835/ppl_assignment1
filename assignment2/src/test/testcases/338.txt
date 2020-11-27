@@ -1,8 +1,7 @@
-
-                    Function: fact
-                    Body:
-                    If (a >b) Then
-                    Var: x = 3;
-                    EndIf.
-                    EndBody.
-            
+Function: assign
+                        Body:
+                            arr[2] = {1};
+                            foo[2] = {{1.3},{1}};
+                            string[20] = "My name is";
+                        EndBody.
+                

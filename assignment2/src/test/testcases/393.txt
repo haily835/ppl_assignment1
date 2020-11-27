@@ -1,13 +1,17 @@
-
-Function: foo
-Parameter: a[5], c
-Body:
-EndBody.
-**Main function**
-Function: main
-Body:
-**Comment
-Comment**
-Var: arrA[2][3] = {{2,3,5},{6,7,8}};
-Var: arrB[2][3] = {{2,3,5},{6,7,8}};
-EndBody.
+Var: x = 4;  
+                    Function: foo
+                        Parameter: a, b
+                        Body:
+                            Var: z[2] = 1;
+                            For (i = 0, i < 10, 2) Do
+                                writeln(i);
+                            EndFor.
+                            Return a + b;
+                        EndBody.
+                    
+                    Function: main
+                        Body:
+                            Var: m = 2;
+                            foo(x , m);
+                        EndBody.
+                

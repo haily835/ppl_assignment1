@@ -1,5 +1,9 @@
-
-Function: main
-Body:
-While x < 20 Do x = x + 1; EndWhile.
-EndBody.
+Function: whileDoStmt
+                        Body:
+                            Var: x[2] = {2};
+                            While a > 10
+                            Do
+                        
+                            EndWhile.
+                        EndBody.
+                

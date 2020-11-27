@@ -1,7 +1,8 @@
-
-Function: main
-Body:
-    Var: i;
-    foo(5);
-    
-EndBody.
+Function: forStmt
+                        Body:
+                            For (i = foo(), i < 10, 2) Do
+                                writeln(i);
+                                Continue;
+                            EndFor.
+                        EndBody.
+                

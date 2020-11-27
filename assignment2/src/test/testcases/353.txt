@@ -1,5 +1,8 @@
-
-Function: main
-Body:
-a[3 + foo(2)] = a[b[2][3]] + 4;
-EndBody.
+Function: callStmt
+                        Body:
+                            foo();
+                            bar(1);
+                            nty(1, 2, 3);
+                            lem(hyy, dyf(), lem(123, 456, fay), aas(gyh()));
+                        EndBody.
+                

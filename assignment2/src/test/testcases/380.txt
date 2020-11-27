@@ -1,7 +1,8 @@
-
-Function: main
-Body:
-    Var: i;
-    foo(True,incr(5), incr(6));
-    
-EndBody.
+Function: forStmt
+                        Body:
+                            For (i = foo(), i < arr[1], 2) Do
+                                bFlag = True;
+                                arr[1] = arr[1] - 1;
+                            EndFor.
+                        EndBody.
+                

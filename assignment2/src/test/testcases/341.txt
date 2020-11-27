@@ -1,7 +1,6 @@
-
-                    Function: fact
-                    Body:
-                    While a < 4 Do
-                    EndWhile.
-                    EndBody.
-            
+Function: assign
+                        Body:
+                            Var: v;
+                            v = ((v + foo[2]) \ 2) + 10;
+                        EndBody.
+                

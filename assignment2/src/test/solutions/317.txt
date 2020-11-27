@@ -1,1 +1,1 @@
-Program([VarDecl(Id(k),[4],ArrayLiteral(StringLiteral(abc),StringLiteral(adc),StringLiteral(assa),StringLiteral(mmhmmh))),VarDecl(Id(y),[2],ArrayLiteral(FloatLiteral(21.23),FloatLiteral(12.21)))])
+Program([VarDecl(Id(x)),VarDecl(Id(y)),VarDecl(Id(z))])

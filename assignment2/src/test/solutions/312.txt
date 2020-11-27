@@ -1,1 +1,1 @@
-Program([VarDecl(Id(z),FloatLiteral(3.14))])
+Program([VarDecl(Id(a),StringLiteral(True)),VarDecl(Id(b),StringLiteral(hello)),VarDecl(Id(c),StringLiteral(world))])

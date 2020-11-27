@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(main)[],([][Assign(Id(v),BinaryOp(!=,Id(a),BinaryOp(!=,BinaryOp(!=,Id(b),Id(c)),Id(d))))]))])
+Program([FuncDecl(Id(whileDoStmt)[],([][While(BooleanLiteral(true),[VarDecl(Id(x),IntLiteral(1))],[CallStmt(Id(println),[Id(x)])])]))])

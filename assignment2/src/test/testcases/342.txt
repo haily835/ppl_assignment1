@@ -1,7 +1,6 @@
-
-                    Function: fact
-                    Body:
-                    For (i = 0, i < 10, 2) Do
-                    EndFor.
-                    EndBody.
-            
+Function: assign
+                        Body:
+                            v = (15 + 270) * 12 \ 10 + foo();
+                            lst[a + recur(2, 5)] = 20 - (a + foo())[7];
+                        EndBody.
+                

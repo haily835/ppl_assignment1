@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(fact)[],([][Dowhile([],[Return(),Continue()],BinaryOp(<,Id(a),IntLiteral(3)))]))])
+Program([FuncDecl(Id(assign)[],([][Assign(Id(boolFlag1),BinaryOp(&&,UnaryOp(!,BinaryOp(<,Id(v),CallExpr(Id(foo),[BinaryOp(+,Id(r),CallExpr(Id(f),[BinaryOp(+,Id(r),CallExpr(Id(g),[Id(x)]))]))]))),BooleanLiteral(true)))]))])

@@ -1,14 +1,6 @@
-
-                    Function: fact
-                    Body:
-                    If (a >b) Then
-                    Var: x = 3;
-                    abcs = 3 * 3 - 3 + 4;
-                    ElseIf (a == b) Then
-                    Var: c = 31.23;
-                    kuc = 32 + 25 - 23;
-                    Else a = 32;
-                    a[3] = {1,2,3};
-                    EndIf.
-                    EndBody.
-            
+Function: assign
+                        Body:
+                            Var: r = 10., v;
+                            v = v + (4. \. 3.) *. 3.14 *. r *. r *. r;
+                        EndBody.
+                

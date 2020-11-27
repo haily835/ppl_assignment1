@@ -1,1 +1,3 @@
-    
+Var: x = 6, y = 2.0e-1, z = 12.2;
+        Var: a = "Hello", b = "Nihao";
+        Var: lst[2][3] = {{True, 1 ,0}, {False, 2, True}}, str = "1852086";

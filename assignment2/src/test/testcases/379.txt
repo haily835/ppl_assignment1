@@ -1,7 +1,9 @@
-
-Function: main
-Body:
-    Var: i;
-    foo(5 + 4 * 3 \ 5,"string", True);
-    
-EndBody.
+Function: forStmt
+                        Body:
+                            For (i = foo(), i < 10, 2) Do
+                                For (i = 0, i < 10, 2) Do
+                                    writeln(i);
+                                EndFor.
+                            EndFor.
+                        EndBody.
+                

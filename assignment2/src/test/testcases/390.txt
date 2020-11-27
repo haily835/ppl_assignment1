@@ -1,11 +1,11 @@
-Function: foo
-Parameter: a[5], c, b[6][7]
-Body:
-EndBody.
-Function: foo1
-Parameter: a[5], c, b[6][7], d
-Body:
-EndBody.
-Function: main
-Body:
-EndBody.
+Function: ifStmt
+                        Body:
+                            If n == 1 Then
+                                Var: x = 10;
+                                Return True;
+                            Else
+                                Var: y = 1;
+                                Return goo();
+                            EndIf.
+                        EndBody.
+                

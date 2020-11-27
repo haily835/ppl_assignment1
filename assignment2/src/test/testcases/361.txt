@@ -1,10 +1,10 @@
-
-Function: main
-Body:
-Var: x = 0;
-If x < 20 Then x = x + 1;
-ElseIf x > 20 Then Break;
-ElseIf x > 20 Then Break;
-ElseIf x > 20 Then Break;
-EndIf.
-EndBody.
+Function: whileDoStmt
+                        Parameter: a
+                        Body:
+                            Var: x[1] = 2;
+                            While a > 10
+                            Do
+                                println(a+b);
+                            EndWhile.
+                        EndBody.
+                

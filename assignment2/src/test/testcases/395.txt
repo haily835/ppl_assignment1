@@ -1,5 +1,23 @@
-
-Function: main
-Body:
-    c[3] = {{"a" ,"b", "c"},{"e" ,"r", "h"},{"k","s","m"}};
-EndBody.
+Var: x = 4;  
+                    Function: foo
+                        Parameter: a, b
+                        Body:
+                            Var: z[2] = 1;
+                            While a > 10
+                            Do
+                                foo(goo(1));
+                                lmao();
+                            EndWhile.
+                            For (i = 0, i < 10, 2) Do
+                                writeln(i);
+                            EndFor.
+                            Return a + b;
+                        EndBody.
+                    
+                    Function: main
+                        Body:
+                            Var: m = 2;
+                            boo[1] = arr[10 + grrr()];
+                            foo(x , m);
+                        EndBody.
+                

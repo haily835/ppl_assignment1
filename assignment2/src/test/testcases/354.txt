@@ -1,5 +1,9 @@
-
-Function: main
-Body:
-v = foo() + !(foo() * a[4][5][6]);
-EndBody.
+Function: callStmt
+                        Body:
+                            drawLine(10,5);
+                            drawLine(10,6);
+                            drawLine(10,7);
+                            drawLine(10,10);
+                            readkey();
+                        EndBody.
+                

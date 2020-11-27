@@ -1,7 +1,8 @@
+Function: fact
+                        Body:
+                        EndBody.
 
-                Function: fact
-                Parameter: n
-                Body:
-                    Var: x,y,z;
-                EndBody.
-            
+                    Function: main
+                        Body:
+                        EndBody.
+                

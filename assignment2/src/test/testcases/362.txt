@@ -1,17 +1,10 @@
-
-Function: main
-Body:
-Var: x = 0;
-If x < 20 Then
-        Var: a = 0;
-        x = x + 1;
-ElseIf x > 20 Then Break;
-ElseIf x > 20 Then Break;
-ElseIf x > 20 Then 
-        Break;
-        If x > 50 Then Continue; EndIf.
-Else
-        Var: b = 0;
-        Continue;
-EndIf.
-EndBody.
+Function: whileDoStmt
+                        Parameter: a
+                        Body:
+                            While a > 10
+                            Do
+                                foo(goo(1));
+                                lmao();
+                            EndWhile.
+                        EndBody.
+                

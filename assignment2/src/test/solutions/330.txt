@@ -1,1 +1,1 @@
-Program([VarDecl(Id(x_y_k)),VarDecl(Id(y)),VarDecl(Id(z)),VarDecl(Id(l0323),IntLiteral(4)),FuncDecl(Id(fact)[VarDecl(Id(n))],([VarDecl(Id(x)),VarDecl(Id(y)),VarDecl(Id(z))][])),FuncDecl(Id(act)[VarDecl(Id(n))],([VarDecl(Id(x)),VarDecl(Id(y)),VarDecl(Id(z))][]))])
+Program([FuncDecl(Id(main)[VarDecl(Id(a)),VarDecl(Id(b))],([VarDecl(Id(x)),VarDecl(Id(y))][]))])

@@ -1,7 +1,7 @@
-
-                    Function: fact
-                    Body:
-                    If (a >b) Then
-                    EndIf.
-                    EndBody.
-            
+Function: assign
+                        Parameter: a,b
+                        Body:
+                            a = 11;
+                            b = 12;
+                        EndBody.
+                

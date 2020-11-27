@@ -1,1 +1,1 @@
-Program([VarDecl(Id(x)),VarDecl(Id(y)),VarDecl(Id(f)),VarDecl(Id(z)),VarDecl(Id(k)),VarDecl(Id(h))])
+Program([VarDecl(Id(x),[1]),VarDecl(Id(y),[2]),VarDecl(Id(z),[3])])

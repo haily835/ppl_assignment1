@@ -1,9 +1,7 @@
-
-                    Function: fact
-                    Body:
-                    If (a >b) Then
-                    ElseIf (a < 3) Then
-                    Else a = 4;
-                    EndIf.
-                    EndBody.
-            
+Function: assign
+                        Body:
+                            int = 10;
+                            float = 20.e+2;
+                            toString = "Hiii";
+                        EndBody.
+                

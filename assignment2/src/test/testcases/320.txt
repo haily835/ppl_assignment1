@@ -1,5 +1,3 @@
-
-                Function: main
-                    Body:
-                    EndBody.
-            
+Var: x = 6;
+        Var: y[2] = {1321.2e-1, 2.11};
+        Var: flage = True;

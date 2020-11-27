@@ -1,5 +1,18 @@
-Function: main
-Body:
-    a[3] = {True, False, True};
-    d[3] = {5.6,5E-10,6.03};
-EndBody.
+Var: x = 4;  
+                    Function: foo
+                        Parameter: a, b
+                        Body:
+                            Var: z[2] = 1;
+                            For (i = 0, i < 10, 2) Do
+                                writeln(i);
+                            EndFor.
+                            Return a + b;
+                        EndBody.
+                    
+                    Function: main
+                        Body:
+                            Var: m = 2;
+                            boo[1] = arr[10 + grrr()];
+                            foo(x , m);
+                        EndBody.
+                

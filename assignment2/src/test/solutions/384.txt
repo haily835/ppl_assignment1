@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(main)[],([][Break()]))])
+Program([FuncDecl(Id(ifStmt)[],([][If(BinaryOp(==,Id(n),IntLiteral(0)),[],[Return(IntLiteral(1))])Else([],[])]))])

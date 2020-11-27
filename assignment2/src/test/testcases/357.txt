@@ -1,5 +1,9 @@
-
-Function: main
-Body:
-v = a != ((b != c) != d);
-EndBody.
+Function: whileDoStmt
+                        Body:
+                            While True 
+                            Do
+                                Var: x = 1;
+                                println(x);
+                            EndWhile.
+                        EndBody.
+                

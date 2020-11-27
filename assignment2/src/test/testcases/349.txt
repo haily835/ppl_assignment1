@@ -1,5 +1,5 @@
-
-Function: main
-Body:
-a = a*b*c*.d\d\.c && a || b || d || k;
-EndBody.
+Function: assign
+                        Body:
+                            x = foo[a + foo_(2, 5. *. 10)] && !isTrue > 0;
+                        EndBody.
+                

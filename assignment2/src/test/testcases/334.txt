@@ -1,8 +1,6 @@
-
-                    Var : n = 30;
-                    Function: fact
-                    Parameter: n
-                    Body:
-                    a = 3 || c;
-                    EndBody.
-            
+Function: assign
+                        Parameter: a
+                        Body:
+                            a = 11;
+                        EndBody.
+                

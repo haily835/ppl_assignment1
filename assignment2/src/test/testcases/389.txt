@@ -1,7 +1,9 @@
-Function: foo
-Parameter: a[5], c
-Body:
-EndBody.
-Function: main
-Body:
-EndBody.
+Function: ifStmt
+                        Body:
+                            If n == 0o12 Then
+                                Return 1;
+                            Else
+                                Return goo();
+                            EndIf.
+                        EndBody.
+                

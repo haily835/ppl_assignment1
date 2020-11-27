@@ -1,5 +1,7 @@
-
-Function: main
-Body:
-    Break;
-EndBody.
+Function: ifStmt
+                        Body:
+                            If n == 0 Then
+                                Return 1;
+                            EndIf.
+                        EndBody.
+                

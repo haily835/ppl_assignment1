@@ -1,13 +1,11 @@
-
-Function: main
-Body:
-    Var: arr[2][3] = {{2,3,5},{6,7,8}};
-    Var: i = 0, j, sum;
-    While i < 2 Do
-        For (j = 0, j < 3, 1) Do
-            printLn(arr[i][j]);
-            sum = sum + arr[i][j];
-        EndFor.
-        i = i + 1;
-    EndWhile.
-EndBody.
+Function: ifStmt
+                        Body:
+                            If n == 0 Then
+                                Return ;
+                            ElseIf n == 1 Then
+                                Return ;
+                            Else
+                                Break;
+                            EndIf.
+                        EndBody.
+                

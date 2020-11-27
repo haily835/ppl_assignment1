@@ -1,2 +1,1 @@
-Var : z =  3.14;
-                
+Var: a = "True", b = "hello", c = "world";

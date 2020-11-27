@@ -1,1 +1,1 @@
-Program([VarDecl(Id(asasx)),VarDecl(Id(y32223)),VarDecl(Id(z2213))])
+Program([VarDecl(Id(x))])

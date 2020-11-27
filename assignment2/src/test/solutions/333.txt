@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(main)[],([VarDecl(Id(x))][Assign(Id(k),BinaryOp(=/=,IntLiteral(3),IntLiteral(4))),Assign(Id(h),BinaryOp(<.,IntLiteral(5),IntLiteral(3))),Assign(Id(z),BinaryOp(>.,IntLiteral(3),IntLiteral(4))),Assign(Id(t),BinaryOp(<=.,IntLiteral(2),IntLiteral(10))),Assign(Id(ku),BinaryOp(>=.,IntLiteral(12),IntLiteral(11)))]))])
+Program([FuncDecl(Id(assign)[VarDecl(Id(a)),VarDecl(Id(b))],([VarDecl(Id(r),FloatLiteral(10.0)),VarDecl(Id(v))][Assign(Id(v),BinaryOp(*.,IntLiteral(4),Id(r)))]))])
