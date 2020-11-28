@@ -144,6 +144,12 @@ Symbol("printStrLn",MType([StringType()],VoidType()))]
     def check(self):
         return self.visit(self.ast,self.global_envi)
 
+    def infer(self, c, name, expect):
+        for scope in c:
+            for x in scope:
+                if x.name == name:
+                    x.inferVar(expect)
+    
     def visitProgram(self, ast, c):
         varDecls = list(filter(lambda x: isinstance(x, VarDecl), ast.decl))
         c = c + [x.accept(self, c) for x in varDecls]
