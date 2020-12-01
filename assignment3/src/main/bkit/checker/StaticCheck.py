@@ -63,12 +63,11 @@ class Unknown(Type):
 
 @dataclass
 class ArrayType(Type):
-    def __init__(self, dimen: List[int], eletype: Type):
+    def __init__(self, dimen, eletype):
         self.dimen = dimen
         self.eletype = eletype
 
     def __str__(self):
-        print(self.eletype)
         return str(self.eletype) + str(self.dimen)
 
     def __eq__(self, other):
@@ -82,20 +81,20 @@ class ArrayType(Type):
 
 @dataclass
 class MType:
-    intype:List[Type]
-    restype:Type
+    def __init__(self, intype: List[Type], restype: Type):
+        self.intype = intype 
+        self.restype = restype
+    def __str__(self):
+        return printlist(self.intype) + ":" + str(self.restype)
+    def __repr__(self):
+        return str(self)
 
 @dataclass
 class Symbol:
     def __init__(self, **decl):
         if 'variable' in decl:
             self.name = decl['variable'].variable.name
-            if decl['variable'].varDimen:
-                self.mtype = ArrayType(decl['variable'].varDimen, Unknown)
-            elif decl['variable'].varInit:
-                self.mtype = decl['mtype']
-            else:
-                self.mtype = Unknown()
+            self.mtype = decl['mtype']
             self.kind = Variable()
         elif 'para' in decl:
             self.name = decl['para'].variable.name
@@ -113,11 +112,17 @@ class Symbol:
             if isinstance(self.mtype.intype[i], Unknown):
                 self.mtype.intype[i] = expect[i]
 
+    def inferFuncOut(self, expect):
+        if isinstance(self.mtype.restype, Unknown):
+            self.mtype.restype = expect
+
     def inferVar(self, expect):
         if isinstance(self.mtype, Unknown):
             self.mtype = expect
 
     def __str__(self):
+        if(isinstance(self.mtype, MType)):
+            return self.name + '' + str(self.mtype)
         return self.name + ': ' + str(self.mtype)
 
     def __repr__(self):
@@ -128,18 +133,19 @@ class StaticChecker(BaseVisitor):
     def __init__(self,ast):
         self.ast = ast
         self.global_envi = [
-Symbol("int_of_float",MType([FloatType()],IntType())),
-Symbol("float_of_int",MType([IntType()],FloatType())),
-Symbol("int_of_string",MType([StringType()],IntType())),
-Symbol("string_of_int",MType([IntType()],StringType())),
-Symbol("float_of_string",MType([StringType()],FloatType())),
-Symbol("string_of_float",MType([FloatType()],StringType())),
-Symbol("bool_of_string",MType([StringType()],BoolType())),
-Symbol("string_of_bool",MType([BoolType()],StringType())),
-Symbol("read",MType([],StringType())),
-Symbol("printLn",MType([],VoidType())),
-Symbol("printStr",MType([StringType()],VoidType())),
-Symbol("printStrLn",MType([StringType()],VoidType()))]                           
+Symbol(name='int_of_float', mtype=(MType([FloatType()], IntType()))),
+Symbol(name='float_of_int', mtype=(MType([IntType()], FloatType()))),
+Symbol(name='int_of_string', mtype=(MType([StringType()], IntType()))),
+Symbol(name='string_of_int', mtype=(MType([IntType()], StringType()))),
+Symbol(name='float_of_string', mtype=(MType([StringType()], FloatType()))),
+Symbol(name='string_of_float', mtype=(MType([FloatType()], StringType()))),
+Symbol(name='bool_of_string', mtype=(MType([StringType()], BoolType()))),
+Symbol(name='string_of_bool', mtype=(MType([BoolType()], StringType()))),
+Symbol(name='read', mtype=(MType([], StringType()))),
+Symbol(name='printLn', mtype=(MType([], VoidType()))),
+Symbol(name='printStr', mtype=(MType([StringType()], VoidType()))),
+Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
+                        
    
     def check(self):
         return self.visit(self.ast,self.global_envi)
@@ -159,27 +165,30 @@ Symbol("printStrLn",MType([StringType()],VoidType()))]
                 if x.name == funcDecls[i].name.name:
                     raise Redeclared(Function(), funcDecls[j].name.name)
 
-        else:
             for j in range(i + 1, len(funcDecls)):
                 if funcDecls[i].name.name == funcDecls[j].name.name:
                     raise Redeclared(Function(), funcDecls[j].name.name)
 
-        for k in range(0, len(funcDecls[i].param)):
-            for h in range(k + 1, len(funcDecls[i].param)):
-                if funcDecls[i].param[k].variable.name == funcDecls[i].param[h].variable.name:
-                    raise Redeclared(Parameter(), funcDecls[i].param[h].variable.name)
-            else:
-                c.append(Symbol(name=(funcDecls[i].name.name), mtype=(MType([Unknown() for x in range(0, len(funcDecls[i].param))], Unknown()))))
-
-        else:
-            [x.accept(self, c) for x in funcDecls]
-            print(c)
+            for k in range(0, len(funcDecls[i].param)):
+                for h in range(k + 1, len(funcDecls[i].param)):
+                    if funcDecls[i].param[k].variable.name == funcDecls[i].param[h].variable.name:
+                        raise Redeclared(Parameter(), funcDecls[i].param[h].variable.name)
+                    c.append(Symbol(name=(funcDecls[i].name.name), mtype=(MType([Unknown() for x in range(0, len(funcDecls[i].param))], Unknown()))))
+        
+        foundMain = 0
+        for x in funcDecls:
+            if x.name == 'main':
+                foundMain = 1
+            x.accept(self, c)
+        # if foundMain == 0:
+        #     raise NoEntryPoint()
 
     def visitVarDecl(self, ast, c):
         var = None
         if ast.varDimen:
             eletype = ast.varInit.accept(self, c)
-            var = Symbol(variable=ast, mtype=(ArrayType(ast.varDimen, eletype)))
+            mytype = ArrayType(ast.varDimen, eletype)
+            var = Symbol(variable=ast, mtype = mytype)
         else:
             var = Symbol(variable=ast, mtype=(ast.varInit.accept(self, c) if ast.varInit else Unknown()))
         for x in c:
@@ -257,7 +266,6 @@ Symbol("printStrLn",MType([StringType()],VoidType()))]
 
     def visitCallExpr(self, ast, c):
         pass
-
     def visitId(self, ast, c):
         unfound = 1
         for scope in c:
@@ -271,7 +279,10 @@ Symbol("printStrLn",MType([StringType()],VoidType()))]
                 raise Undeclared(ast.name, Identifier())
 
     def visitArrayCell(self, ast, c):
-        pass
+        for x in ast.idx:
+            if not isinstance(x.accept(self, c), IntType):
+                raise TypeMismatchInExpression(ast)
+
 
     def visitAssign(self, ast, c):
         typeLeft = ast.lhs.accept(self, c)
@@ -320,6 +331,13 @@ Symbol("printStrLn",MType([StringType()],VoidType()))]
             for x in scope:
                 if ast.method.name == x.name:
                     found = 1
+
+                    # infer the function output to voidtype
+                    x.inferFuncOut(VoidType())
+                    # check if funciton out put is voidtype
+                    if not isinstance(x.mtype.restype, VoidType):
+                        raise TypeCannotBeInferred(ast)
+
                     if len(argsType) == len(x.mtype.intype):
                         x.inferFunc(argsType)
                         if Unknown() in x.mtype.intype:
@@ -336,7 +354,7 @@ Symbol("printStrLn",MType([StringType()],VoidType()))]
         else:
             if found == 0:
                 raise Undeclared(Function(), ast.method.name)
-
+        # print(c[1])
     def visitIntLiteral(self, ast, c):
         return IntType()
 
