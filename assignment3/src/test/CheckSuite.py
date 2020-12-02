@@ -5,30 +5,84 @@ from AST import *
 
 class CheckSuite(unittest.TestCase):
 
-    def test_undeclared_function(self):
+    # def test_normal_function(self):
+    #     """Simple program: main"""
+    #     input = Program([
+    #         VarDecl(Id("a"), [], IntLiteral(3)),
+    #         VarDecl(Id("b"), [3], ArrayLiteral([IntLiteral(3), IntLiteral(5), IntLiteral(6)])),
+    #         FuncDecl(
+    #             Id("foo"), 
+    #             [VarDecl(Id("a"),[],None), VarDecl(Id("b"),[],None)],
+    #             (
+    #                 [VarDecl(Id("c"),[],None), VarDecl(Id("d"),[],None)],
+    #                 [CallStmt(Id("foo"),[IntLiteral(3), FloatLiteral(4.0)])]
+    #             )
+    #         )
+    #     ])
+    #     expect = ""
+    #     self.assertTrue(TestChecker.test(input,expect,400))
+
+
+    def test_function_return_infer(self):
         """Simple program: main"""
         input = Program([
-            VarDecl(Id("a"), [], IntLiteral(3)),
-            VarDecl(Id("b"), [3], ArrayLiteral([IntLiteral(3), IntLiteral(5), IntLiteral(6)])),
             FuncDecl(
                 Id("foo"), 
                 [VarDecl(Id("a"),[],None), VarDecl(Id("b"),[],None)],
                 (
-                    [VarDecl(Id("c"),[],None), VarDecl(Id("d"),[],None)],
-                    [CallStmt(Id("foo"),[IntLiteral(3), FloatLiteral(4.0)])]
+                    [],
+                    []
+                )
+            ),
+            FuncDecl(
+                Id("foo2"), 
+                [],
+                (
+                    [],
+                    [Assign(Id("a"), IntLiteral(5))]
                 )
             )
         ])
         expect = ""
-        self.assertTrue(TestChecker.test(input,expect,400))
+        self.assertTrue(TestChecker.test(input,expect,401))
 
+    # def test_redeclare_function(self):
+    #     """Simple program: main"""
+    #     input = Program([
+    #         VarDecl(Id("a"), [], IntLiteral(3)),
+    #         VarDecl(Id("b"), [3], ArrayLiteral([IntLiteral(3), IntLiteral(5), IntLiteral(6)])),
+    #         FuncDecl(
+    #             Id("foo"), 
+    #             [VarDecl(Id("a"),[],None), VarDecl(Id("b"),[],None)],
+    #             (
+    #                 [VarDecl(Id("c"),[],None), VarDecl(Id("d"),[],None)],
+    #                 [CallStmt(Id("foo"),[IntLiteral(3), FloatLiteral(4.0)])]
+    #             )
+    #         ),
+    #         FuncDecl(
+    #             Id("foo"), 
+    #             [VarDecl(Id("a"),[],None), VarDecl(Id("b"),[],None)],
+    #             (
+    #                 [VarDecl(Id("c"),[],None), VarDecl(Id("d"),[],None)],
+    #                 [CallStmt(Id("foo"),[IntLiteral(3), FloatLiteral(4.0)])]
+    #             )
+    #         )
+    #     ])
+    #     expect = str(Redeclared(Function(),"foo"))
+    #     self.assertTrue(TestChecker.test(input,expect,402))
 
-    # def test_diff_numofparam_stmt(self):
+    # def test_diff_numof_param_stmt(self):
     #     """Complex program"""
-    #     input = """Function: main  
-    #                Body:
-    #                     printStrLn();
-    #                 EndBody."""
+    #     input = Program([
+    #         FuncDecl(
+    #             Id("main"), 
+    #             [],
+    #             (
+    #                 [],
+    #                 [CallStmt(Id("printStrLn"),[])]
+    #             )
+    #         )
+    #     ])
     #     expect = str(TypeMismatchInStatement(CallStmt(Id("printStrLn"),[])))
     #     self.assertTrue(TestChecker.test(input,expect,401))
     

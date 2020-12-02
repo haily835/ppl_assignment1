@@ -1,4 +1,1 @@
-Function: main
-                   Body: 
-                        foo();
-                   EndBody.
+Program([FuncDecl(Id(foo)[VarDecl(Id(a)),VarDecl(Id(b))],([][])),FuncDecl(Id(foo2)[],([][Assign(Id(a),IntLiteral(5))]))])
