@@ -1,0 +1,13 @@
+
+Function: foo1
+Body:
+EndBody.
+
+Function: foo1
+Body:
+EndBody.
+
+Function: main
+Body:
+EndBody.
+        

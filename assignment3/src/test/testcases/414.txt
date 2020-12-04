@@ -1,0 +1,10 @@
+
+Function: foo
+Parameter: a, b, c, foo
+Body:
+EndBody.
+
+Function: main
+Body:
+EndBody.
+        

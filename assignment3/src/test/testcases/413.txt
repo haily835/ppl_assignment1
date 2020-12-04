@@ -1,0 +1,10 @@
+
+Function: printLn
+Parameter: a, b, c
+Body:
+EndBody.
+
+Function: main
+Body:
+EndBody.
+        

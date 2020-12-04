@@ -1,8 +1,7 @@
 
-Var: x, y, z;
-Var: k;
-Var: x = 5;
 Function: main
+Parameter: a, b, c
 Body:
+    Var: main;
 EndBody.
         

@@ -107,6 +107,7 @@ class Symbol:
             self.mtype = decl['mtype']
             self.kind = Function()
 
+    # change type only if the current type is Unknown
     def inferFunc(self, expect):
         for i in range(0, len(expect)):
             if isinstance(self.mtype.intype[i], Unknown):
@@ -132,25 +133,25 @@ class Symbol:
 class StaticChecker(BaseVisitor):
     def __init__(self,ast):
         self.ast = ast
-        self.global_envi = []
-#         self.global_envi = [
-# Symbol(name='int_of_float', mtype=(MType([FloatType()], IntType()))),
-# Symbol(name='float_of_int', mtype=(MType([IntType()], FloatType()))),
-# Symbol(name='int_of_string', mtype=(MType([StringType()], IntType()))),
-# Symbol(name='string_of_int', mtype=(MType([IntType()], StringType()))),
-# Symbol(name='float_of_string', mtype=(MType([StringType()], FloatType()))),
-# Symbol(name='string_of_float', mtype=(MType([FloatType()], StringType()))),
-# Symbol(name='bool_of_string', mtype=(MType([StringType()], BoolType()))),
-# Symbol(name='string_of_bool', mtype=(MType([BoolType()], StringType()))),
-# Symbol(name='read', mtype=(MType([], StringType()))),
-# Symbol(name='printLn', mtype=(MType([], VoidType()))),
-# Symbol(name='printStr', mtype=(MType([StringType()], VoidType()))),
-# Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
+        self.global_envi = [
+Symbol(name='int_of_float', mtype=(MType([FloatType()], IntType()))),
+Symbol(name='float_of_int', mtype=(MType([IntType()], FloatType()))),
+Symbol(name='int_of_string', mtype=(MType([StringType()], IntType()))),
+Symbol(name='string_of_int', mtype=(MType([IntType()], StringType()))),
+Symbol(name='float_of_string', mtype=(MType([StringType()], FloatType()))),
+Symbol(name='string_of_float', mtype=(MType([FloatType()], StringType()))),
+Symbol(name='bool_of_string', mtype=(MType([StringType()], BoolType()))),
+Symbol(name='string_of_bool', mtype=(MType([BoolType()], StringType()))),
+Symbol(name='read', mtype=(MType([], StringType()))),
+Symbol(name='printLn', mtype=(MType([], VoidType()))),
+Symbol(name='printStr', mtype=(MType([StringType()], VoidType()))),
+Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
                         
    
     def check(self):
         return self.visit(self.ast,self.global_envi)
 
+    # get Symbol object by name
     def getSym(self, c, name):
         for scope in c:
             for x in scope:
@@ -158,14 +159,16 @@ class StaticChecker(BaseVisitor):
                     return x
         return None
 
+    # infer the type of and Id of function (expr) with expect and return the type (either old or new)
     def infer(self, c, expr, expect):
         if isinstance(expr, Id):
             sym = self.getSym(c, expr.name)
             sym.inferVar(expect)
+            return sym.mtype
         else:
             sym = self.getSym(c,expr.method)
             sym.inferFuncOut(expect)
-    
+            return sym.mtype.restype
 
     def visitProgram(self, ast, c):
         varDecls = list(filter(lambda x: isinstance(x, VarDecl), ast.decl))
@@ -220,9 +223,7 @@ class StaticChecker(BaseVisitor):
 
         # combine them together to make local scope to visit the statements in body
         c = [localvar] + c
-        print(ast.name.name)
-        print(c)
-
+        
         # visit statements 
         for x in ast.body[1]:
             if isinstance(x, Return):
@@ -295,11 +296,6 @@ class StaticChecker(BaseVisitor):
         argsType = [x.accept(self, c) for x in ast.param]
         sym = self.getSym(c, ast.method.name)
         if sym:
-            sym.inferFuncOut(VoidType())
-            # check if function output is voidtype
-            if not isinstance(sym.mtype.restype, VoidType):
-                raise TypeCannotBeInferred(ast)
-            
             # check whether args are compatible with paras
             if len(argsType) == len(sym.mtype.intype):
                 # try to infer the function parameters by args
@@ -312,9 +308,10 @@ class StaticChecker(BaseVisitor):
                 
                 # check if args and paras are not matched
                 if sym.mtype.intype != argsType:
-                    raise TypeMismatchInStatement(ast)
+                    raise TypeMismatchInExpression(ast)
+                    return sym.mtype.restype
             else:
-                raise TypeMismatchInStatement(ast)
+                raise TypeMismatchInExpression(ast)
         else:
             raise Undeclared(Function(), ast.method.name)
 
@@ -343,16 +340,15 @@ class StaticChecker(BaseVisitor):
             raise TypeMismatchInExpression(ast)
     
     def visitAssign(self, ast, c):
-        print(c)
         typeLeft = ast.lhs.accept(self, c)
         typeRight = ast.rhs.accept(self, c)
         if isinstance(typeLeft, Unknown):
             if not isinstance(typeRight, Unknown):
-                self.infer(c, ast.lhs.name, typeRight)
+                self.infer(c, ast.lhs, typeRight)
                 typeLeft = ast.lhs.accept(self, c)
             if isinstance(typeRight, Unknown):
                 if not isinstance(typeLeft, Unknown):
-                    self.infer(c, ast.rhs.name, typeLeft)
+                    self.infer(c, ast.rhs, typeLeft)
                     typeRight = ast.rhs.accept(self, c)
                 if not isinstance(typeLeft, Unknown):
                     if not isinstance(typeRight, Unknown):
@@ -363,24 +359,45 @@ class StaticChecker(BaseVisitor):
                     TypeCannotBeInferred(ast)
 
     def visitIf(self, ast, c):
-        pass
-        # for ifthenStmt in ast.ifthenStmt:
-        #     if isinstance(ifthenStmt[0].accept(self, c),Unknown):
-        #         self.self.infer(c, ifthenStmt[0], BoolType())
+        for ifthenStmt in ast.ifthenStmt:
+            if isinstance(ifthenStmt[0].accept(self, c),Unknown):
+                self.infer(c, ifthenStmt[0], BoolType())
 
-        #     if not isinstance(ifthenStmt[0].accept(self, c),Booltype):
-        #         raise TypeMismatchInStatement(ast)
+            if not isinstance(ifthenStmt[0].accept(self, c),BoolType):
+                raise TypeMismatchInStatement(ast)
 
-        #     localvar = reduce(lambda acc, ele: acc + [ele.accept(self, acc)], ifthenStmt[1], paraList)
-        #     # combine them together to make local scope to visit the statements in body
-        #     c = [localvar] + c
-        #     # visit statements 
-        #     for x in ifthenStmt[2]:
-        #         x.accept(self, c)
-
+            localvar = reduce(lambda acc, ele: acc + [ele.accept(self, acc)], ifthenStmt[1], [])
+            
+            # visit statements 
+            for x in ifthenStmt[2]:
+                x.accept(self, [localvar] + c)
+            # print([localvar] + c)
+            
+        
+        if ast.elseStmt != ([],[]):
+            localvar = reduce(lambda acc, ele: acc + [ele.accept(self, acc)], ast.elseStmt[0], [])
+            for x in ast.elseStmt[1]:
+                x.accept(self, [localvar] + c)
 
     def visitFor(self, ast, c):
-        pass
+        # get the id
+        # check if it is an intlit
+        # try to infer
+        sym = self.infer(c, ast.idx1, IntType())
+        
+        expr1 = self.infer(c, ast.expr1, IntType()) if isinstance(ast.expr1.accept(self,c), Unknown) else ast.expr1.accept(self,c)
+
+        expr2 = self.infer(c, ast.expr3, BoolType()) if isinstance(ast.expr2.accept(self,c), Unknown) else ast.expr2.accept(self,c)
+        
+        expr3 = self.infer(c, ast.expr3, IntType()) if isinstance(ast.expr3.accept(self,c), Unknown) else ast.expr3.accept(self,c)
+
+        if not (isinstance(sym, IntType) and  isinstance(expr1, IntType) and isinstance(expr2, BoolType) and isinstance(expr3, IntType)):
+            raise TypeMismatchInStatement(ast)
+        
+        if ast.loop != ([],[]):
+            localvar = reduce(lambda acc, ele: acc + [ele.accept(self, acc)], ast.loop[0], [])
+            for x in ast.loop[1]:
+                x.accept(self, [localvar] + c)
 
     def visitContinue(self, ast, c):
         pass
@@ -401,10 +418,26 @@ class StaticChecker(BaseVisitor):
 
 
     def visitDowhile(self, ast, c):
-        pass
+        if ast.sl != ([],[]):
+            localvar = reduce(lambda acc, ele: acc + [ele.accept(self, acc)], ast.sl[0], [])
+            for x in ast.sl[1]:
+                x.accept(self, [localvar] + c)
+
+        exp = self.infer(c, ast.exp, BoolType()) if isinstance(ast.exp.accept(self,c), Unknown) else ast.exp.accept(self,c)
+        
+        if not isinstance(exp, BoolType):
+            raise TypeMismatchInStatement(ast)
 
     def visitWhile(self, ast, c):
-        pass
+        exp = self.infer(c, ast.exp, BoolType()) if isinstance(ast.exp.accept(self,c), Unknown) else ast.exp.accept(self,c)
+        
+        if not isinstance(exp, BoolType):
+            raise TypeMismatchInStatement(ast)
+
+        if ast.sl != ([],[]):
+            localvar = reduce(lambda acc, ele: acc + [ele.accept(self, acc)], ast.sl[0], [])
+            for x in ast.sl[1]:
+                x.accept(self, [localvar] + c)
 
     def visitCallStmt(self, ast, c):
         argsType = [x.accept(self, c) for x in ast.param]
