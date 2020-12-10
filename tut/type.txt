@@ -1,0 +1,104 @@
+class StaticCheck(Visitor):
+
+    def visitProgram(self,ctx:Program,o):
+        expect = ""
+        o = {"ids": [], "expect": ""}
+        for x in ctx.decl:
+            o["ids"].append({"name": x.accept(self,None), "type": ""})
+        for x in ctx.exp:
+            x.accept(self, o)
+
+    def visitVarDecl(self,ctx:VarDecl,o):
+        return ctx.name
+        
+    def visitAssign(self,ctx:Assign,o):
+        ctx.lhs.accept(self,o)
+        o["expect"] = ctx.rhs.accept(self,o)
+        if (ctx.lhs.accept(self, o) != ctx.rhs.accept(self,o)):
+            raise TypeMismatchInStatement(ctx)
+        if (ctx.rhs.accept(self,o) == ""):
+            raise TypeCannotBeInferred(ctx)
+
+    def visitBinOp(self,ctx:BinOp,o):
+        if (ctx.op == "+" or ctx.op == "-" or ctx.op == "*" or ctx.op == "/"):
+            o["expect"] = "int"
+            if (ctx.e1.accept(self,o) != "int") or (ctx.e2.accept(self,o) != "int"):
+                raise TypeMismatchInExpression(ctx)
+            else:
+                return "int"
+        if ctx.op == "+." or ctx.op == "-." or ctx.op == "*." or ctx.op == "/.":
+            o["expect"] = "float"
+            if (ctx.e1.accept(self,o) == "float"):
+                o["expect"] = "float"
+                if ctx.e2.accept(self,o) == "float":
+                    return "float"
+        if ctx.op == "&&" or ctx.op == "||" or ctx.op == ">b" or ctx.op == "=b":
+            o["expect"] = "bool"
+            if (ctx.e1.accept(self,o) == "bool" and ctx.e2.accept(self,o) == "bool"):
+                return "bool"
+        if ctx.op == ">" or ctx.op == "=":
+            o["expect"] = "int"
+            if (ctx.e1.accept(self,o) == "int" and ctx.e2.accept(self,o) == "int"):
+                return "bool"
+        if ctx.op == ">." or ctx.op == "=.":
+            o["expect"] = "float"
+            if (ctx.e1.accept(self,o) == "float" and ctx.e2.accept(self,o) == "float"):
+                return "bool"
+        raise TypeMismatchInExpression(ctx)
+
+    def visitUnOp(self,ctx:UnOp,o):
+        if ctx.op == "-":
+            o["expect"] = "int"
+            if (ctx.e.accept(self, o) == "int"):
+                return "int"
+            else: 
+                raise TypeMismatchInExpression(ctx)
+        elif ctx.op == "-.":
+            o["expect"] = "float"
+            if ctx.e.accept(self, o) == "float":
+                return "float"
+            else: 
+                raise TypeMismatchInExpression(ctx)
+        elif ctx.op == "i2f":
+            o["expect"] = "int"
+            if ctx.e.accept(self,o) == "int":
+                return "float"
+            else: 
+                raise TypeMismatchInExpression(ctx)
+        elif ctx.op == "floor":
+            o["expect"] = "float"
+            if ctx.e.accept(self,o) == "float":
+                return "int"
+            else: 
+                raise TypeMismatchInExpression(ctx)
+        elif ctx.op == "!":
+            o["expect"] = "bool"
+            if ctx.e.accept(self,o) == "bool":
+                return "bool"
+            else: 
+                raise TypeMismatchInExpression(ctx)
+
+    def visitIntLit(self,ctx:IntLit,o):
+        return "int"
+
+    def visitFloatLit(self,ctx,o):
+        return "float"
+        
+    def visitBoolLit(self,ctx,o):
+        return "bool"
+
+    def visitId(self,ctx,o):
+        found = 0
+        for ele in o["ids"]:
+            if ctx.name == ele["name"]:
+                # print("visit: " + ctx.name)
+                # print("current type: " + ele["type"])
+                # print("expect: " + o["expect"])
+                found = 1
+                if (ele["type"] == "" and o["expect"]):
+                    ele["type"] = o["expect"]
+                # print("assigned: " + ele["type"])
+                # print("----------")
+                return ele["type"]
+        if (found == 0):
+            raise UndeclaredIdentifier(ctx.name)

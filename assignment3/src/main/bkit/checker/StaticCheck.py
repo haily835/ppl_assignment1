@@ -446,7 +446,7 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
             sym.inferFuncOut(VoidType())
             # check if function output is voidtype
             if not isinstance(sym.mtype.restype, VoidType):
-                raise TypeCannotBeInferred(ast)
+                raise TypeMismatchInStatement(ast)
             
             # check whether args are compatible with paras
             if len(argsType) == len(sym.mtype.intype):
@@ -459,8 +459,10 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
                         raise TypeCannotBeInferred(ast)
                 
                 # check if args and paras are not matched
-                if sym.mtype.intype != argsType:
-                    raise TypeMismatchInStatement(ast)
+                pair = zip(sym.mtype.intype, argsType)
+                for x in pair:
+                    if type(x[0]) != type(x[1]):
+                        raise TypeMismatchInStatement(ast)
             else:
                 raise TypeMismatchInStatement(ast)
         else:

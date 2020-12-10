@@ -204,7 +204,7 @@ EndBody.
         expect = str()
         self.assertTrue(TestChecker.test(input,expect,414))
 
-    def test_locla_variable_with_outside_scope_15(self):
+    def test_local_variable_with_outside_scope_15(self):
         """Raise no error because different scope"""
         input = """
 Function: foo
@@ -217,6 +217,18 @@ Function: main
 Body:
     Var: foo;
     Var: main;
+EndBody.
+        """
+        expect = str(Undeclared(Identifier(), 'a'))
+        self.assertTrue(TestChecker.test(input,expect,415))
+    
+    # test undeclare variable 
+    def test_local_variable_with_outside_scope_15(self):
+        """Raise no error because different scope"""
+        input = """
+Function: main
+Body:
+    a = 5;
 EndBody.
         """
         expect = str()
