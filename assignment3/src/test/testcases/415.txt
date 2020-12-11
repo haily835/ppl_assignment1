@@ -1,0 +1,13 @@
+
+Function: foo
+Parameter: a, b, c, foo
+Body:
+    Var: printLn;
+EndBody.
+
+Function: main
+Body:
+    Var: foo;
+    Var: main;
+EndBody.
+        

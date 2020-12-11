@@ -47,7 +47,7 @@ Function: main
 Body:
 EndBody.
         """
-        expect = str()
+        expect = str(Redeclared(Variable(), "x"))
         self.assertTrue(TestChecker.test(input,expect,403))
 
     def test_redeclared_variable_4(self):
@@ -219,20 +219,119 @@ Body:
     Var: main;
 EndBody.
         """
-        expect = str(Undeclared(Identifier(), 'a'))
+        expect = str()
         self.assertTrue(TestChecker.test(input,expect,415))
     
     # test undeclare variable 
-    def test_local_variable_with_outside_scope_15(self):
-        """Raise no error because different scope"""
+    def test_undeclared_variable_16(self):
         input = """
 Function: main
 Body:
     a = 5;
 EndBody.
         """
+        expect = str(Undeclared(Identifier(), 'a'))
+        self.assertTrue(TestChecker.test(input,expect,416))
+
+    def test_global_variable_17(self):
+        input = """
+Var: a;
+Function: main
+Body:
+    a = 5;
+EndBody.
+        """
         expect = str()
-        self.assertTrue(TestChecker.test(input,expect,414))
+        self.assertTrue(TestChecker.test(input,expect,417))
+
+    def test_global_variable_18(self):
+        """Raise no error"""
+        input = """
+Var: a;
+Function: main
+Body:
+    main();
+EndBody.
+        """
+        expect = str()
+        self.assertTrue(TestChecker.test(input,expect,418))
+
+    def test_global_variable_19(self):
+        """Raise no error"""
+        input = """
+Var: a;
+Function: main
+Parameter: x, y
+Body:
+    main(2,3);
+EndBody.
+        """
+        expect = str()
+        self.assertTrue(TestChecker.test(input,expect,419))
+
+    def test_global_func_call_20(self):
+        """Raise no error"""
+        input = """
+Function: main
+Parameter: x, y
+Body:
+    foo(2);
+EndBody.
+
+Function: foo
+Parameter: a
+Body:
+EndBody.
+        """
+        expect = str()
+        self.assertTrue(TestChecker.test(input,expect,420))
+
+    def test_undeclared_func_call_21(self):
+        """Raise no error"""
+        input = """
+Function: main
+Parameter: x, y
+Body:
+    foo(2);
+EndBody.
+        """
+        expect = str(Undeclared(Function(), "foo"))
+        self.assertTrue(TestChecker.test(input,expect,421))
+
+    def test_func_call_22(self):
+        """Raise no error"""
+        input = """
+Function: main
+Parameter: x, y
+Body:
+    foo(2);
+EndBody.
+        """
+        expect = str(Undeclared(Function(), "foo"))
+        self.assertTrue(TestChecker.test(input,expect,422))
+
+    def test_undeclared_var_call_23(self):
+        """Raise no error"""
+        input = """
+Function: main
+Body:
+    a[5] = 3;
+EndBody.
+        """
+        expect = str(Undeclared(Identifier(), "a"))
+        self.assertTrue(TestChecker.test(input,expect,423))
+
+    def test_undeclared_var_call_24(self):
+        """Raise no error"""
+        input = """
+Function: main
+Body:
+    Var: a[2];
+    a[5][1] = 3;
+EndBody.
+        """
+        expect = str()
+        self.assertTrue(TestChecker.test(input,expect,424))
 
     # def test_redeclare_function(self):
     #     """Simple program: main"""

@@ -159,7 +159,7 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
                     return x
         return None
 
-    # infer the type of and Id of function (expr) with expect and return the type (either old or new)
+    # infer the type of an Id or function (expr) with expect and return the type (either old or new)
     def infer(self, c, expr, expect):
         if isinstance(expr, Id):
             sym = self.getSym(c, expr.name)
@@ -172,7 +172,7 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
 
     def visitProgram(self, ast, c):
         varDecls = list(filter(lambda x: isinstance(x, VarDecl), ast.decl))
-        varList = reduce(lambda acc, ele: acc + [ele.accept(self,c)], varDecls, c)
+        varList = reduce(lambda acc, ele: acc + [ele.accept(self,acc)], varDecls, c)
         c = c + varList
 
         funcDecls = list(filter(lambda x: isinstance(x, FuncDecl), ast.decl))
@@ -201,17 +201,16 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
         #     raise NoEntryPoint()
 
     def visitVarDecl(self, ast, c):
+        for x in c:
+            if x.name == ast.variable.name:
+                raise Redeclared(Variable(), ast.variable.name)
         var = None
         if ast.varDimen:
             eletype = ast.varInit.accept(self, c)
-            mytype = ArrayType(ast.varDimen, eletype)
+            mytype = ArrayType(len(ast.varDimen), eletype)
             var = Symbol(variable=ast, mtype = mytype)
         else:
             var = Symbol(variable=ast, mtype=(ast.varInit.accept(self, c) if ast.varInit else Unknown()))
-        for x in c:
-            if x.name == var.name:
-                raise Redeclared(var.kind, var.name)
-        else:
             return var
 
     def visitFuncDecl(self, ast, c):
@@ -333,10 +332,10 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
                 raise TypeMismatchInExpression(ast)
             dimen += 1
         
-        if not isinstance(ast.arr.accept(self), ArrayType):
+        if not isinstance(ast.arr.accept(self,c), ArrayType):
             raise TypeMismatchInExpression(ast)
 
-        if ast.arr.accept(self).dimen != dimen:
+        if ast.arr.accept(self,c).dimen != dimen:
             raise TypeMismatchInExpression(ast)
     
     def visitAssign(self, ast, c):
