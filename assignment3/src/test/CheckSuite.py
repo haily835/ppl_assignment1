@@ -322,7 +322,6 @@ EndBody.
         self.assertTrue(TestChecker.test(input,expect,423))
 
     def test_undeclared_var_call_24(self):
-        """Raise no error"""
         input = """
 Function: main
 Body:
@@ -333,6 +332,239 @@ EndBody.
         expect = str()
         self.assertTrue(TestChecker.test(input,expect,424))
 
+    def test_type_cannot_be_inferred_25(self):
+        input = """
+Function: main
+Body:
+    Var: a;
+    foo(a);
+EndBody.
+Function: foo
+Parameter: a
+Body:
+EndBody.
+        """
+        expect = str(TypeCannotBeInferred(CallStmt(Id("foo"),[Id("a")])))
+        self.assertTrue(TestChecker.test(input,expect,425))
+
+    def test_type_cannot_be_inferred_26(self):
+        input = """
+Function: main
+Body:
+    Var: a;
+    foo(a);
+EndBody.
+Function: foo
+Parameter: a
+    a = True
+Body:
+EndBody.
+        """
+        expect = str()
+        self.assertTrue(TestChecker.test(input,expect,426))
+
+    def test_type_cannot_be_inferred_27(self):
+        input = """
+Function: main
+Body:
+    Var: a = 1;
+EndBody.
+        """
+        expect = str()
+        self.assertTrue(TestChecker.test(input,expect,427))
+
+    def test_type_cannot_be_inferred_28(self):
+        input = """
+Function: main
+Body:
+    Var: a = 1;
+EndBody.
+        """
+        expect = str()
+        self.assertTrue(TestChecker.test(input,expect,428))
+    
+    def test_type_cannot_be_inferred_29(self):
+        input = """
+Function: main
+Body:
+    Var: a;
+    a = 1;
+EndBody.
+        """
+        expect = str()
+        self.assertTrue(TestChecker.test(input,expect,429))
+
+    def test_type_cannot_be_inferred_30(self):
+        input = """
+Function: main
+Body:
+    Var: a;
+    a = 1 + foo();
+EndBody.
+
+Function: foo
+Body:
+EndBody.
+        """
+        expect = str()
+        self.assertTrue(TestChecker.test(input,expect,430))
+
+# adding expect here
+    def test_type_cannot_be_inferred_31(self):
+        input = """
+Function: main
+Body:
+    Var: a;
+    Var: y;
+    y = a + foo(x)
+EndBody.
+
+Function: foo
+Body:
+EndBody.
+        """
+        expect = str()
+        self.assertTrue(TestChecker.test(input,expect,431))
+
+# adding expect here    
+    def test_type_cannot_be_inferred_32(self):
+        input = """
+Function: main
+Body:
+    Var: a;
+    Var: y;
+    y = a + foo(x)
+EndBody.
+
+Function: foo
+Parameter: x
+Body:
+EndBody.
+        """
+        expect = str()
+        self.assertTrue(TestChecker.test(input,expect,432))
+
+# adding expect here
+    def test_type_cannot_be_inferred_33(self):
+        input = """
+Function: main
+Body:
+    Var: a;
+    Var: y;
+    y = a;
+EndBody.
+        """
+        expect = str()
+        self.assertTrue(TestChecker.test(input,expect,433))
+
+# adding expect here
+    def test_type_cannot_be_inferred_34(self):
+        input = """
+Function: main
+Body:
+    Var: a;
+    y = foo();
+EndBody.
+
+Function: foo
+Body:
+EndBody.
+        """
+        expect = str()
+        self.assertTrue(TestChecker.test(input,expect,434))
+
+    def test_stmt_void_func_35(self):
+        input = """
+Function: main
+Body:
+    foo();
+EndBody.
+
+Function: foo
+Body:
+EndBody.
+        """
+        expect = str()
+        self.assertTrue(TestChecker.test(input,expect,435))
+
+    def test_stmt_void_func_36(self):
+        input = """
+Function: main
+Body:
+    foo();
+EndBody.
+
+Function: foo
+Body:
+    Return 1;
+EndBody.
+        """
+        expect = str(TypeMismatchInStatement(CallStmt(Id("foo"), [])))
+        self.assertTrue(TestChecker.test(input,expect,436))
+    
+    def test_stmt_args_func_37(self):
+        input = """
+Function: main
+Body:
+    foo(1,1);
+EndBody.
+
+Function: foo
+Parameter: x, y
+Body:
+    Return;
+EndBody.
+        """
+        expect = str()
+        self.assertTrue(TestChecker.test(input,expect,437))
+
+    def test_stmt_args_func_38(self):
+        input = """
+Function: main
+Body:
+    foo(1,1);
+    foo(1, 1.3);
+EndBody.
+
+Function: foo
+Parameter: x, y
+Body:
+    Return;
+EndBody.
+        """
+        expect = str(TypeMismatchInStatement(CallStmt(Id("foo"), [IntLiteral(1), FloatLiteral(1.3)])))
+        self.assertTrue(TestChecker.test(input,expect,438))
+    
+    def test_stmt_args_func_39(self):
+        input = """
+Function: main
+Body:
+    foo(1,1,1);
+EndBody.
+
+Function: foo
+Parameter: x, y
+Body:
+    Return;
+EndBody.
+        """
+        expect = str(TypeMismatchInStatement(CallStmt(Id("foo"), [IntLiteral(1), IntLiteral(1), IntLiteral(1)])))
+        self.assertTrue(TestChecker.test(input,expect,439))
+    
+    def test_stmt_args_func_40(self):
+        input = """
+Function: main
+Body:
+    Var: x = 1;
+    Var: y = 0.5
+    x = y;
+EndBody.
+        """
+        expect = str(TypeMismatchInStatement(AssignStmt(Id("x"), Id("y"))))
+        self.assertTrue(TestChecker.test(input,expect,440))
+    
+    
+    
     # def test_redeclare_function(self):
     #     """Simple program: main"""
     #     input = Program([
