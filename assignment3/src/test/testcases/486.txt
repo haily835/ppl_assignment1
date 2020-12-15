@@ -1,0 +1,12 @@
+
+Function: foo
+Parameter: x, y, z
+Body:
+    x = 3;
+    y = True;
+    z = "String";
+EndBody.
+Function: main
+Body:
+    foo(3, False, 2);
+EndBody.

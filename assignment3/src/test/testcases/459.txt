@@ -1,0 +1,17 @@
+
+Function: main
+Body:
+    Var: x = True;
+    While foo() Do
+        Var: x;
+        If True Then
+            Var: x;
+        EndIf.
+    EndWhile.
+EndBody.
+
+Function: foo
+Body:
+    Return True;
+EndBody.
+        

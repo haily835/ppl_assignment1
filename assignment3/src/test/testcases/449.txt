@@ -1,0 +1,13 @@
+
+Function: main
+Body:
+    Var: a = True;
+    
+    If a Then
+        Var: a;
+        If True Then
+            a = 1;
+        EndIf.
+    EndIf.
+EndBody.
+        

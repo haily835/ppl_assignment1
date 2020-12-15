@@ -1,0 +1,11 @@
+
+Function: main
+Body:
+    Var: a;
+    a = 1 + foo();
+EndBody.
+
+Function: foo
+Body:
+EndBody.
+        

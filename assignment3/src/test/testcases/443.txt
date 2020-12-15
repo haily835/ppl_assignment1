@@ -1,0 +1,14 @@
+
+Function: foo
+Parameter: a,b,c,d
+Body:
+    Var: k;
+    k = a + b + c + d;
+    Return 1;
+EndBody.
+Function: main
+Body:
+    Var: a;
+    a = foo(1, foo(2,2,2,2), 1, 1);
+EndBody.
+        

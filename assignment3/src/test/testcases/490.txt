@@ -1,0 +1,14 @@
+
+Function: foo
+Parameter: x, y, z
+Body:
+    x = 3;
+    y = True;
+    z = "String";
+    Return 3;
+EndBody.
+Function: main
+Body:
+    Var: x;
+    x = foo(x, False, "2") + foo(x, False, "2");
+EndBody.

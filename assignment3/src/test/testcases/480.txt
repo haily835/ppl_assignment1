@@ -1,0 +1,12 @@
+
+Function: foo
+Body:
+    Var a[3];
+    Return a;
+EndBody.
+
+Function: main
+Body:
+    foo()[0] = 1;
+EndBody.
+        

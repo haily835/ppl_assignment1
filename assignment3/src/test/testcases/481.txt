@@ -1,0 +1,13 @@
+
+Function: main
+Body:
+    Var: a,b,c,d,e;
+    b = !(a==a) && (d <. 2.0) && (c != c);
+    e = e +. foo()
+EndBody.
+
+Function: foo
+Body:
+    Return 3.0;
+EndBody.
+        

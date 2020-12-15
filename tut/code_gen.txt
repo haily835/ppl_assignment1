@@ -1,0 +1,54 @@
+    def visitId(self, ctx, o):
+        for id in o.sym:
+            if id.name == ctx.name:
+                if isinstance(id.value, Index):
+                    return self.emit.emitREADVAR(id.name, id.mtype, id.value.value, o.frame), id.mtype
+                elif isinstance(id.value, CName):
+                    return self.emit.emitGETSTATIC(id.value.value + '.' + id.name, id.mtype, o.frame), id.mtype
+    def visitFloatLiteral(self, ctx, o):
+        return self.emit.emitPUSHFCONST(ctx.value, o.frame), FloatType
+
+    def visitBinExpr(self, ctx, o):
+        left, typeL = ctx.e1.accept(self,o)
+        right, typeR = ctx.e2.accept(self,o)
+        
+        if ctx.op in ('+', '-', '*', '/'):
+            code = left + right + (self.emit.emitADDOP(ctx.op,typeL,o.frame) if ctx.op in ('+', '-') else self.emit.emitMULOP(ctx.op,typeL,o.frame))
+            return code, IntType()
+            
+        if ctx.op in ('+.', '-.', '*.', '/.'):
+            code = left + right + (self.emit.emitADDOP(ctx.op[0],typeL,o.frame) if ctx.op in ('+.', '-.') else self.emit.emitMULOP(ctx.op[0],typeL,o.frame))
+            return code, FloatType()
+
+    def visitId(self, ctx, o):
+        for id in o.sym:
+            if id.name == ctx.name:
+                if isinstance(id.value, Index):
+                    return self.emit.emitREADVAR(id.name, id.mtype, id.value.value, o.frame), id.mtype
+                elif isinstance(id.value, CName):
+                    return self.emit.emitGETSTATIC(id.value.value + '.' + id.name, id.mtype, o.frame), id.mtype
+
+    def visitBinExpr(self,ctx,o):
+        left, typeL = ctx.e1.accept(self, o)
+        right, typeR = ctx.e2.accept(self, o)
+        
+        if ctx.op in ('+', '-', '*') and isinstance(typeL, IntType) and isinstance(typeR, IntType):
+            return left + right + self.emit.emitADDOP(ctx.op, typeL, o.frame), IntType()
+    
+        if type(typeL) is IntType:
+            left += self.emit.emitI2F(o.frame)
+            
+        if type(typeR) is IntType:
+            right += self.emit.emitI2F(o.frame)
+        
+        code = left + right
+        if ctx.op in ('+', '-', '*', '/'):
+            if ctx.op in ('+', '-'):
+                code += self.emit.emitADDOP(ctx.op, FloatType, o.frame)
+            else:
+                code += self.emit.emitMULOP(ctx.op, FloatType, o.frame)
+            return code, FloatType()
+        else:
+            code += self.emit.emitREOP(ctx.op, FloatType, o.frame)
+            return code, BoolType()
+            

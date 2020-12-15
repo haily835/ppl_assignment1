@@ -1,0 +1,6 @@
+
+Function: main
+Body:
+Var: m, n[10];
+EndBody.
+        

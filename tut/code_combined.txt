@@ -1,0 +1,262 @@
+Given the AST declarations as follows:
+
+class Program: #decl:List[VarDecl],stmts:List[Stmt]
+
+class VarDecl: #name:str
+
+class Stmt(ABC): #abstract class
+
+class Block(Stmt): #decl:List[VarDecl],stmts:List[Stmt]
+
+class Assign(Stmt): #lhs:Id,rhs:Exp
+
+class Exp(ABC): #abstract class
+
+class BinOp(Exp): #op:str,e1:Exp,e2:Exp #op is +,-,*,/,+.,-.,*.,/., &&,||, >, >., >b, =, =., =b
+
+class UnOp(Exp): #op:str,e:Exp #op is -,-., !,i2f, floor
+
+class IntLit(Exp): #val:int
+
+class FloatLit(Exp): #val:float
+
+class BoolLit(Exp): #val:bool
+
+class Id(Exp): #name:str
+
+and the Visitor class is declared as follows:
+
+class StaticCheck(Visitor):
+
+    def visitProgram(self,ctx:Program,o):pass
+
+    def visitVarDecl(self,ctx:VarDecl,o): pass
+
+    def visitBlock(self,ctx:Block,o): pass
+
+    def visitAssign(self,ctx:Assign,o): pass
+
+    def visitBinOp(self,ctx:BinOp,o): pass
+
+    def visitUnOp(self,ctx:UnOp,o):pass
+
+    def visitIntLit(self,ctx:IntLit,o): pass 
+
+    def visitFloatLit(self,ctx,o): pass
+
+    def visitBoolLit(self,ctx,o): pass
+
+    def visitId(self,ctx,o): pass
+
+Rewrite the body of the methods in class StaticCheck to infer the type of identifiers and check the following type constraints:
+
++ , - , *, / accept their operands in int type and return int type
++., -., *., /. accept their operands in float type and return float type
+> and = accept their operands in int type and return bool type
+>. and =. accept their operands in float type and return bool type
+!, &&, ||, >b and =b accept their operands in bool type and return bool type
+i2f accepts its operand in int type and return float type
+floor accept its operand in float type and return int type
+In an assignment statement, the type of lhs must be the same as that of rhs, otherwise, the exception TypeMismatchInStatement should be raised together with the assignment statement.
+the type of an Id is inferred from the above constraints in the first usage, 
+if the Id is not in the declarations, exception UndeclaredIdentifier should be raised together with the name of the Id, or
+If the Id cannot be inferred in the first usage, exception TypeCannotBeInferred should be raised together with the assignment statement which contains the type-unresolved identifier.
+For static referencing environment, this language applies the scope rules of block-structured programming language. When there is a declaration duplication of a name in a scope, exception Redeclared should be raised together with the second declaration.
+If an expression does not conform the type constraints, the StaticCheck will raise exception TypeMismatchInExpression with the expression.
+Your code starts at line 110
+
+
+
+from functools import reduce
+class StaticCheck(Visitor):
+    def infer(self,o, name, expect):
+        for scope in o:
+            done = 0
+            for x in scope:
+                if name == x[0]:
+                    x[2] = expect
+                    done = 1 
+                    break
+            if done:
+                break
+
+    def visitProgram(self,ctx:Program,o):
+        o = reduce(lambda acc,ele: acc + [ele.accept(self,[acc])], ctx.decl,[])
+        
+        for x in ctx.stmts:
+            x.accept(self, [o])
+        
+    def visitVarDecl(self,ctx:VarDecl,o):
+        for x in o[0]:
+            if ctx.name == x[0]:
+                raise Redeclared(ctx)
+        return [ctx.name, '', '']
+
+    def visitBlock(self,ctx:Block,o):
+        local = reduce(lambda acc,ele: acc + [ele.accept(self, [acc] + o)], ctx.decl,[])
+        
+        for x in ctx.stmts:
+            x.accept(self,[local] + o)
+
+    def visitAssign(self,ctx:Assign,o):
+        typeRight = ctx.rhs.accept(self,o)
+        typeLeft = ctx.lhs.accept(self,o)
+        # print(typeLeft)
+        # print(typeRight)
+        if(typeLeft == "" and typeRight):
+            self.infer(o, ctx.lhs.name, typeRight)
+            typeLeft = ctx.lhs.accept(self,o)
+        if(typeRight == "" and typeLeft):
+            self.infer(o, ctx.rhs.name, typeLeft)
+            typeRight = ctx.rhs.accept(self,o)
+        if(typeRight != "" and typeLeft != "" and typeLeft != typeRight ):
+            raise TypeMismatchInStatement(ctx)
+        if(typeRight == "" and typeLeft == "" ):
+            raise TypeCannotBeInferred(ctx)
+
+    def visitBinOp(self,ctx:BinOp,o):
+        if (ctx.op == "+" or ctx.op == "-" or ctx.op == "*" or ctx.op == "/"):
+            # if either or both operands types is unclear
+            if (ctx.e1.accept(self,o) == ""):
+                self.infer(o, ctx.e1.name, "int")
+            if (ctx.e2.accept(self,o) == ""):
+                self.infer(o, ctx.e2.name, "int")
+            if (ctx.e1.accept(self,o) == "int" and ctx.e2.accept(self,o) == "int"):
+                return "int"
+        if ctx.op == "+." or ctx.op == "-." or ctx.op == "*." or ctx.op == "/.":
+            if (ctx.e1.accept(self,o) == ""):
+                self.infer(o, ctx.e1.name, "float")
+            if (ctx.e2.accept(self,o) == ""):
+                self.infer(o, ctx.e2.name, "float")
+            if (ctx.e1.accept(self,o) == "float" and ctx.e2.accept(self,o) == "float"):
+                return "float"
+        if ctx.op == "&&" or ctx.op == "||" or ctx.op == ">b" or ctx.op == "=b":
+            if (ctx.e1.accept(self,o) == ""):
+                self.infer(o, ctx.e1.name, "bool")
+            if (ctx.e2.accept(self,o) == ""):
+                self.infer(o, ctx.e2.name, "bool")
+            if (ctx.e1.accept(self,o) == "bool" and ctx.e2.accept(self,o) == "bool"):
+                return "bool"
+        if ctx.op == ">" or ctx.op == "=":
+            if (ctx.e1.accept(self,o) == ""):
+                self.infer(o, ctx.e1.name, "int")
+            if (ctx.e2.accept(self,o) == ""):
+                self.infer(o, ctx.e2.name, "int")
+            if (ctx.e1.accept(self,o) == "int" and ctx.e2.accept(self,o) == "int"):
+                return "int"
+        if ctx.op == ">." or ctx.op == "=.":
+            if (ctx.e1.accept(self,o) == ""):
+                self.infer(o, ctx.e1.name, "float")
+            if (ctx.e2.accept(self,o) == ""):
+                self.infer(o, ctx.e2.name, "float")
+            if (ctx.e1.accept(self,o) == "float" and ctx.e2.accept(self,o) == "float"):
+                return "float"
+        raise TypeMismatchInExpression(ctx)
+
+    def visitUnOp(self,ctx:UnOp,o):
+        operandType = ctx.e.accept(self,o)
+        
+        if ctx.op == "-":
+            if (operandType == ""):
+                self.infer(o, ctx.e.name, "int")
+            if (ctx.e.accept(self,o) == "int"):
+                return "int"
+                
+        if ctx.op == "-.":
+            if (operandType == ""):
+                self.infer(o, ctx.e.name, "float")
+            if (ctx.e.accept(self,o) == "float"):
+                return "float"
+                
+        if ctx.op == "i2f":
+            if (operandType == ""):
+                self.infer(o, ctx.e.name, "int")
+            if (ctx.e.accept(self,o) == "int"):
+                return "float"
+                
+        if ctx.op == "floor":
+            if (operandType == ""):
+                self.infer(o, ctx.e.name, "float")
+            if (ctx.e.accept(self,o) == "float"):
+                return "int"
+                
+        if ctx.op == "!":
+            if (operandType == ""):
+                self.infer(o, ctx.e.name, "bool")
+            if (ctx.e.accept(self,o) == "bool"):
+                return "bool"
+        
+        raise TypeMismatchInExpression(ctx)
+
+    def visitIntLit(self,ctx:IntLit,o):
+        return "int"
+
+    def visitFloatLit(self,ctx,o):
+        return "float"
+
+    def visitBoolLit(self,ctx,o):
+        return "bool"
+
+    def visitId(self,ctx,o):
+        unfound = 1
+        # print(o)
+        for scope in o:
+            for x in scope:
+                if ctx.name == x[0]:
+                    unfound = 0
+                    if (x[1] == "" and x[2]):
+                        x[1] = x[2]
+                    return x[1]
+        if unfound:
+            raise UndeclaredIdentifier(ctx.name)
+
+Test	Expected	Got	
+Chính xác	
+Program([VarDecl("x")],[Assign(Id("x"),IntLit(3)),Block([VarDecl("y")],[Assign(Id("x"),Id("y")),Assign(Id("y"),BoolLit(True))])])
+Type Mismatch In Statement: Assign(Id("y"),BoolLit(True))
+Type Mismatch In Statement: Assign(Id("y"),BoolLit(True))
+Chính xác
+Chính xác	
+Program([VarDecl("x")],[Assign(Id("x"),IntLit(3)),Block([VarDecl("y"),VarDecl("x"),VarDecl("y")],[Assign(Id("x"),Id("y")),Assign(Id("y"),IntLit(3))])])
+Redeclared: VarDecl("y")
+Redeclared: VarDecl("y")
+Chính xác
+Chính xác	
+Program([VarDecl("x")],[Assign(Id("x"),IntLit(3)),Block([VarDecl("y"),VarDecl("x")],[Assign(Id("x"),Id("y")),Assign(Id("y"),FloatLit(3))])])
+Type Cannot Be Inferred: Assign(Id("x"),Id("y"))
+Type Cannot Be Inferred: Assign(Id("x"),Id("y"))
+Chính xác
+Chính xác	
+Program([VarDecl("x"),VarDecl("t")],[Assign(Id("x"),IntLit(3)),Block([VarDecl("y")],[Assign(Id("x"),Id("y")),Block([],[Assign(Id("t"),FloatLit(3)),Assign(Id("z"),Id("t"))])])])
+Undeclared Identifier: z
+Undeclared Identifier: z
+Chính xác
+Chính xác	
+Program([VarDecl("x"),VarDecl("t")],[Assign(Id("x"),IntLit(3)),Block([VarDecl("y")],[Assign(Id("x"),Id("y")),Block([VarDecl("z")],[Assign(Id("t"),FloatLit(3)),Assign(Id("z"),UnOp("-",Id("t")))])])])
+Type Mismatch In Expression: UnOp("-",Id("t"))
+Type Mismatch In Expression: UnOp("-",Id("t"))
+Chính xác
+Chính xác	
+Program([VarDecl("x"),VarDecl("t")],[Assign(Id("x"),IntLit(3)),Block([VarDecl("y")],[Assign(Id("x"),Id("y")),Block([VarDecl("z")],[Assign(Id("t"),FloatLit(3)),Assign(Id("z"),BinOp("-",Id("t"),Id("x")))])])])
+Type Mismatch In Expression: BinOp("-",Id("t"),Id("x"))
+Type Mismatch In Expression: BinOp("-",Id("t"),Id("x"))
+Chính xác
+Chính xác	
+Program([VarDecl("x"),VarDecl("t")],[Assign(Id("x"),IntLit(3)),Block([VarDecl("y")],[Assign(Id("x"),Id("y")),Block([VarDecl("z")],[Assign(Id("t"),FloatLit(3)),Assign(Id("y"),BinOp("-.",Id("t"),UnOp("i2f",Id("x"))))])])])
+Type Mismatch In Statement: Assign(Id("y"),BinOp("-.",Id("t"),UnOp("i2f",Id("x"))))
+Type Mismatch In Statement: Assign(Id("y"),BinOp("-.",Id("t"),UnOp("i2f",Id("x"))))
+Chính xác
+Chính xác	
+Program([VarDecl("x"),VarDecl("t")],[Assign(Id("x"),IntLit(3)),Block([VarDecl("y")],[Assign(Id("x"),Id("y")),Block([VarDecl("z")],[Assign(Id("t"),FloatLit(3)),Assign(Id("z"),UnOp("floor",Id("y")))])])])
+Type Mismatch In Expression: UnOp("floor",Id("y"))
+Type Mismatch In Expression: UnOp("floor",Id("y"))
+Chính xác
+Chính xác	
+Program([VarDecl("x"),VarDecl("t")],[Assign(Id("x"),IntLit(3)),Block([VarDecl("x")],[Assign(Id("x"),FloatLit(3.0)),Assign(Id("t"),Id("x"))]),Assign(Id("x"),Id("t"))])
+Type Mismatch In Statement: Assign(Id("x"),Id("t"))
+Type Mismatch In Statement: Assign(Id("x"),Id("t"))
+Chính xác
+Chính xác	
+Program([VarDecl("x")],[Assign(Id("x"),IntLit(3)),Block([VarDecl("x")],[Assign(Id("x"),FloatLit(3.0))]),Assign(Id("x"),BoolLit(False))])
+Type Mismatch In Statement: Assign(Id("x"),BoolLit(False))
+Type Mismatch In Statement: Assign(Id("x"),BoolLit(False))

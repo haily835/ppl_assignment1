@@ -68,12 +68,22 @@ class ArrayType(Type):
         self.eletype = eletype
 
     def __str__(self):
-        return str(self.eletype) + str(self.dimen)
+        s = ''
+        for x in self.dimen:
+            s += '['+ str(x) + ']'
+        return str(self.eletype) + s
 
     def __eq__(self, other):
         if self.dimen == other.dimen:
-            if type(self.eletype) == type(other.eletype):
+            if isinstance(self.eletype, Unknown) and not isinstance(other.eletype, Unknown):
+                self.eletype = other.eletype
                 return True
+            if not isinstance(self.eletype, Unknown) and  isinstance(other.eletype, Unknown):
+                other.eletype = self.eletype
+                return True
+            if type(self.eletype) is type(other.eletype):
+                return True
+
         return False
 
     def __repr__(self):
@@ -98,8 +108,8 @@ class Symbol:
             self.kind = Variable()
         elif 'para' in decl:
             self.name = decl['para'].variable.name
-            if decl['para'].varDimen:
-                self.mtype = ArrayType(decl['para'].varDimen, Unknown)
+            # if decl['para'].varDimen:
+            #     self.mtype = ArrayType(decl['para'].varDimen, Unknown)
             self.mtype = Unknown()
             self.kind = Parameter()
         else:
@@ -132,7 +142,7 @@ class Symbol:
 
 class StaticChecker(BaseVisitor):
     def __init__(self,ast):
-        self.ast = ast
+        self.ast = ast        
         self.global_envi = [
 Symbol(name='int_of_float', mtype=(MType([FloatType()], IntType()))),
 Symbol(name='float_of_int', mtype=(MType([IntType()], FloatType()))),
@@ -154,9 +164,10 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
     # get Symbol object by name
     def getSym(self, c, name):
         for scope in c:
-            for x in scope:
-                if x.name == name:
-                    return x
+            if isinstance(scope, List):
+                for x in scope:
+                    if x.name == name:
+                        return x
         return None
 
     # infer the type of an Id or function (expr) with expect and return the type (either old or new)
@@ -165,8 +176,15 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
             sym = self.getSym(c, expr.name)
             sym.inferVar(expect)
             return sym.mtype
+        elif isinstance(expr, ArrayCell):
+            if (isinstance(expr.arr, Id)):
+                sym = self.getSym(c, expr.arr.name)
+                if isinstance(sym.mtype.eletype, Unknown):
+                    sym.mtype.eletype = expect
+                return sym.mtype.eletype
+
         else:
-            sym = self.getSym(c,expr.method)
+            sym = self.getSym(c,expr.method.name)
             sym.inferFuncOut(expect)
             return sym.mtype.restype
 
@@ -194,11 +212,11 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
         c = [c]
         foundMain = 0
         for x in funcDecls:
-            if x.name == 'main':
+            if x.name.name == 'main':
                 foundMain = 1
             x.accept(self, c)
-        # if foundMain == 0:
-        #     raise NoEntryPoint()
+        if foundMain == 0:
+            raise NoEntryPoint()
 
     def visitVarDecl(self, ast, c):
         for x in c:
@@ -206,68 +224,82 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
                 raise Redeclared(Variable(), ast.variable.name)
         var = None
         if ast.varDimen:
-            eletype = ast.varInit.accept(self, c)
-            mytype = ArrayType(len(ast.varDimen), eletype)
+            eletype = (ast.varInit.accept(self, c) if ast.varInit else Unknown())
+            mytype = ArrayType(ast.varDimen, eletype)
             var = Symbol(variable=ast, mtype = mytype)
         else:
             var = Symbol(variable=ast, mtype=(ast.varInit.accept(self, c) if ast.varInit else Unknown()))
-            return var
+        return var
 
     def visitFuncDecl(self, ast, c):
         # create a list of symbol for parameters
-        paraList = [Symbol(para=x) for x in ast.param]
+        paraList = reduce(lambda acc, ele: acc + [ele.accept(self, acc)], ast.param, [])
+        sizePara = len(paraList)
 
         # visit local declarations
         localvar = reduce(lambda acc, ele: acc + [ele.accept(self, acc)], ast.body[0], paraList)
 
         # combine them together to make local scope to visit the statements in body
         c = [localvar] + c
-        
+        # update the function para
+        # c[1:] to advoid inside scope we have a variable has the same name as function.
+        funcSym = self.getSym(c[1:], ast.name.name)
+        for i in range(0, sizePara):
+            if not isinstance(funcSym.mtype.intype[i], Unknown):
+                if isinstance(c[0][i].mtype, Unknown):
+                    c[0][i].mtype = funcSym.mtype.intype[i]
         # visit statements 
         for x in ast.body[1]:
             if isinstance(x, Return):
-                c = (c, ast.name.name)
+                env = (c, ast.name.name)
+                x.accept(self, env)
+            else:
                 x.accept(self, c)
-            x.accept(self, c)
+            # continuously update the function input type
+            for i in range(0, sizePara):
+                if not isinstance(funcSym.mtype.intype[i], Unknown):
+                    if isinstance(c[0][i].mtype, Unknown):
+                        c[0][i].mtype = funcSym.mtype.intype[i]
+                funcSym.mtype.intype[i] = c[0][i].mtype
 
     def visitBinaryOp(self, ast, c):
         if ast.op in ('+', '-', '*', '\\', '%'):
             if isinstance(ast.left.accept(self, c), Unknown):
-                self.infer(c, ast.left, IntType())
+                self.infer(c[:-1], ast.left, IntType())
             if isinstance(ast.right.accept(self, c), Unknown):
-                self.infer(c, ast.right, IntType())
+                self.infer(c[:-1], ast.right, IntType())
             if isinstance(ast.left.accept(self, c), IntType):
                 if isinstance(ast.right.accept(self, c), IntType):
                     return IntType()
         if ast.op in ('+.', '-.', '*.', '\\.'):
             if isinstance(ast.left.accept(self, c), Unknown):
-                self.infer(c, ast.left, FloatType())
+                self.infer(c[:-1], ast.left, FloatType())
             if isinstance(ast.right.accept(self, c), Unknown):
-                self.infer(c, ast.right, FloatType())
+                self.infer(c[:-1], ast.right, FloatType())
             if isinstance(ast.left.accept(self, c), FloatType):
                 if isinstance(ast.right.accept(self, c), FloatType):
                     return FloatType()
         if ast.op == '&&' or (ast.op == '||'):
             if isinstance(ast.left.accept(self, c), Unknown):
-                self.infer(c, ast.left, BoolType())
+                self.infer(c[:-1], ast.left, BoolType())
             if isinstance(ast.right.accept(self, c), Unknown):
-                self.infer(c, ast.right, BoolType())
+                self.infer(c[:-1], ast.right, BoolType())
             if isinstance(ast.left.accept(self, c), BoolType):
                 if isinstance(ast.right.accept(self, c), BoolType):
                     return BoolType()
-        if ast.op in ('<', '>', '<=', '>=', '=='):
+        if ast.op in ('<', '>', '<=', '>=', '==', '!='):
             if isinstance(ast.left.accept(self, c), Unknown):
-                self.infer(c, ast.left, IntType())
+                self.infer(c[:-1], ast.left, IntType())
             if isinstance(ast.right.accept(self, c), Unknown):
-                self.infer(c, ast.right, IntType())
+                self.infer(c[:-1], ast.right, IntType())
             if isinstance(ast.left.accept(self, c), IntType):
                 if isinstance(ast.right.accept(self, c), IntType):
                     return BoolType()
         if ast.op in ('<.', '>.', '<=.', '>=.', '=/='):
             if isinstance(ast.left.accept(self, c), Unknown):
-                self.infer(c, ast.left, FloatType())
+                self.infer(c[:-1], ast.left, FloatType())
             if isinstance(ast.right.accept(self, c), Unknown):
-                self.infer(c, ast.right, FloatType())
+                self.infer(c[:-1], ast.right, FloatType())
             if isinstance(ast.left.accept(self, c), FloatType):
                 if isinstance(ast.right.accept(self, c), FloatType):
                     return BoolType()
@@ -276,17 +308,17 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
     def visitUnaryOp(self, ast, c):
         if ast.op == '-':
             if isinstance(ast.body.accept(self, c), Unknown):
-                self.infer(c, ast.body, IntType())
+                self.infer(c[:-1], ast.body, IntType())
             if isinstance(ast.body.accept(self, c), IntType):
                 return IntType()
         if ast.op == '-.':
             if isinstance(ast.body.accept(self, c), Unknown):
-                self.infer(c, ast.body, FloatType())
+                self.infer(c[:-1], ast.body, FloatType())
             if isinstance(ast.body.accept(self, c), FloatType):
                 return FloatType()
         if ast.op == '!':
             if isinstance(ast.body.accept(self, c), Unknown):
-                self.infer(c, ast.body, BoolType())
+                self.infer(c[:-1], ast.body, BoolType())
             if isinstance(ast.body.accept(self, c), BoolType):
                 return BoolType()
         raise TypeMismatchInExpression(ast)
@@ -294,30 +326,33 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
     def visitCallExpr(self, ast, c):
         argsType = [x.accept(self, c) for x in ast.param]
         sym = self.getSym(c, ast.method.name)
+        for typ in argsType:
+            if isinstance(typ, Unknown):
+                raise TypeCannotBeInferred(c[-1])
         if sym:
             # check whether args are compatible with paras
             if len(argsType) == len(sym.mtype.intype):
                 # try to infer the function parameters by args
                 sym.inferFunc(argsType)
-
                 # check if there are some parameters cannot infer type
                 for typ in sym.mtype.intype:
                     if isinstance(typ, Unknown):
-                        raise TypeCannotBeInferred(ast)
+                        raise TypeCannotBeInferred(c[-1])
                 
-                # check if args and paras are not matched
-                if sym.mtype.intype != argsType:
-                    raise TypeMismatchInExpression(ast)
-                    return sym.mtype.restype
+                
+                pair = zip(sym.mtype.intype, argsType)
+                for x in pair:
+                    if type(x[0]) != type(x[1]):
+                        raise TypeMismatchInExpression(ast)
+                return sym.mtype.restype
             else:
                 raise TypeMismatchInExpression(ast)
         else:
             raise Undeclared(Function(), ast.method.name)
 
-
-    
     def visitId(self, ast, c):
-        sym = self.getSym(c, ast.name)
+        # if the last element is the outer statement contains the epxression than c[:-1]
+        sym = (self.getSym(c, ast.name) if isinstance(c[-1], List) else self.getSym(c[:-1], ast.name))
         if sym:
             return sym.mtype
         else:
@@ -328,38 +363,50 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
         
         # count dimension and check type of indexes
         for x in ast.idx:
+            if isinstance(x.accept(self,c), Unknown):
+                self.infer(c, x, IntType())
             if not isinstance(x.accept(self, c), IntType):
                 raise TypeMismatchInExpression(ast)
             dimen += 1
         
-        if not isinstance(ast.arr.accept(self,c), ArrayType):
-            raise TypeMismatchInExpression(ast)
+        # try to infer type
+        if isinstance(ast.arr.accept(self, c), Unknown):
+            self.infer(c, ast.arr, ArrayType([-1 for x in range(0, dimen)], Unknown()))
 
-        if ast.arr.accept(self,c).dimen != dimen:
+        if isinstance(ast.arr.accept(self, c), ArrayType):
+            if not (len(ast.arr.accept(self,c).dimen) == dimen):
+                raise TypeMismatchInExpression(ast)
+
+            # there still some dimension has no size.
+            if (-1) in ast.arr.accept(self,c).dimen:
+                raise TypeCannotBeInferred(c[-1])
+        else:
             raise TypeMismatchInExpression(ast)
+        
+        return ast.arr.accept(self,c).eletype
     
     def visitAssign(self, ast, c):
-        typeLeft = ast.lhs.accept(self, c)
-        typeRight = ast.rhs.accept(self, c)
-        if isinstance(typeLeft, Unknown):
-            if not isinstance(typeRight, Unknown):
-                self.infer(c, ast.lhs, typeRight)
-                typeLeft = ast.lhs.accept(self, c)
-            if isinstance(typeRight, Unknown):
-                if not isinstance(typeLeft, Unknown):
-                    self.infer(c, ast.rhs, typeLeft)
-                    typeRight = ast.rhs.accept(self, c)
-                if not isinstance(typeLeft, Unknown):
-                    if not isinstance(typeRight, Unknown):
-                        if type(typeLeft) != type(typeRight):
-                            TypeMismatchInStatement(ast)
-            if isinstance(typeLeft, Unknown):
-                if isinstance(typeRight, Unknown):
-                    TypeCannotBeInferred(ast)
+        # print(ast.lhs)
+        typeLeft = ast.lhs.accept(self, c + [ast])
+        typeRight = ast.rhs.accept(self, c + [ast])
+        if isinstance(typeLeft, Unknown) and not isinstance(typeRight, Unknown):
+            self.infer(c, ast.lhs, typeRight)
+            typeLeft = ast.lhs.accept(self, c)
+        if isinstance(typeRight, Unknown)and not isinstance(typeLeft, Unknown):
+            self.infer(c, ast.rhs, typeLeft)
+            typeRight = ast.rhs.accept(self, c)
+        if not isinstance(typeLeft, Unknown) and not isinstance(typeRight, Unknown):
+            if isinstance(typeLeft, ArrayType) and isinstance(typeRight, ArrayType):
+                if not(typeLeft == typeRight):
+                    raise TypeMismatchInStatement(ast)
+            if type(typeLeft) != type(typeRight):
+                raise TypeMismatchInStatement(ast)
+        if isinstance(typeLeft, Unknown) and isinstance(typeRight, Unknown):
+            raise TypeCannotBeInferred(ast)
 
     def visitIf(self, ast, c):
         for ifthenStmt in ast.ifthenStmt:
-            if isinstance(ifthenStmt[0].accept(self, c),Unknown):
+            if isinstance(ifthenStmt[0].accept(self, c + [ast]),Unknown):
                 self.infer(c, ifthenStmt[0], BoolType())
 
             if not isinstance(ifthenStmt[0].accept(self, c),BoolType):
@@ -384,11 +431,11 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
         # try to infer
         sym = self.infer(c, ast.idx1, IntType())
         
-        expr1 = self.infer(c, ast.expr1, IntType()) if isinstance(ast.expr1.accept(self,c), Unknown) else ast.expr1.accept(self,c)
+        expr1 = self.infer(c, ast.expr1, IntType()) if isinstance(ast.expr1.accept(self,c + [ast]), Unknown) else ast.expr1.accept(self,c + [ast])
 
-        expr2 = self.infer(c, ast.expr3, BoolType()) if isinstance(ast.expr2.accept(self,c), Unknown) else ast.expr2.accept(self,c)
+        expr2 = self.infer(c, ast.expr3, BoolType()) if isinstance(ast.expr2.accept(self,c + [ast]), Unknown) else ast.expr2.accept(self,c + [ast])
         
-        expr3 = self.infer(c, ast.expr3, IntType()) if isinstance(ast.expr3.accept(self,c), Unknown) else ast.expr3.accept(self,c)
+        expr3 = self.infer(c, ast.expr3, IntType()) if isinstance(ast.expr3.accept(self,c + [ast]), Unknown) else ast.expr3.accept(self,c + [ast])
 
         if not (isinstance(sym, IntType) and  isinstance(expr1, IntType) and isinstance(expr2, BoolType) and isinstance(expr3, IntType)):
             raise TypeMismatchInStatement(ast)
@@ -407,12 +454,12 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
     def visitReturn(self, ast, c):
         sym = self.getSym(c[0], c[1])
         if isinstance(sym.mtype.restype, VoidType):
-            if not ast.expr:
+            if ast.expr:
                 raise TypeMismatchInStatement(ast)
         elif isinstance(sym.mtype.restype, Unknown):
-            sym.mtype.restype = ast.expr.accept(self, c[0])
+            sym.mtype.restype = ast.expr.accept(self, c[0] + [ast])
         else:
-            if type(sym.mtype.restype) != type(ast.expr.accept(self, c[0])):
+            if type(sym.mtype.restype) is not type(ast.expr.accept(self, c[0])):
                 raise TypeMismatchInStatement(ast)
 
 
@@ -422,13 +469,13 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
             for x in ast.sl[1]:
                 x.accept(self, [localvar] + c)
 
-        exp = self.infer(c, ast.exp, BoolType()) if isinstance(ast.exp.accept(self,c), Unknown) else ast.exp.accept(self,c)
+        exp = self.infer(c, ast.exp, BoolType()) if isinstance(ast.exp.accept(self,c + [ast]), Unknown) else ast.exp.accept(self,c + [ast])
         
         if not isinstance(exp, BoolType):
             raise TypeMismatchInStatement(ast)
 
     def visitWhile(self, ast, c):
-        exp = self.infer(c, ast.exp, BoolType()) if isinstance(ast.exp.accept(self,c), Unknown) else ast.exp.accept(self,c)
+        exp = self.infer(c, ast.exp, BoolType()) if isinstance(ast.exp.accept(self,c + [ast]), Unknown) else ast.exp.accept(self,c + [ast])
         
         if not isinstance(exp, BoolType):
             raise TypeMismatchInStatement(ast)
@@ -439,7 +486,7 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
                 x.accept(self, [localvar] + c)
 
     def visitCallStmt(self, ast, c):
-        argsType = [x.accept(self, c) for x in ast.param]
+        argsType = [x.accept(self, c + [ast]) for x in ast.param]
         sym = self.getSym(c,ast.method.name)
         if sym:
             sym.inferFuncOut(VoidType())
@@ -449,6 +496,9 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
             
             # check whether args are compatible with paras
             if len(argsType) == len(sym.mtype.intype):
+                for typ in argsType:
+                    if isinstance(typ, Unknown):
+                        raise TypeCannotBeInferred(ast)
                 # try to infer the function parameters by args
                 sym.inferFunc(argsType)
 
@@ -460,7 +510,7 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
                 # check if args and paras are not matched
                 pair = zip(sym.mtype.intype, argsType)
                 for x in pair:
-                    if type(x[0]) != type(x[1]):
+                    if type(x[0]) is not type(x[1]):
                         raise TypeMismatchInStatement(ast)
             else:
                 raise TypeMismatchInStatement(ast)

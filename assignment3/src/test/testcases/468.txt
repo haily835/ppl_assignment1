@@ -1,0 +1,13 @@
+
+Function: foo
+Body:
+EndBody.
+
+Function: main
+Body:
+    Var: a[3] = {1,2,4};
+    Var: b[3];
+    b = a;
+    a = b;
+EndBody.
+        
