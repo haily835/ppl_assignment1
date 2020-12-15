@@ -10,9 +10,6 @@ from Visitor import *
 from StaticError import *
 from functools import *
 
-def printlist(lst, f=str, start='(', sepa=',', ending=')'):
-    return start + sepa.join((f(i) for i in lst)) + ending
-
 class Type(ABC):
     __metaclass__ = ABCMeta
     pass
@@ -20,58 +17,28 @@ class Prim(Type):
     __metaclass__ = ABCMeta
     pass
 class IntType(Prim):
-    def __str__(self):
-        return 'Int'
-
-    def __repr__(self):
-        return str(self)
+    pass
 
 class FloatType(Prim):
-    def __str__(self):
-        return 'Float'
-
-    def __repr__(self):
-        return str(self)
+    pass
 
 class StringType(Prim):
-    def __str__(self):
-        return 'String'
-
-    def __repr__(self):
-        return str(self)
+    pass
 
 class BoolType(Prim):
-    def __str__(self):
-        return 'Bool'
-
-    def __repr__(self):
-        return str(self)
+    pass
 
 class VoidType(Type):
-    def __str__(self):
-        return 'Void'
-
-    def __repr__(self):
-        return str(self)
+    pass
 
 class Unknown(Type):
-    def __str__(self):
-        return 'Unknown'
-
-    def __repr__(self):
-        return str(self)
+    pass
 
 @dataclass
 class ArrayType(Type):
     def __init__(self, dimen, eletype):
         self.dimen = dimen
         self.eletype = eletype
-
-    def __str__(self):
-        s = ''
-        for x in self.dimen:
-            s += '['+ str(x) + ']'
-        return str(self.eletype) + s
 
     def __eq__(self, other):
         if self.dimen == other.dimen:
@@ -86,18 +53,12 @@ class ArrayType(Type):
 
         return False
 
-    def __repr__(self):
-        return str(self)
-
 @dataclass
 class MType:
     def __init__(self, intype: List[Type], restype: Type):
         self.intype = intype 
         self.restype = restype
-    def __str__(self):
-        return printlist(self.intype) + ":" + str(self.restype)
-    def __repr__(self):
-        return str(self)
+    
 
 @dataclass
 class Symbol:
@@ -124,20 +85,16 @@ class Symbol:
                 self.mtype.intype[i] = expect[i]
 
     def inferFuncOut(self, expect):
-        if isinstance(self.mtype.restype, Unknown):
-            self.mtype.restype = expect
+        if isinstance(self.mtype, MType):
+            if isinstance(self.mtype.restype, Unknown):
+                self.mtype.restype = expect
+        else:
+            raise Undeclared(Function(), self.name)
 
     def inferVar(self, expect):
         if isinstance(self.mtype, Unknown):
             self.mtype = expect
 
-    def __str__(self):
-        if(isinstance(self.mtype, MType)):
-            return self.name + '' + str(self.mtype)
-        return self.name + ': ' + str(self.mtype)
-
-    def __repr__(self):
-        return str(self)
 
 
 class StaticChecker(BaseVisitor):
@@ -167,6 +124,14 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
             if isinstance(scope, List):
                 for x in scope:
                     if x.name == name:
+                        return x
+        return None
+
+    def getFuncSym(self, c, name):
+        for scope in c:
+            if isinstance(scope, List):
+                for x in scope:
+                    if x.name == name and isinstance(x.mtype, MType):
                         return x
         return None
 
@@ -250,11 +215,8 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
                     c[0][i].mtype = funcSym.mtype.intype[i]
         # visit statements 
         for x in ast.body[1]:
-            if isinstance(x, Return):
-                env = (c, ast.name.name)
-                x.accept(self, env)
-            else:
-                x.accept(self, c)
+            env = (c, ast.name.name)
+            x.accept(self, env)
             # continuously update the function input type
             for i in range(0, sizePara):
                 if not isinstance(funcSym.mtype.intype[i], Unknown):
@@ -325,7 +287,7 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
 
     def visitCallExpr(self, ast, c):
         argsType = [x.accept(self, c) for x in ast.param]
-        sym = self.getSym(c, ast.method.name)
+        sym = self.getFuncSym(c, ast.method.name)
         for typ in argsType:
             if isinstance(typ, Unknown):
                 raise TypeCannotBeInferred(c[-1])
@@ -337,7 +299,7 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
                 # check if there are some parameters cannot infer type
                 for typ in sym.mtype.intype:
                     if isinstance(typ, Unknown):
-                        raise TypeCannotBeInferred(c[-1])
+                        raise TypeMismatchInExpression(ast)
                 
                 
                 pair = zip(sym.mtype.intype, argsType)
@@ -386,7 +348,7 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
         return ast.arr.accept(self,c).eletype
     
     def visitAssign(self, ast, c):
-        # print(ast.lhs)
+        c = c[0]
         typeLeft = ast.lhs.accept(self, c + [ast])
         typeRight = ast.rhs.accept(self, c + [ast])
         if isinstance(typeLeft, Unknown) and not isinstance(typeRight, Unknown):
@@ -405,37 +367,39 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
             raise TypeCannotBeInferred(ast)
 
     def visitIf(self, ast, c):
+        scope = c[0]
         for ifthenStmt in ast.ifthenStmt:
-            if isinstance(ifthenStmt[0].accept(self, c + [ast]),Unknown):
-                self.infer(c, ifthenStmt[0], BoolType())
+            if isinstance(ifthenStmt[0].accept(self, scope + [ast]),Unknown):
+                self.infer(scope, ifthenStmt[0], BoolType())
 
-            if not isinstance(ifthenStmt[0].accept(self, c),BoolType):
+            if not isinstance(ifthenStmt[0].accept(self, scope),BoolType):
                 raise TypeMismatchInStatement(ast)
 
             localvar = reduce(lambda acc, ele: acc + [ele.accept(self, acc)], ifthenStmt[1], [])
             
             # visit statements 
             for x in ifthenStmt[2]:
-                x.accept(self, [localvar] + c)
-            # print([localvar] + c)
+                x.accept(self, ([localvar] + scope, c[1]))
+            
             
         
         if ast.elseStmt != ([],[]):
             localvar = reduce(lambda acc, ele: acc + [ele.accept(self, acc)], ast.elseStmt[0], [])
             for x in ast.elseStmt[1]:
-                x.accept(self, [localvar] + c)
+                x.accept(self, ([localvar] + scope, c[1]))
 
     def visitFor(self, ast, c):
         # get the id
         # check if it is an intlit
         # try to infer
-        sym = self.infer(c, ast.idx1, IntType())
+        scope = c[0]
+        sym = self.infer(scope, ast.idx1, IntType())
         
-        expr1 = self.infer(c, ast.expr1, IntType()) if isinstance(ast.expr1.accept(self,c + [ast]), Unknown) else ast.expr1.accept(self,c + [ast])
+        expr1 = self.infer(scope, ast.expr1, IntType()) if isinstance(ast.expr1.accept(self,scope + [ast]), Unknown) else ast.expr1.accept(self,scope + [ast])
 
-        expr2 = self.infer(c, ast.expr3, BoolType()) if isinstance(ast.expr2.accept(self,c + [ast]), Unknown) else ast.expr2.accept(self,c + [ast])
+        expr2 = self.infer(scope, ast.expr3, BoolType()) if isinstance(ast.expr2.accept(self,scope + [ast]), Unknown) else ast.expr2.accept(self,scope + [ast])
         
-        expr3 = self.infer(c, ast.expr3, IntType()) if isinstance(ast.expr3.accept(self,c + [ast]), Unknown) else ast.expr3.accept(self,c + [ast])
+        expr3 = self.infer(scope, ast.expr3, IntType()) if isinstance(ast.expr3.accept(self,scope + [ast]), Unknown) else ast.expr3.accept(self,scope + [ast])
 
         if not (isinstance(sym, IntType) and  isinstance(expr1, IntType) and isinstance(expr2, BoolType) and isinstance(expr3, IntType)):
             raise TypeMismatchInStatement(ast)
@@ -443,7 +407,7 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
         if ast.loop != ([],[]):
             localvar = reduce(lambda acc, ele: acc + [ele.accept(self, acc)], ast.loop[0], [])
             for x in ast.loop[1]:
-                x.accept(self, [localvar] + c)
+                x.accept(self, ([localvar] + scope, c[1]))
 
     def visitContinue(self, ast, c):
         pass
@@ -452,30 +416,40 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
         pass
 
     def visitReturn(self, ast, c):
-        sym = self.getSym(c[0], c[1])
+        sym = self.getFuncSym(c[0], c[1])
         if isinstance(sym.mtype.restype, VoidType):
             if ast.expr:
                 raise TypeMismatchInStatement(ast)
         elif isinstance(sym.mtype.restype, Unknown):
-            sym.mtype.restype = ast.expr.accept(self, c[0] + [ast])
+            if ast.expr:
+                if isinstance(ast.expr.accept(self, c[0] + [ast]), Unknown):
+                    raise TypeCannotBeInferred(ast)
+                else:
+                    sym.mtype.restype = ast.expr.accept(self, c[0] + [ast])
+            else:
+                sym.mtype.restype = VoidType()
         else:
+            if (not isinstance(sym.mtype.restype, VoidType)) and (ast.expr == None):
+                raise TypeMismatchInStatement(ast)
             if type(sym.mtype.restype) is not type(ast.expr.accept(self, c[0])):
                 raise TypeMismatchInStatement(ast)
 
 
     def visitDowhile(self, ast, c):
+        scope = c[0]
         if ast.sl != ([],[]):
             localvar = reduce(lambda acc, ele: acc + [ele.accept(self, acc)], ast.sl[0], [])
             for x in ast.sl[1]:
-                x.accept(self, [localvar] + c)
+                x.accept(self, ([localvar] + scope, c[1]))
 
-        exp = self.infer(c, ast.exp, BoolType()) if isinstance(ast.exp.accept(self,c + [ast]), Unknown) else ast.exp.accept(self,c + [ast])
+        exp = self.infer(scope, ast.exp, BoolType()) if isinstance(ast.exp.accept(self,scope + [ast]), Unknown) else ast.exp.accept(self,scope + [ast])
         
         if not isinstance(exp, BoolType):
             raise TypeMismatchInStatement(ast)
 
     def visitWhile(self, ast, c):
-        exp = self.infer(c, ast.exp, BoolType()) if isinstance(ast.exp.accept(self,c + [ast]), Unknown) else ast.exp.accept(self,c + [ast])
+        scope = c[0]
+        exp = self.infer(scope, ast.exp, BoolType()) if isinstance(ast.exp.accept(self,scope + [ast]), Unknown) else ast.exp.accept(self,scope + [ast])
         
         if not isinstance(exp, BoolType):
             raise TypeMismatchInStatement(ast)
@@ -483,11 +457,12 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
         if ast.sl != ([],[]):
             localvar = reduce(lambda acc, ele: acc + [ele.accept(self, acc)], ast.sl[0], [])
             for x in ast.sl[1]:
-                x.accept(self, [localvar] + c)
+                x.accept(self, ([localvar] + scope, c[1]))
 
     def visitCallStmt(self, ast, c):
+        c = c[0]
         argsType = [x.accept(self, c + [ast]) for x in ast.param]
-        sym = self.getSym(c,ast.method.name)
+        sym = self.getFuncSym(c,ast.method.name)
         if sym:
             sym.inferFuncOut(VoidType())
             # check if function output is voidtype

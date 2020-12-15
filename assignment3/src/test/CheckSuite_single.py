@@ -4,14 +4,14 @@ from StaticError import *
 from AST import *
 
 class CheckSuite(unittest.TestCase):
-    def test_call_78(self):
+    def test_call_1(self):
         input = """
                 Function: main
-                Parameter: y
                 Body: 
-                main(3.3);
-                y = 4;
+                If True Then
+                    Return 1;
+                EndIf.
                 EndBody.
         """
         expect = str()
-        self.assertTrue(TestChecker.test(input,expect,478))
+        self.assertTrue(TestChecker.test(input,expect,400))

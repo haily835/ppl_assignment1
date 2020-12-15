@@ -1,7 +1,7 @@
 
 Function: main
 Body:
-    Var: x = True
+    Var: x = True;
     While x Do
         Var: x;
     EndWhile.

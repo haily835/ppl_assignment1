@@ -6,7 +6,7 @@ Body:
     If a Then
         Var: a;
         a = 1;
-    Else If (a && True) Then
+    ElseIf (a && True) Then
         Var: a;
     Else
         Var: a;

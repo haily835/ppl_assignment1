@@ -77,10 +77,10 @@ EndBody.
 
 Var: x, y, z;
 Function: foo
+Body:
     Var: x;
     Var: y;
     Var: z;
-Body:
 EndBody.
         """
         expect = str()
@@ -690,7 +690,7 @@ Body:
     If a Then
         Var: a;
         a = 1;
-    Else If (a && True) Then
+    ElseIf (a && True) Then
         Var: a;
     Else
         Var: a;
@@ -708,7 +708,7 @@ Body:
     
     If a Then
         a = 1;
-    Else If (a && True) Then
+    ElseIf (a && True) Then
         Var: a;
     Else
         Var: a;
@@ -761,7 +761,7 @@ Body:
     For(i = 1, i < 10, 1) Do
         For(j = 1, j < 10, 1) Do
         EndFor.
-    EndFor
+    EndFor.
 EndBody.
         """
         expect = str()
@@ -777,7 +777,7 @@ Body:
         Var: j;
         For(j = 1, j < 10, 1) Do
         EndFor.
-    EndFor
+    EndFor.
 EndBody.
         """
         expect = str()
@@ -845,7 +845,7 @@ EndBody.
         input = """
 Function: main
 Body:
-    Var: x = True
+    Var: x = True;
     While x Do
         Var: x;
     EndWhile.
@@ -1498,7 +1498,7 @@ EndBody.
     def test_undeclared_function_use_ast(self):
         """Simple program: main """
         input = Program([FuncDecl(Id("main"),[],([],[
-            CallExpr(Id("foo"),[])]))])
+            CallStmt(Id("foo"),[])]))])
         expect = str(Undeclared(Function(),"foo"))
         self.assertTrue(TestChecker.test(input,expect,499))
 

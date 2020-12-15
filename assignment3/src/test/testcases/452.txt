@@ -6,6 +6,6 @@ Body:
         Var: j;
         For(j = 1, j < 10, 1) Do
         EndFor.
-    EndFor
+    EndFor.
 EndBody.
         

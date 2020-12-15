@@ -9,9 +9,9 @@ EndBody.
 
 Var: x, y, z;
 Function: foo
+Body:
     Var: x;
     Var: y;
     Var: z;
-Body:
 EndBody.
         
