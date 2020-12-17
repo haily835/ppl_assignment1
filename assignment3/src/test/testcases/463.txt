@@ -1,9 +1,10 @@
 
-Function: main
-Parameter: a,b
-Body:
-    a = 1;
-    b = 1;
-    main(1.0,1.0);
-EndBody.
-        
+		Function: main
+		Body:
+		    If main() Then
+		        Return 0;
+		    Else
+		        Return 0.5;
+		    EndIf.
+		EndBody.
+		

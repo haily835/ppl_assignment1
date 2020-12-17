@@ -1,11 +1,21 @@
 
-Function: main
-Body:
-    foo()[0] = 1;
-EndBody.
-
-Function: foo
-Body:
-    Return 3;
-EndBody.
-        
+		Function: main
+		Body:
+		    Return a(1.0) +. 1.0;
+		EndBody.
+		Function: a
+		Parameter: x
+		Body:
+		    Return b(int_of_float(x));
+		EndBody.
+		Function: b
+		Parameter: x
+		Body:
+		    Return c(string_of_int(x));
+		EndBody.
+		Function: c
+		Parameter: x
+		Body:
+		    Return a(float_of_string(x));
+		EndBody.
+		

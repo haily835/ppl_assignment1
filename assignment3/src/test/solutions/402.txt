@@ -1,1 +1,1 @@
-Redeclared Variable: printLn
+Type Mismatch In Expression: CallExpr(Id(read),[IntLiteral(4)])

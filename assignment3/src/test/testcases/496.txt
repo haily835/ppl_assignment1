@@ -1,4 +1,14 @@
-Function: main
-                   Body: 
-                        foo();
-                   EndBody.
+
+		Var: a = 0, b = 1, c = 2;
+		Function: foo
+		Parameter: x, y, z
+		Body:
+		    foo(a, b, c);
+		EndBody.
+		Function: main
+		Parameter: x, y, z
+		Body:
+		    x = y +. z;
+		    foo(x, y, z);
+		EndBody.
+		

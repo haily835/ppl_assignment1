@@ -1,0 +1,1 @@
+Type Cannot Be Inferred: Return(BinaryOp(==,CallExpr(Id(a),[Id(x)]),CallExpr(Id(b),[Id(x)])))

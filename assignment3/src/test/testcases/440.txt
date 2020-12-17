@@ -1,8 +1,9 @@
 
-Function: main
-Body:
-    Var: x = 1;
-    Var: y = 0.5;
-    x = y;
-EndBody.
-        
+		Var: x;
+		Function: main
+		Body:
+		    x = 1;
+		    x = main();
+		    main();
+		EndBody.
+		

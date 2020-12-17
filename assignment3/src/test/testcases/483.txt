@@ -1,10 +1,16 @@
 
-Function: main
-Body:
-    Var: a;
-    a = a + foo(a);
-EndBody.
-Function: foo
-Parameter: a
-Body:
-EndBody.
+		Function: main
+		Parameter: x
+		Body:
+		    If main(x && True) Then
+		        Return x;
+		    Else
+		        Return a({1, 2});
+		    EndIf.
+		EndBody.
+		Function: a
+		Parameter: x[2]
+		Body:
+		    Return x[0];
+		EndBody.
+		

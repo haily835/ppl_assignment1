@@ -1,1 +1,1 @@
-Type Mismatch In Statement: Dowhile([VarDecl(Id(a))],[Assign(Id(a),IntLiteral(1))],Id(a))
+Type Mismatch In Expression: BinaryOp(>.,Id(a),FloatLiteral(1.0))

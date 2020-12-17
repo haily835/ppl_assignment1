@@ -1,1 +1,1 @@
-Type Mismatch In Statement: Assign(Id(a),IntLiteral(1))
+Type Mismatch In Statement: Assign(Id(a),BinaryOp(=/=,Id(a),FloatLiteral(1.0)))

@@ -1,4 +1,12 @@
-Function: main  
-                   Body:
-                        printStrLn();
-                    EndBody.
+
+		Function: main
+		Body:
+		    Var: x[10];
+		    x[x[foo(x)]] = 1;
+		EndBody.
+		Function: foo
+		Parameter: x[10]
+		Body:
+		    Return 0;
+		EndBody.
+		

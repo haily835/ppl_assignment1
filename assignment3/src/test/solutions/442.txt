@@ -1,1 +1,1 @@
-Type Mismatch In Statement: Return(FloatLiteral(3.5))
+Type Cannot Be Inferred: Assign(Id(x),Id(x))

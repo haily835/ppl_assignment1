@@ -1,15 +1,12 @@
 
-Function: main
-Body:
-    Var: a;
-    Var: y;
-    Var: x;
-    y = a + foo(x);
-EndBody.
-
-Function: foo
-Parameter: x
-Body:
-    x = 1;
-EndBody.
-        
+		Function: foo
+		Parameter: x
+		Body:
+		    Var: a[1] = {0};
+		    Return a;
+		EndBody.
+		Function: main
+		Body:
+		    foo(0)[0] = foo(0.0)[0];
+		EndBody.
+		

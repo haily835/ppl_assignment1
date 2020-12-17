@@ -1,8 +1,6 @@
 
-Function: main
-Body:
-    Var: x,y,z;
-    Var: k;
-    Var: x;
-EndBody.
-        
+		Function: main  
+		Body:
+		    printStrLn();
+		EndBody.
+		

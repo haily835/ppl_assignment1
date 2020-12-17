@@ -1,6 +1,6 @@
 
-Var: printLn;
-Function: main
-Body:
-    Var: printLn;
-EndBody.
+		Function: main 
+		Body:
+		    printStrLn(read(4));
+		EndBody.
+		

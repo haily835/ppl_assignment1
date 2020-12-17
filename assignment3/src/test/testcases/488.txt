@@ -1,14 +1,15 @@
 
-Function: foo
-Parameter: x, y, z
-Body:
-    x = 3;
-    y = True;
-    z = "String";
-    Return 3;
-EndBody.
-Function: main
-Body:
-    Var: x;
-    x = x + foo(foo(x, True, string_of_int(x)), False, "2");
-EndBody.
+		Var: a, b;
+		Function: a
+		Body:
+		    Return a() + b;
+		EndBody.
+		Function: b
+		Body:
+		    Return a + b();
+		EndBody.
+		Function: main
+		Body:
+		    Return a + b;
+		EndBody.
+		

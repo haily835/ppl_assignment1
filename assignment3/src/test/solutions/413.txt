@@ -1,1 +1,1 @@
-Redeclared Function: printLn
+Type Mismatch In Statement: CallStmt(Id(main),[Id(x)])

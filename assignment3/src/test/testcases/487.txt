@@ -1,13 +1,18 @@
 
-Function: foo
-Parameter: x, y, z
-Body:
-    x = 3;
-    y = True;
-    z = "String";
-EndBody.
-Function: main
-Body:
-    Var: x;
-    x = x + foo(3, False, "2");
-EndBody.
+		Function: main
+		Parameter: main
+		Body:
+		    If main Then
+		        Var: main;
+		        For (main = main, main == main, main) Do
+		            Var: main;
+		            While main =/= main Do
+		                Var: main;
+		                Do
+		                    Return main;
+		                While main && main EndDo.
+		            EndWhile.
+		        EndFor.
+		    EndIf.
+		EndBody.
+		

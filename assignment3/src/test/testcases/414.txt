@@ -1,10 +1,8 @@
 
-Function: foo
-Parameter: a, b, c, foo
-Body:
-EndBody.
-
-Function: main
-Body:
-EndBody.
-        
+		Var: x, y, z;
+		Function: main
+		Parameter: x, y
+		Body:
+		    x(y, z);
+		EndBody.
+		

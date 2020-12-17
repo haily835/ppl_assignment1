@@ -1,16 +1,7 @@
 
-Function: main
-Body:
-    Var: x = True;
-    Var: a = 1, b = "string", c[3];
-    While foo(a,b,c[2]) Do
-        Var: x;
-    EndWhile.
-EndBody.
-
-Function: foo
-Parameter: a,b,c
-Body:
-    Return True;
-EndBody.
-        
+		Function: main
+		Body:
+		    Var: a[2], b[2] = {1.2,2.2};
+		    a[0] = b[a[0]];
+		EndBody.
+		

@@ -1,8 +1,12 @@
 
-Function: main
-Body:
-    Var: a[5];
-    Var: b[3];
-    b = a;
-EndBody.
-        
+		Function: main
+		Parameter: x
+		Body:
+		    If x == 0 Then
+		        Return x;    
+		    Else
+		        Var: x;
+		        x = main(x);
+		    EndIf.
+		EndBody.
+		

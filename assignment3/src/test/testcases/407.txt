@@ -1,9 +1,6 @@
 
-Function: main
-Body:
-EndBody.
-
-Function: main
-Body:
-EndBody.
-        
+		Function: main
+		Body:
+		    x = 1;
+		EndBody.
+		

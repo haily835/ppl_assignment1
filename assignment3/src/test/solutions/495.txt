@@ -1,1 +1,1 @@
-No Entry Point
+Type Cannot Be Inferred: Assign(Id(x),ArrayCell(Id(a),[Id(x)]))

@@ -1,12 +1,14 @@
 
-Function: foo
-Parameter: x, y, z
-Body:
-    x = 3;
-    y = True;
-    z = "String";
-EndBody.
-Function: main
-Body:
-    foo(3, False, 2);
-EndBody.
+		Function: main
+		Parameter: x
+		Body:
+		    x = 10;
+		    x = foo(x);
+		    Return float_to_int(x);
+		EndBody.
+		Function: foo
+		Parameter: x
+		Body:
+		    Return foo(main(x));
+		EndBody.
+		

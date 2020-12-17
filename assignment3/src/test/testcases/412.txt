@@ -1,13 +1,9 @@
 
-Var: foo;
-Function: foo
-Parameter: a, b, c
-Body:
-    Var: main;
-EndBody.
-Function: main
-Parameter: a, b, c
-Body:
-    Var: main;
-EndBody.
-        
+		Function: x
+		Body:
+		EndBody.
+		Function: main
+		Body:
+		    x = 1;
+		EndBody.
+		

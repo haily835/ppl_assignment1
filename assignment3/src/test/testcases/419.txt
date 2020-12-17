@@ -1,8 +1,9 @@
 
-Var: a;
-Function: main
-Parameter: x, y
-Body:
-    main(2,3);
-EndBody.
-        
+		Var: x;
+		Function: x
+		Body:
+		EndBody.
+		Function: main
+		Body:
+		EndBody.
+		

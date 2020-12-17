@@ -1,7 +1,8 @@
 
-Var: a;
-Function: main
-Body:
-    a = 5;
-EndBody.
-        
+		Function: main
+		Body:
+		EndBody.
+		Function: main
+		Body:
+		EndBody.
+		

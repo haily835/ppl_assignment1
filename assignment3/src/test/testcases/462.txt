@@ -1,13 +1,10 @@
 
-Function: foo
-Parameter: a,b
-Body:
-    a = 1;
-    b = 5;
-EndBody.
-Function: main
-Body:
-    Var: a,b;
-    foo(a,b);
-EndBody.
-        
+		Function: main
+		Parameter: x
+		Body:
+		    If main(main(x)) Then
+		        x = False;
+		        main(x);
+		    EndIf.
+		EndBody.
+		

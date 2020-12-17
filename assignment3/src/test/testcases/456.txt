@@ -1,7 +1,7 @@
 
-Function: main
-Body:
-    While True Do
-    EndWhile.
-EndBody.
-        
+		Function: main
+		Body:
+		    Var: a[10], x;
+		    a[x] = a[a[x]] +. a[a[a[x]]];
+		EndBody.
+		

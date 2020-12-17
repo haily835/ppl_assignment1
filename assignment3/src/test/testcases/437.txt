@@ -1,12 +1,7 @@
 
-Function: main
-Body:
-    foo(1,1);
-EndBody.
-
-Function: foo
-Parameter: x, y
-Body:
-    Return;
-EndBody.
-        
+		Var: x;
+		Function: main
+		Body:
+		    printStrLn(read() + 1);
+		EndBody.
+		

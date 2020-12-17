@@ -1,14 +1,13 @@
 
-Function: main
-Body:
-    Var: a;
-    Var: y;
-    Var: x;
-    y = a + foo(x);
-EndBody.
-
-Function: foo
-Parameter: x
-Body:
-EndBody.
-        
+		Function: main
+		Body:
+		    Var: x, y = 1;
+		    x = foo(y) + 1;
+		    Return x;
+		EndBody.
+		Function: foo
+		Parameter: a
+		Body:
+		    Return 0.5;
+		EndBody.
+		

@@ -1,12 +1,7 @@
 
-Function: main
-Body:
-    Var: a;
-    Var: y;
-    y = foo();
-EndBody.
-
-Function: foo
-Body:
-EndBody.
-        
+		Var: x;
+		Function: main
+		Body:
+		    x = 1 && True;
+		EndBody.
+		

@@ -1,6 +1,21 @@
 
-Function: main
-Body:
-    Var: a[1][2][3] , b;
-    b = b + a[1];
-EndBody.
+		Function: main
+		Body:
+		    Return int_of_float(a({1.0, 2.0}));
+		EndBody.
+		Function: a
+		Parameter: x[2]
+		Body:
+		    Return x[0];
+		EndBody.
+		Function: b
+		Parameter: x[2][2]
+		Body:
+		    Return a(x[0]);
+		EndBody.
+		Function: c
+		Parameter: x[2][2][2]
+		Body:
+		    Return b(x[0]);
+		EndBody.
+		

@@ -1,11 +1,8 @@
 
-Function: main
-Parameter: a,b
-Body:
-    Do
-    Var: a;
-    a = 1;
-    While True
-    EndDo.
-EndBody.
-        
+		Function: main
+		Parameter: a
+		Body:
+		    For (a = 0, a <. 10, 1) Do
+		    EndFor.
+		EndBody.
+		

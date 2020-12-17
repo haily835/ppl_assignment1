@@ -1,10 +1,10 @@
 
-Function: foo
-Parameter: x, y, z
-Body:
-    foo(3,2,1);
-    x = True;
-EndBody.
-Function: main
-Body:
-EndBody.
+		Function: main
+		Parameter: x
+		Body:
+		    Var: a, b, c;
+		    a = int_of_string(x);
+		    b = float_to_int(a);
+		    Return main(b) + 1;
+		EndBody.
+		

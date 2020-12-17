@@ -1,11 +1,9 @@
 
-Function: foo
-Body:
-    Return 3;
-EndBody.
-
-Function: main
-Body:
-    foo();
-EndBody.
-        
+		Function: main
+		Parameter: x
+		Body:
+		    Do
+		        x = 1;
+		    While x EndDo.
+		EndBody.
+		

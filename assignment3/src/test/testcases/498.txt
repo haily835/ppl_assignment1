@@ -1,4 +1,14 @@
-Function: main 
-                    Body:
-                        printStrLn(read(4));
-                    EndBody.
+
+		Function: main
+		Parameter: x[5]
+		Body:
+		    If x[x[0]] > foo(x) Then
+		        Var: a[5];
+		        a[0] = a[foo(a)];
+		    EndIf.
+		EndBody.
+		Function: foo
+		Parameter: x[5]
+		Body:
+		EndBody.
+		

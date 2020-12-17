@@ -1,11 +1,10 @@
 
-Function: main
-Body:
-    Var: a = 5;
-    Do
-    Var: a;
-    a = 1;
-    While a
-    EndDo.
-EndBody.
-        
+		Function: main
+		Parameter: a
+		Body:
+		    If a > 1 Then
+		        If a >. 1.0 Then
+		        EndIf.
+		    EndIf.
+		EndBody.
+		

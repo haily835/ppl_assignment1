@@ -1,7 +1,10 @@
 
-Function: main
-Parameter: x, y
-Body:
-    foo(2);
-EndBody.
-        
+		Function: foo
+		Body:
+		    Var: x[5], y[5];
+		    x = y;
+		EndBody.
+		Function: main
+		Body:
+		EndBody.
+		

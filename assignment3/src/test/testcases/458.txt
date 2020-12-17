@@ -1,9 +1,14 @@
 
-Function: main
-Body:
-    Var: x = True;
-    While x Do
-        Var: x;
-    EndWhile.
-EndBody.
-        
+		Function: foo
+		Parameter: a
+		Body:
+		    a = 0;
+		    a = main(a);
+		    foo(main(a));
+		EndBody.
+		Function: main
+		Parameter: a
+		Body:
+		    a = foo(a);
+		EndBody.
+		

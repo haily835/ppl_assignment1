@@ -1,6 +1,7 @@
 
-Function: main
-Parameter: a, b, c, a
-Body:
-EndBody.
-        
+		Function: main
+		Parameter: x
+		Body:
+		    Var: x;
+		EndBody.
+		

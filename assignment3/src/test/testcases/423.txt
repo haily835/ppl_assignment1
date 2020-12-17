@@ -1,6 +1,10 @@
 
-Function: main
-Body:
-    a[5] = 3;
-EndBody.
-        
+		Function: foo
+		Body:
+		    Var: x, y[5];
+		    x = y;
+		EndBody.
+		Function: main
+		Body:
+		EndBody.
+		

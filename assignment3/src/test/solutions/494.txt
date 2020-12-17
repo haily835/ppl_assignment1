@@ -1,1 +1,1 @@
-Type Mismatch In Expression: BinaryOp(+.,FloatLiteral(1.0),CallExpr(Id(foo),[IntLiteral(3),IntLiteral(2),IntLiteral(1)]))
+Type Cannot Be Inferred: If(BinaryOp(==,CallExpr(Id(f),[CallExpr(Id(g),[Id(x)])]),CallExpr(Id(g),[CallExpr(Id(f),[Id(x)])])),[],[CallStmt(Id(printStrLn),[StringLiteral(Hello World)])])Else([],[])

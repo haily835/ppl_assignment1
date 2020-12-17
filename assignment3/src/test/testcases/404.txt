@@ -1,9 +1,6 @@
 
-Var: x, y, z;
-Function: main
-Body:
-    Var: x;
-    Var: y;
-    Var: z;
-EndBody.
-        
+		Function: main
+		Parameter: x, x
+		Body:
+		EndBody.
+		

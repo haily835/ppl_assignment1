@@ -1,13 +1,7 @@
 
-Function: foo1
-Body:
-EndBody.
-
-Function: foo1
-Body:
-EndBody.
-
-Function: main
-Body:
-EndBody.
-        
+		Var: x;
+		Function: main
+		Body:
+		    x();
+		EndBody.
+		

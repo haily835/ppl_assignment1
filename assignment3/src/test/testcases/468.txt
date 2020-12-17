@@ -1,13 +1,17 @@
 
-Function: foo
-Body:
-EndBody.
-
-Function: main
-Body:
-    Var: a[3] = {1,2,4};
-    Var: b[3];
-    b = a;
-    a = b;
-EndBody.
-        
+		Function: foo
+		Parameter: x
+		Body:
+		    x = 1;
+		    If main(x) Then
+		        x = foo(x);
+		    EndIf.
+		EndBody.
+		Function: main
+		Parameter: x
+		Body:
+		    If foo(x) Then
+		        Return True;
+		    EndIf.
+		EndBody.
+		

@@ -1,6 +1,11 @@
 
-Function: main
-Body:
-    Var: a = 1;
-EndBody.
-        
+		Function: main
+		Body:
+		    Var: x = 1;
+		    x = foo();
+		EndBody.
+		Function: foo
+		Body:
+		    Return;
+		EndBody.
+		
