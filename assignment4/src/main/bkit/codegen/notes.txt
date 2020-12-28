@@ -1,0 +1,84 @@
+emitVAR(self,index, varName, inType, fromLabel, toLabel)
+.var 0 is this Lio; from Label0 to Label1
+
+emitATTRIBUTE(self, lexeme, inType, isFinal, value = None)
+.field public static writer Ljava/io/Writer;
+
+emitMETHOD(self, lexeme, inType, isStatic)
+.method public foo(I)I
+
+emitENDMETHOD(self, frame)
+.limit stack 1
+.limit locals 1
+.end method
+
+emitPROLOG(self, name, parent)
+.source io.java
+.class public io
+.super java/lang/Object
+
+emitEPILOG(self)
+
+
+-------expre
+emitADDOP(self, lexeme, inType, frame) ⇒ iadd, fadd, isub, fsub
+emitMULOP(self, lexeme, inType, frame) ⇒ imul, fmul, idiv, fdiv
+emitDIV(self, frame) ⇒ idiv
+emitMOD(self, frame) ⇒ irem
+emitANDOP(self, frame) ⇒ iand
+emitOROP(self, frame) ⇒ ior
+emitREOP(self, op, inType, frame) ⇒ code for >, < >=, <=, !=, ==
+emitRELOP(self, op, inType, trueLabel, falseLabel, frame) ⇒ code for condition in if statement
+
+
+
+------read/write variables
+emitREADVAR(self, name, inType, index, frame) ⇒ [ifa]load
+emitALOAD(self, inType, frame)) ⇒ [ifa]aload
+emitWRITEVAR(self, name, inType, index, frame) ⇒ [ifa]store
+emitASTORE(self, inType, frame) ⇒ [ifa]astore
+emitGETSTATIC(self, lexeme, inType, frame) ⇒ getstatic
+emitGETFIELD(self, lexeme, inType, frame) ⇒ getfield
+emitPUTSTATIC(self, lexeme, inType, frame) ⇒ putstatic
+emitPUTFIELD(self, lexeme, inType, frame) ⇒ putfield
+
+
+----others
+• emitPUSHICONST(self, input, frame) ⇒ iconst, bipush, sipush, ldc
+• emitPUSHFCONST(self, input, frame) ⇒ fconst, ldc
+• emitINVOKESTATIC(self, lexeme, inType, frame) ⇒ invokestatic
+• emitINVOKESPECIAL(self, frame, lexeme=None, inType=None)
+⇒ invokespecial
+• emitINVOKEVIRTUAL(self, lexeme, inType, frame) ⇒
+invokevirtual
+• emitIFTRUE(self, label, frame) ⇒ ifgt
+• emitIFFALSE(self, label, frame) ⇒ ifle
+• emitDUP(self,frame) ⇒ dup
+• emitPOP(self,frame) ⇒ pop
+• emitI2F(self, frame) ⇒ i2f
+• emitRETURN(self, inType, frame) ⇒ return, ireturn
+• emitLABEL(self, label, frame) ⇒ Label
+• emitGOTO(self, label, frame) ⇒ goto
+
+
+-----frame
+Labels: are valid in the body of a method
+getNewLabel(): return a new label
+getStartLabel(): return the beginning label of a scope
+getEndLabel(): return the end label of a scope
+getContinueLabel(): return the label where a continue should
+come
+getBreakLabel(): return the label where a break should come
+enterScope()
+exitScope()
+enterLoop()
+exitLoop()
+
+• Local variable array
+getNewIndex(): return a new index for a variable
+getMaxIndex(): return the size of the local variable array
+• Operand stack
+push(): simulating a push execution
+pop(): simulating a pop execution
+getMaxOpStackSize(): return the max size of the operand stack
+

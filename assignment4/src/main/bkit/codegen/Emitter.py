@@ -27,10 +27,14 @@ class Emitter():
         elif typeIn is cgen.ClassType:
             return "L" + inType.cname + ";"
 
-    def getFullType(inType):
+    def getFullType(self, inType):
         typeIn = type(inType)
         if typeIn is cgen.IntType:
             return "int"
+        elif typeIn is cgen.FloatType:
+            return "float"
+        elif typeIn is cgen.BoolType:
+            return "boolean"
         elif typeIn is cgen.StringType:
             return "java/lang/String"
         elif typeIn is cgen.VoidType:
@@ -40,7 +44,7 @@ class Emitter():
         #in: Int or Sring
         #frame: Frame
         
-        frame.push();
+        frame.push()
         if type(in_) is int:
             i = in_
             if i >= -1 and i <=5:
@@ -142,8 +146,10 @@ class Emitter():
         #... -> ..., value
         
         frame.push()
-        if type(inType) is cgen.IntType:
+        if type(inType) in [cgen.IntType, cgen.BoolType]:
             return self.jvm.emitILOAD(index)
+        elif type(inType) is cgen.FloatType:
+            return self.jvm.emitFLOAD(index)
         elif type(inType) is cgen.ArrayType or type(inType) is cgen.ClassType or type(inType) is cgen.StringType:
             return self.jvm.emitALOAD(index)
         else:
@@ -174,8 +180,10 @@ class Emitter():
         
         frame.pop()
 
-        if type(inType) is cgen.IntType:
+        if type(inType) in [cgen.IntType, cgen.BoolType]:
             return self.jvm.emitISTORE(index)
+        elif type(inType) is cgen.FloatType:
+            return self.jvm.emitFSTORE(index)
         elif type(inType) is cgen.ArrayType or type(inType) is cgen.ClassType or type(inType) is cgen.StringType:
             return self.jvm.emitASTORE(index)
         else:
@@ -204,7 +212,7 @@ class Emitter():
         #isFinal: Boolean
         #value: String
 
-        return self.jvm.emitSTATICFIELD(lexeme, self.getJVMType(in_), false)
+        return self.jvm.emitSTATICFIELD(lexeme, self.getJVMType(in_), False)
 
     def emitGETSTATIC(self, lexeme, in_, frame):
         #lexeme: String

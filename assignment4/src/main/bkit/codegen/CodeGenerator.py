@@ -8,17 +8,39 @@
 from Visitor import BaseVisitor
 from Emitter import Emitter
 from Frame import Frame
+from functools import reduce
+from AST import *
 from abc import ABC, abstractmethod
 
 class MethodEnv():
     def __init__(self, frame, sym):
         self.frame = frame
         self.sym = sym
+
+
 class Symbol:
     def __init__(self,name,mtype,value = None):
         self.name = name
         self.mtype = mtype
         self.value = value
+
+    # change type only if the current type is Unknown
+    def inferFunc(self, expect):
+        for i in range(0, len(expect)):
+            if isinstance(self.mtype.partype[i], Unknown):
+                self.mtype.partype[i] = expect[i]
+
+    def inferFuncOut(self, expect):
+        if isinstance(self.mtype, MType):
+            if isinstance(self.mtype.partype, Unknown):
+                self.mtype.partype = expect
+        # else:
+        #     raise Undeclared(Function(), self.name)
+
+    def inferVar(self, expect):
+        if isinstance(self.mtype, Unknown):
+            self.mtype = expect
+
 class CName:
     def __init__(self,n):
         self.value = n
@@ -42,6 +64,10 @@ class ArrayType(Type):
     def __init__(self,et,*s):
         self.eleType = et #Type
         self.dimen = s   #List[int]  
+class Unknown(Type):
+    pass
+
+class SubBody
 
 class CodeGenerator():
     def __init__(self):
@@ -59,11 +85,12 @@ class CodeGenerator():
         #ast: AST
         #dir_: String
 
+        # list of function with full detail of types
+        env = StaticChecker(ast).check()
+        
         gl = self.init()
-        gc = CodeGenVisitor(ast, gl, dir_)
+        gc = CodeGenVisitor(ast, gl + env[0], dir_)
         gc.visit(ast, None)
-
-
 
 class CodeGenVisitor(BaseVisitor):
     def __init__(self, astTree, env, dir_):
@@ -82,28 +109,48 @@ class CodeGenVisitor(BaseVisitor):
         #c: Any
 
         self.emit.printout(self.emit.emitPROLOG(self.className, "java.lang.Object"))
-        e = MethodEnv(None, self.env)
-        self.genMain(e)
+        # self.genMain(e)
         # generate default constructor
-        self.genInit()
+        globalVars = list(filter(lambda ele: isinstance(ele,VarDecl), ast.decl))
+        globalSyms = self.genInit(globalVars)
+
+        # visit function declarations
+        self.env = globalSyms + self.env
+        globalFuncs = list(filter(lambda ele: isinstance(ele,FuncDecl), ast.decl))
+        [x.accept(self, MethodEnv(None, self.env)) for x in globalFuncs]
         # generate class init if necessary
         self.emit.emitEPILOG()
         return c
 
-    def genInit(self):
+    def genInit(self, globalVars):
         methodname,methodtype = "<init>",MType([],VoidType())
         frame = Frame(methodname, methodtype.rettype)
         self.emit.printout(self.emit.emitMETHOD(methodname,methodtype,False,frame))
         frame.enterScope(True)
         varname,vartype,varindex = "this",ClassType(self.className),frame.getNewIndex()
         startLabel, endLabel = frame.getStartLabel(), frame.getEndLabel()
+
         self.emit.printout(self.emit.emitVAR(varindex, varname, vartype, startLabel, endLabel,frame ))
         self.emit.printout(self.emit.emitLABEL(startLabel,frame))
         self.emit.printout(self.emit.emitREADVAR(varname, vartype, varindex, frame))
         self.emit.printout(self.emit.emitINVOKESPECIAL(frame))
+        e = MethodEnv(frame, self.env)
+        # init global vars
+        syms = []
+        for var in globalVars:
+            init, initTyp = var.varInit.accept(self, e)
+            dir = self.emit.emitATTRIBUTE(var.variable.name, initTyp, False, None)
+            sym = Symbol(var.variable.name, initTyp, CName('MCClass'))
+            dir += init
+            dir += self.emit.emitPUTSTATIC(sym.value.value + '.' + sym.name, sym.mtype, e.frame)
+            e.sym += [sym]
+            self.emit.printout(dir)
+
         self.emit.printout(self.emit.emitLABEL(endLabel, frame))
         self.emit.printout(self.emit.emitRETURN(methodtype.rettype, frame))
         self.emit.printout(self.emit.emitENDMETHOD(frame))
+        return syms
+        
 
     # The following code is just for initial, students should remove it and write your visitor from here
     def genMain(self,o):
@@ -124,6 +171,427 @@ class CodeGenVisitor(BaseVisitor):
         self.emit.printout(self.emit.emitRETURN(methodtype.rettype, frame))
         self.emit.printout(self.emit.emitENDMETHOD(frame))
 
+    def visitVarDecl(self,ctx, o):
+        idx = o.frame.getNewIndex()
+        dir = self.emit.emitVAR(idx, ctx.name, ctx.typ, o.frame.getStartLabel(), o.frame.getEndLabel(), o.frame)
+        self.emit.printout(dir)
+        return Symbol(ctx.name, ctx.typ, Index(idx))
 
-
+    def visitFuncDecl(self,ctx,o):
+        sym = None
+        for func in o.sym:
+            if func.name == ctx.name.name:
+                sym = func
     
+        frame = Frame(sym.name, sym.mtype.rettype)
+        self.emit.printout(self.emit.emitMETHOD(sym.name,sym.mtype,True,frame))
+        frame.enterScope(True)
+        
+        dir = ""
+        param = zip(ctx.param, sym.mtype.partype)
+        for para in param:
+            idx = frame.getNewIndex()
+            dir += self.emit.emitVAR(idx, para[0].variable.name, para[1], frame.getStartLabel(), frame.getEndLabel(), frame)
+        
+        # directive for parameters and variables
+        self.emit.printout(dir)
+        reduce(lambda acc,ele: acc + [ele.accept(self,SubBody(frame, acc[::-1]))], ctx.body[0], sym)
+        
+        self.emit.printout(self.emit.emitLABEL(frame.getStartLabel(), frame))
+        [x.accept(self, SubBody(frame, sym[::-1])) for x in ctx.body[1]]
+        self.emit.printout(self.emit.emitLABEL(frame.getEndLabel(), frame))
+        self.emit.printout(self.emit.emitENDMETHOD(frame))
+        
+        return Symbol(ctx.name, MType([x.mtype for x in intype], ctx.returnType), CName('MCClass'))
+
+    def visitId(self, ctx, o):
+        if o.isLeft:
+            for id in o.sym:
+                if id.name == ctx.name:
+                    if isinstance(id.value, Index):
+                        return self.emit.emitWRITEVAR(id.name, id.mtype, id.value.value, o.frame), id.mtype
+                    else:
+                        return self.emit.emitPUTSTATIC(id.value.value + '.' + id.name, id.mtype, o.frame), id.mtype
+        else:
+            for id in o.sym:
+                if id.name == ctx.name:
+                    if isinstance(id.value, Index):
+                        return self.emit.emitREADVAR(id.name, id.mtype, id.value.value, o.frame), id.mtype
+                    else:
+                        return self.emit.emitGETSTATIC(id.value.value + '.' + id.name, id.mtype, o.frame), id.mtype
+    
+    
+    def visitAssign(self, ctx, o):
+        codeR, typeR = ctx.rhs.accept(self, Access(o.frame, o.sym, False))
+        codeL, typeL = ctx.lhs.accept(self, Access(o.frame, o.sym, True))
+        self.emit.printout(codeR + codeL)
+
+    def visitIntLiteral(self, ctx, o):
+        return self.emit.emitPUSHICONST(ctx.value, o.frame), IntType()
+
+    def visitFloatLiteral(self, ctx, o):
+        return self.emit.emitPUSHFCONST(ctx.value, o.frame), FloatType()
+
+
+class StaticChecker(BaseVisitor):
+    def __init__(self,ast):
+        self.ast = ast 
+        self.global_envi = []       
+
+                        
+   
+    def check(self):
+        return self.visit(self.ast,self.global_envi)
+        
+
+    # get Symbol object by name
+    def getSym(self, c, name):
+        for scope in c:
+            if isinstance(scope, List):
+                for x in scope:
+                    if x.name == name:
+                        return x
+
+    def getFuncSym(self, c, name):
+        for scope in c:
+            if isinstance(scope, List):
+                for x in scope:
+                    if x.name == name and isinstance(x.mtype, MType):
+                        return x
+        return None
+
+    # infer the type of an Id or function (expr) with expect and return the type (either old or new)
+    def infer(self, c, expr, expect):
+        if isinstance(expr, Id):
+            sym = self.getSym(c, expr.name)
+            sym.inferVar(expect)
+            return sym.mtype
+        elif isinstance(expr, ArrayCell):
+            if (isinstance(expr.arr, Id)):
+                sym = self.getSym(c, expr.arr.name)
+                if isinstance(sym.mtype.eletype, Unknown):
+                    sym.mtype.eletype = expect
+                return sym.mtype.eletype
+
+        else:
+            sym = self.getSym(c,expr.method.name)
+            sym.inferFuncOut(expect)
+            return sym.mtype.restype
+
+    def visitProgram(self, ast, c):
+        varDecls = list(filter(lambda x: isinstance(x, VarDecl), ast.decl))
+        varList = reduce(lambda acc, ele: acc + [ele.accept(self,acc)], varDecls, c)
+        c = c + varList
+
+        funcDecls = list(filter(lambda x: isinstance(x, FuncDecl), ast.decl))
+        for i in range(0, len(funcDecls)):
+            c.append(Symbol(name=(funcDecls[i].name.name), mtype=(MType([Unknown() for x in range(0, len(funcDecls[i].param))], Unknown())), value=CName('MCClass')))
+        c = [c]
+        # foundMain = 0
+        for x in funcDecls:
+            if x.name.name == 'main':
+                foundMain = 1
+            x.accept(self, c)
+        # if foundMain == 0:
+        #     raise NoEntryPoint()
+        return c
+
+
+    def visitVarDecl(self, ast, c):
+        # for x in c:
+        #     if x.name == ast.variable.name:
+        #         raise Redeclared(Variable(), ast.variable.name)
+        var = None
+        if ast.varDimen:
+            eletype = (ast.varInit.accept(self, c) if ast.varInit else Unknown())
+            mytype = ArrayType(ast.varDimen, eletype)
+            var = Symbol(ast.variable.name, mytype)
+        else:
+            var = Symbol(ast.variable.name, (ast.varInit.accept(self, c) if ast.varInit else Unknown()))
+        return var
+
+    def visitFuncDecl(self, ast, c):
+        # create a list of symbol for parameters
+        paraList = reduce(lambda acc, ele: acc + [ele.accept(self, acc)], ast.param, [])
+        sizePara = len(paraList)
+
+        # visit local declarations
+        localvar = reduce(lambda acc, ele: acc + [ele.accept(self, acc)], ast.body[0], paraList)
+
+        # combine them together to make local scope to visit the statements in body
+        c = [localvar] + c
+        # update the function para
+        # c[1:] to advoid inside scope we have a variable has the same name as function.
+        funcSym = self.getSym(c[1:], ast.name.name)
+        for i in range(0, sizePara):
+            if not isinstance(funcSym.mtype.partype[i], Unknown):
+                if isinstance(c[0][i].mtype, Unknown):
+                    c[0][i].mtype = funcSym.mtype.partype[i]
+        
+        # visit statements 
+        for x in ast.body[1]:
+            env = [c, ast.name.name]
+            x.accept(self, env)
+            # continuously update the function input type
+            for i in range(0, sizePara):
+                if not isinstance(funcSym.mtype.partype[i], Unknown):
+                    if isinstance(c[0][i].mtype, Unknown):
+                        c[0][i].mtype = funcSym.mtype.partype[i]
+                funcSym.mtype.partype[i] = c[0][i].mtype
+
+    def visitBinaryOp(self, ast, c):
+        if ast.op in ('+', '-', '*', '\\', '%'):
+            if isinstance(ast.left.accept(self, c), Unknown):
+                self.infer(c[:-1], ast.left, IntType())
+            if isinstance(ast.right.accept(self, c), Unknown):
+                self.infer(c[:-1], ast.right, IntType())
+            if isinstance(ast.left.accept(self, c), IntType):
+                if isinstance(ast.right.accept(self, c), IntType):
+                    return IntType()
+        if ast.op in ('+.', '-.', '*.', '\\.'):
+            if isinstance(ast.left.accept(self, c), Unknown):
+                self.infer(c[:-1], ast.left, FloatType())
+            if isinstance(ast.right.accept(self, c), Unknown):
+                self.infer(c[:-1], ast.right, FloatType())
+            if isinstance(ast.left.accept(self, c), FloatType):
+                if isinstance(ast.right.accept(self, c), FloatType):
+                    return FloatType()
+        if ast.op == '&&' or (ast.op == '||'):
+            if isinstance(ast.left.accept(self, c), Unknown):
+                self.infer(c[:-1], ast.left, BoolType())
+            if isinstance(ast.right.accept(self, c), Unknown):
+                self.infer(c[:-1], ast.right, BoolType())
+            if isinstance(ast.left.accept(self, c), BoolType):
+                if isinstance(ast.right.accept(self, c), BoolType):
+                    return BoolType()
+        if ast.op in ('<', '>', '<=', '>=', '==', '!='):
+            if isinstance(ast.left.accept(self, c), Unknown):
+                self.infer(c[:-1], ast.left, IntType())
+            if isinstance(ast.right.accept(self, c), Unknown):
+                self.infer(c[:-1], ast.right, IntType())
+            if isinstance(ast.left.accept(self, c), IntType):
+                if isinstance(ast.right.accept(self, c), IntType):
+                    return BoolType()
+        if ast.op in ('<.', '>.', '<=.', '>=.', '=/='):
+            if isinstance(ast.left.accept(self, c), Unknown):
+                self.infer(c[:-1], ast.left, FloatType())
+            if isinstance(ast.right.accept(self, c), Unknown):
+                self.infer(c[:-1], ast.right, FloatType())
+            if isinstance(ast.left.accept(self, c), FloatType):
+                if isinstance(ast.right.accept(self, c), FloatType):
+                    return BoolType()
+        # raise TypeMismatchInExpression(ast)
+
+    def visitUnaryOp(self, ast, c):
+        if ast.op == '-':
+            if isinstance(ast.body.accept(self, c), Unknown):
+                self.infer(c[:-1], ast.body, IntType())
+            if isinstance(ast.body.accept(self, c), IntType):
+                return IntType()
+        if ast.op == '-.':
+            if isinstance(ast.body.accept(self, c), Unknown):
+                self.infer(c[:-1], ast.body, FloatType())
+            if isinstance(ast.body.accept(self, c), FloatType):
+                return FloatType()
+        if ast.op == '!':
+            if isinstance(ast.body.accept(self, c), Unknown):
+                self.infer(c[:-1], ast.body, BoolType())
+            if isinstance(ast.body.accept(self, c), BoolType):
+                return BoolType()
+        # raise TypeMismatchInExpression(ast)
+
+    def visitCallExpr(self, ast, c):
+        argsType = [x.accept(self, c) for x in ast.param]
+        sym = self.getFuncSym(c, ast.method.name)
+
+
+        # modify here
+        sym.inferFunc(argsType)
+
+        # for typ in argsType:
+        #     if isinstance(typ, Unknown):
+        #         raise TypeCannotBeInferred(c[-1])
+        # if sym:
+        #     # check whether args are compatible with paras
+        #     if len(argsType) == len(sym.mtype.intype):
+        #         # try to infer the function parameters by args
+        #         sym.inferFunc(argsType)
+        #         # check if there are some parameters cannot infer type
+        #         for typ in sym.mtype.intype:
+        #             if isinstance(typ, Unknown):
+        #                 raise TypeMismatchInExpression(ast)
+                
+                
+        #         pair = zip(sym.mtype.intype, argsType)
+        #         for x in pair:
+        #             if type(x[0]) != type(x[1]):
+        #                 raise TypeMismatchInExpression(ast)
+        #         return sym.mtype.restype
+        #     else:
+        #         raise TypeMismatchInExpression(ast)
+        # else:
+        #     raise Undeclared(Function(), ast.method.name)
+
+    def visitId(self, ast, c):
+        # if the last element is the outer statement contains the epxression than c[:-1]
+        sym = (self.getSym(c, ast.name) if isinstance(c[-1], List) else self.getSym(c[:-1], ast.name))
+        if sym:
+            return sym.mtype
+        # else:
+        #     raise Undeclared(Identifier(), ast.name)
+
+    def visitArrayCell(self, ast, c):
+        # dimen = 0
+        
+        # count dimension and check type of indexes
+        # for x in ast.idx:
+        #     if isinstance(x.accept(self,c), Unknown):
+        #         self.infer(c, x, IntType())
+        #     if not isinstance(x.accept(self, c), IntType):
+        #         raise TypeMismatchInExpression(ast)
+        #     dimen += 1
+        
+        # # try to infer type
+        # if isinstance(ast.arr.accept(self, c), Unknown):
+        #     self.infer(c, ast.arr, ArrayType([-1 for x in range(0, dimen)], Unknown()))
+
+        # if isinstance(ast.arr.accept(self, c), ArrayType):
+        #     if not (len(ast.arr.accept(self,c).dimen) == dimen):
+        #         raise TypeMismatchInExpression(ast)
+
+        #     # there still some dimension has no size.
+        #     if (-1) in ast.arr.accept(self,c).dimen:
+        #         raise TypeCannotBeInferred(c[-1])
+        # else:
+        #     raise TypeMismatchInExpression(ast)
+        
+        return ast.arr.accept(self,c).eletype
+    
+    def visitAssign(self, ast, c):
+        env = c[0]
+        typeLeft = ast.lhs.accept(self, env + [ast])
+        typeRight = ast.rhs.accept(self, env + [ast])
+        if isinstance(typeLeft, Unknown) and not isinstance(typeRight, Unknown):
+            self.infer(env, ast.lhs, typeRight)
+            typeLeft = ast.lhs.accept(self, env)
+        if isinstance(typeRight, Unknown)and not isinstance(typeLeft, Unknown):
+            self.infer(env, ast.rhs, typeLeft)
+            typeRight = ast.rhs.accept(self, env)
+        # if not isinstance(typeLeft, Unknown) and not isinstance(typeRight, Unknown):
+        #     if isinstance(typeLeft, ArrayType) and isinstance(typeRight, ArrayType):
+        #         if not(typeLeft == typeRight):
+        #             raise TypeMismatchInStatement(ast)
+        #     if type(typeLeft) != type(typeRight):
+        #         raise TypeMismatchInStatement(ast)
+        # if isinstance(typeLeft, Unknown) and isinstance(typeRight, Unknown):
+        #     raise TypeCannotBeInferred(ast)
+
+    def visitIf(self, ast, c):
+        scope = c[0]
+        for ifthenStmt in ast.ifthenStmt:
+            if isinstance(ifthenStmt[0].accept(self, scope + [ast]),Unknown):
+                self.infer(scope, ifthenStmt[0], BoolType())
+
+            # if not isinstance(ifthenStmt[0].accept(self, scope),BoolType):
+            #     raise TypeMismatchInStatement(ast)
+
+            localvar = reduce(lambda acc, ele: acc + [ele.accept(self, acc)], ifthenStmt[1], [])
+            
+            # visit statements 
+            for x in ifthenStmt[2]:
+                x.accept(self, ([localvar] + scope, c[1]))
+            
+            
+        
+        if ast.elseStmt != ([],[]):
+            localvar = reduce(lambda acc, ele: acc + [ele.accept(self, acc)], ast.elseStmt[0], [])
+            for x in ast.elseStmt[1]:
+                x.accept(self, ([localvar] + scope, c[1]))
+
+    def visitFor(self, ast, c):
+        # get the id
+        # check if it is an intlit
+        # try to infer
+        scope = c[0]
+        sym = self.infer(scope, ast.idx1, IntType())
+        
+        expr1 = self.infer(scope, ast.expr1, IntType()) if isinstance(ast.expr1.accept(self,scope + [ast]), Unknown) else ast.expr1.accept(self,scope + [ast])
+
+        expr2 = self.infer(scope, ast.expr3, BoolType()) if isinstance(ast.expr2.accept(self,scope + [ast]), Unknown) else ast.expr2.accept(self,scope + [ast])
+        
+        expr3 = self.infer(scope, ast.expr3, IntType()) if isinstance(ast.expr3.accept(self,scope + [ast]), Unknown) else ast.expr3.accept(self,scope + [ast])
+
+        # if not (isinstance(sym, IntType) and  isinstance(expr1, IntType) and isinstance(expr2, BoolType) and isinstance(expr3, IntType)):
+        #     raise TypeMismatchInStatement(ast)
+        
+        if ast.loop != ([],[]):
+            localvar = reduce(lambda acc, ele: acc + [ele.accept(self, acc)], ast.loop[0], [])
+            for x in ast.loop[1]:
+                x.accept(self, ([localvar] + scope, c[1]))
+
+    def visitContinue(self, ast, c):
+        pass
+
+    def visitBreak(self, ast, c):
+        pass
+
+    def visitReturn(self, ast, c):
+        sym = self.getFuncSym(c[0], c[1])
+        # modify here
+        if isinstance(sym.mtype.restype, Unknown):
+            if ast.expr:
+                sym.mtype.restype = ast.expr.accept(self, c[0] + [ast])
+            else:
+                sym.mtype.restype = VoidType()
+        # else:
+        #     if (not isinstance(sym.mtype.restype, VoidType)) and (ast.expr == None):
+        #         raise TypeMismatchInStatement(ast)
+        #     if type(sym.mtype.restype) is not type(ast.expr.accept(self, c[0])):
+        #         raise TypeMismatchInStatement(ast)
+
+
+    def visitDowhile(self, ast, c):
+        scope = c[0]
+        if ast.sl != ([],[]):
+            localvar = reduce(lambda acc, ele: acc + [ele.accept(self, acc)], ast.sl[0], [])
+            for x in ast.sl[1]:
+                x.accept(self, ([localvar] + scope, c[1]))
+
+        exp = self.infer(scope, ast.exp, BoolType()) if isinstance(ast.exp.accept(self,scope + [ast]), Unknown) else ast.exp.accept(self,scope + [ast])
+        
+        # if not isinstance(exp, BoolType):
+        #     raise TypeMismatchInStatement(ast)
+
+    def visitWhile(self, ast, c):
+        scope = c[0]
+        exp = self.infer(scope, ast.exp, BoolType()) if isinstance(ast.exp.accept(self,scope + [ast]), Unknown) else ast.exp.accept(self,scope + [ast])
+        
+        # if not isinstance(exp, BoolType):
+        #     raise TypeMismatchInStatement(ast)
+
+        if ast.sl != ([],[]):
+            localvar = reduce(lambda acc, ele: acc + [ele.accept(self, acc)], ast.sl[0], [])
+            for x in ast.sl[1]:
+                x.accept(self, ([localvar] + scope, c[1]))
+
+    def visitCallStmt(self, ast, c):
+        c = c[0]
+        argsType = [x.accept(self, c + [ast]) for x in ast.param]
+        sym = self.getFuncSym(c,ast.method.name)
+        sym.inferFuncOut(VoidType())
+        sym.inferFunc(argsType)
+        
+    def visitIntLiteral(self, ast, c):
+        return IntType()
+
+    def visitFloatLiteral(self, ast, c):
+        return FloatType()
+
+    def visitBooleanLiteral(self, ast, c):
+        return BoolType()
+
+    def visitStringLiteral(self, ast, c):
+        return StringType()
+
+    def visitArrayLiteral(self, ast, c):
+        return ast.value[0].accept(self, c)
