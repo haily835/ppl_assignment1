@@ -66,20 +66,28 @@ class ArrayType(Type):
         self.dimen = s   #List[int]  
 class Unknown(Type):
     pass
+class SubBody():
+    def __init__(self, frame, sym):
+        #frame: Frame
+        #sym: List[Symbol]
 
-class SubBody
+        self.frame = frame
+        self.sym = sym
 
+class Access():
+    def __init__(self, frame, sym, isLeft, isDup=False):
+        #frame: Frame
+        #sym: List[Symbol]
+        #isLeft: Boolean
+        #isFirst: Boolean
+
+        self.frame  = frame
+        self.sym    = sym
+        self.isLeft = isLeft
+        self.isDup  = isDup
 class CodeGenerator():
     def __init__(self):
         self.libName = "io"
-
-    def init(self):
-        return [Symbol("read", MType([], StringType()), CName(self.libName)),
-                    Symbol("printLn", MType([], VoidType()), CName(self.libName)),
-                    Symbol("printStrLn", MType([StringType()], VoidType()), CName(self.libName)),
-                    Symbol("print", MType([StringType()], VoidType()), CName(self.libName)),
-		    Symbol("string_of_int", MType([IntType()], StringType()), CName(self.libName))
-                    ]
 
     def gen(self, ast, dir_):
         #ast: AST
@@ -87,9 +95,7 @@ class CodeGenerator():
 
         # list of function with full detail of types
         env = StaticChecker(ast).check()
-        
-        gl = self.init()
-        gc = CodeGenVisitor(ast, gl + env[0], dir_)
+        gc = CodeGenVisitor(ast, env[0], dir_)
         gc.visit(ast, None)
 
 class CodeGenVisitor(BaseVisitor):
@@ -107,51 +113,60 @@ class CodeGenVisitor(BaseVisitor):
     def visitProgram(self, ast, c):
         #ast: Program
         #c: Any
-
         self.emit.printout(self.emit.emitPROLOG(self.className, "java.lang.Object"))
-        # self.genMain(e)
+
+        # visit global variables = static field in java
+        globalVarDecls = list(filter(lambda ele: isinstance(ele,VarDecl), ast.decl))
+
+        # generate directives for static fields
+        for i in range(0, len(globalVarDecls)):
+            self.emit.emitATTRIBUTE(self.env[i].name, self.env[i].mtype, False, "")
+
         # generate default constructor
-        globalVars = list(filter(lambda ele: isinstance(ele,VarDecl), ast.decl))
-        globalSyms = self.genInit(globalVars)
+        self.genInit()
+
+        # generate class init to initialize global vars
 
         # visit function declarations
-        self.env = globalSyms + self.env
         globalFuncs = list(filter(lambda ele: isinstance(ele,FuncDecl), ast.decl))
         [x.accept(self, MethodEnv(None, self.env)) for x in globalFuncs]
-        # generate class init if necessary
+        self.genClassInit(globalVarDecls)
+
         self.emit.emitEPILOG()
         return c
 
-    def genInit(self, globalVars):
+    def genClassInit(self, globalVarDecls):
+        methodname, methodtype = "<clinit>", MType([],VoidType())
+        frame = Frame(methodname, methodtype.rettype)
+        self.emit.printout(self.emit.emitMETHOD(methodname,methodtype,False,frame))
+        frame.enterScope(True)
+
+        # generate code to initialize the variable
+        for vardecl in globalVarDecls:
+            initCode, initType = vardecl.varInit.accept(self,frame)            
+            self.emit.emitPUTSTATIC(vardecl.value.value + '.' + vardecl.variable.name, initType, frame)
+            self.emit.printout(initCode)
+        
+        self.emit.printout(self.emit.emitRETURN(methodtype.rettype, frame))
+
+        frame.exitScope()
+        self.emit.printout(self.emit.emitENDMETHOD(frame))
+        
+    def genInit(self):
         methodname,methodtype = "<init>",MType([],VoidType())
         frame = Frame(methodname, methodtype.rettype)
         self.emit.printout(self.emit.emitMETHOD(methodname,methodtype,False,frame))
         frame.enterScope(True)
         varname,vartype,varindex = "this",ClassType(self.className),frame.getNewIndex()
         startLabel, endLabel = frame.getStartLabel(), frame.getEndLabel()
-
         self.emit.printout(self.emit.emitVAR(varindex, varname, vartype, startLabel, endLabel,frame ))
         self.emit.printout(self.emit.emitLABEL(startLabel,frame))
         self.emit.printout(self.emit.emitREADVAR(varname, vartype, varindex, frame))
         self.emit.printout(self.emit.emitINVOKESPECIAL(frame))
-        e = MethodEnv(frame, self.env)
-        # init global vars
-        syms = []
-        for var in globalVars:
-            init, initTyp = var.varInit.accept(self, e)
-            dir = self.emit.emitATTRIBUTE(var.variable.name, initTyp, False, None)
-            sym = Symbol(var.variable.name, initTyp, CName('MCClass'))
-            dir += init
-            dir += self.emit.emitPUTSTATIC(sym.value.value + '.' + sym.name, sym.mtype, e.frame)
-            e.sym += [sym]
-            self.emit.printout(dir)
-
         self.emit.printout(self.emit.emitLABEL(endLabel, frame))
         self.emit.printout(self.emit.emitRETURN(methodtype.rettype, frame))
         self.emit.printout(self.emit.emitENDMETHOD(frame))
-        return syms
         
-
     # The following code is just for initial, students should remove it and write your visitor from here
     def genMain(self,o):
         methodname,methodtype = "main",MType([ArrayType(StringType())],VoidType())
@@ -173,36 +188,53 @@ class CodeGenVisitor(BaseVisitor):
 
     def visitVarDecl(self,ctx, o):
         idx = o.frame.getNewIndex()
-        dir = self.emit.emitVAR(idx, ctx.name, ctx.typ, o.frame.getStartLabel(), o.frame.getEndLabel(), o.frame)
+        initCode, initType = ctx.varInit.accept(self, Access(o.frame, o.sym, False))
+        # write variable
+        if len(ctx.varDimen) > 0:
+            initCode = self.emit.emitPUSHICONST(ctx.varDimen[0], o.frame) + initCode
+        initCode += self.emit.emitWRITEVAR(ctx.variable.name, initType, idx, o.frame)
+
+        # directive
+        dir = self.emit.emitVAR(idx, ctx.variable.name, initType, o.frame.getStartLabel(), o.frame.getEndLabel(), o.frame)
         self.emit.printout(dir)
-        return Symbol(ctx.name, ctx.typ, Index(idx))
+        return Symbol(ctx.variable.name, initType, Index(idx)), initCode
 
     def visitFuncDecl(self,ctx,o):
-        sym = None
+        funcSym = None
         for func in o.sym:
             if func.name == ctx.name.name:
-                sym = func
+                funcSym = func
     
-        frame = Frame(sym.name, sym.mtype.rettype)
-        self.emit.printout(self.emit.emitMETHOD(sym.name,sym.mtype,True,frame))
+        if funcSym.name == "main":
+            funcSym.mtype = MType([ArrayType(StringType())],VoidType())
+        
+        frame = Frame(funcSym.name, funcSym.mtype.rettype)
+        print(funcSym.name)
+        self.emit.printout(self.emit.emitMETHOD(funcSym.name,funcSym.mtype,True,frame))
         frame.enterScope(True)
         
+        # directive for parameters
         dir = ""
-        param = zip(ctx.param, sym.mtype.partype)
+        param = zip(ctx.param, funcSym.mtype.partype)
         for para in param:
             idx = frame.getNewIndex()
             dir += self.emit.emitVAR(idx, para[0].variable.name, para[1], frame.getStartLabel(), frame.getEndLabel(), frame)
-        
-        # directive for parameters and variables
+            o.sym += [Symbol(para[0].variable.name, para[1], Index(idx))]
         self.emit.printout(dir)
-        reduce(lambda acc,ele: acc + [ele.accept(self,SubBody(frame, acc[::-1]))], ctx.body[0], sym)
+
+        # directive for local variables
+        varInitCode = ""
+        for vardecl in ctx.body[0]:
+            sym, initCode = vardecl.accept(self, SubBody(frame, o.sym[::-1]))
+            o.sym += [sym]    
+            varInitCode += initCode
         
         self.emit.printout(self.emit.emitLABEL(frame.getStartLabel(), frame))
-        [x.accept(self, SubBody(frame, sym[::-1])) for x in ctx.body[1]]
+        self.emit.printout(varInitCode)
+        [x.accept(self, SubBody(frame, o.sym[::-1])) for x in ctx.body[1]]
         self.emit.printout(self.emit.emitLABEL(frame.getEndLabel(), frame))
+        self.emit.printout(self.emit.emitRETURN(funcSym.mtype.rettype, frame))
         self.emit.printout(self.emit.emitENDMETHOD(frame))
-        
-        return Symbol(ctx.name, MType([x.mtype for x in intype], ctx.returnType), CName('MCClass'))
 
     def visitId(self, ctx, o):
         if o.isLeft:
@@ -226,17 +258,64 @@ class CodeGenVisitor(BaseVisitor):
         codeL, typeL = ctx.lhs.accept(self, Access(o.frame, o.sym, True))
         self.emit.printout(codeR + codeL)
 
+    def visitBinaryOp(self,ctx,c): pass
+    def visitUnaryOp(self,ctx,c): pass
+    def visitCallExpr(self, ctx, o):pass
+
+    def visitCallStmt(self, ctx, o):
+        # code to put param on frame
+        for x in ctx.param:
+            code, typ = x.accept(self, o)
+            self.emit.printout(code)
+        
+        # find the function
+        funcSym = None
+        for x in o.sym:
+            if x.name == ctx.method.name:
+                funcSym = x
+        
+        self.emit.printout(self.emit.emitINVOKESTATIC(funcSym.value.value+"/" + funcSym.name,funcSym.mtype,o.frame))
+        # self.emit.printout(self.emit.emitPOP(o.frame))
+
+    def visitArrayCell(self, ctx, o): pass
+    
+    
     def visitIntLiteral(self, ctx, o):
         return self.emit.emitPUSHICONST(ctx.value, o.frame), IntType()
 
     def visitFloatLiteral(self, ctx, o):
         return self.emit.emitPUSHFCONST(ctx.value, o.frame), FloatType()
 
+    def visitStringLiteral(self, ctx, o):
+        return self.emit.emitPUSHCONST('"' + ctx.value + '"', StringType(), o.frame), StringType()
 
+    def visitBooleanLiteral(self,ctx,o):
+        return (self.emit.emitPUSHICONST(str(ctx.value), o.frame), BoolType())
+
+    def visitArrayLiteral(self, ctx, o):
+        initCode = ""
+        initCode += self.emit.emitPUSHARRAY(IntType(), 1, o.frame)
+        idx = 0
+        for x in ctx.value:
+            initCode += self.emit.emitDUP(o.frame)
+            initCode += self.emit.emitPUSHICONST(idx,o.frame)
+            code, typ = x.accept(self, o)
+            initCode += code
+            initCode += self.emit.emitASTORE(typ, o.frame)
+            idx += 1
+        return initCode, ArrayType(typ, [len(ctx.value)])
+            
 class StaticChecker(BaseVisitor):
     def __init__(self,ast):
-        self.ast = ast 
-        self.global_envi = []       
+        self.ast = ast
+        self.libName = "io"
+        self.global_envi = [Symbol("read", MType([], StringType()), CName(self.libName)),
+                    Symbol("printLn", MType([], VoidType()), CName(self.libName)),
+                    Symbol("printStrLn", MType([StringType()], VoidType()), CName(self.libName)),
+                    Symbol("print", MType([StringType()], VoidType()), CName(self.libName)),
+		    Symbol("string_of_int", MType([IntType()], StringType()), CName(self.libName))
+                    ]
+       
 
                         
    
@@ -281,11 +360,12 @@ class StaticChecker(BaseVisitor):
     def visitProgram(self, ast, c):
         varDecls = list(filter(lambda x: isinstance(x, VarDecl), ast.decl))
         varList = reduce(lambda acc, ele: acc + [ele.accept(self,acc)], varDecls, c)
-        c = c + varList
+        c = varList
 
         funcDecls = list(filter(lambda x: isinstance(x, FuncDecl), ast.decl))
         for i in range(0, len(funcDecls)):
             c.append(Symbol(name=(funcDecls[i].name.name), mtype=(MType([Unknown() for x in range(0, len(funcDecls[i].param))], Unknown())), value=CName('MCClass')))
+        
         c = [c]
         # foundMain = 0
         for x in funcDecls:
@@ -307,7 +387,7 @@ class StaticChecker(BaseVisitor):
             mytype = ArrayType(ast.varDimen, eletype)
             var = Symbol(ast.variable.name, mytype)
         else:
-            var = Symbol(ast.variable.name, (ast.varInit.accept(self, c) if ast.varInit else Unknown()))
+            var = Symbol(ast.variable.name, (ast.varInit.accept(self, c) if ast.varInit else Unknown()), CName('MCClass'))
         return var
 
     def visitFuncDecl(self, ast, c):
@@ -538,11 +618,11 @@ class StaticChecker(BaseVisitor):
     def visitReturn(self, ast, c):
         sym = self.getFuncSym(c[0], c[1])
         # modify here
-        if isinstance(sym.mtype.restype, Unknown):
+        if isinstance(sym.mtype.rettype, Unknown):
             if ast.expr:
-                sym.mtype.restype = ast.expr.accept(self, c[0] + [ast])
+                sym.mtype.rettype = ast.expr.accept(self, c[0] + [ast])
             else:
-                sym.mtype.restype = VoidType()
+                sym.mtype.rettype = VoidType()
         # else:
         #     if (not isinstance(sym.mtype.restype, VoidType)) and (ast.expr == None):
         #         raise TypeMismatchInStatement(ast)

@@ -54,9 +54,9 @@ class Emitter():
             elif i >= -32768 and i <= 32767:
                 return self.jvm.emitSIPUSH(i)
         elif type(in_) is str:
-            if in_ == "true":
+            if in_ == "True":
                 return self.emitPUSHICONST(1, frame)
-            elif in_ == "false":
+            elif in_ == "False":
                 return self.emitPUSHICONST(0, frame)
             else:
                 return self.emitPUSHICONST(int(in_), frame)
@@ -90,7 +90,20 @@ class Emitter():
             return self.jvm.emitLDC(in_)
         else:
             raise IllegalOperandException(in_)
+    
 
+    def emitPUSHARRAY(self, in_ , dimen, frame):
+        # generate code for multidimension array
+        frame.push()
+        if dimen > 1:
+            typ = ""
+            for x in range(0, dimen):
+                typ += "["
+            typ += self.getJVMType(in_)   
+
+            return self.jvm.emitMULTIANEWARRAY(typ, dimen)
+        else:
+            return self.jvm.emitNEWARRAY(self.getFullType(in_))
     ##############################################################
 
     def emitALOAD(self, in_, frame):
@@ -114,8 +127,10 @@ class Emitter():
         frame.pop()
         frame.pop()
         frame.pop()
-        if type(in_) is cgen.IntType:
+        if type(in_) is cgen.IntType or type(in_) is cgen.BooleanType:
             return self.jvm.emitIASTORE()
+        elif type(in_) is cgen.FloatType:
+            return self.jvm.emitFASTORE()            
         elif type(in_) is cgen.ArrayType or type(in_) is ClassType or type(in_) is cgen.StringType:
             return self.jvm.emitAASTORE()
         else:

@@ -20,10 +20,37 @@ class CheckCodeGenSuite(unittest.TestCase):
     # 	expect = "120"
     # 	self.assertTrue(TestCodeGen.test(input,expect,501))
         
-    def test_simple_function(self):
-        input = Program([FuncDecl(Id("main"), [VarDecl(Id('a'), [], None)], ([],[Assign(Id("a"), IntLiteral(3))]))])
+    # def test_simple_function(self):
+    #     input = Program([FuncDecl(Id("main"), [VarDecl(Id("args"), [], None)], ([VarDecl(Id("b"), [], IntLiteral(3))],[ Return(None)]))])
+    #     expect = ""
+    #     self.assertTrue(TestCodeGen.test(input,expect,502))
+
+    # def test_simple_function(self):
+    #     input = """
+    #     Function: main
+    #     Parameter: args
+    #     Body:
+    #         foo(True);
+    #     EndBody.
+
+    #     Function: foo
+    #     Parameter: a
+    #     Body:
+    #         Return;
+    #     EndBody.
+    #     """
+    #     expect = ""
+    #     self.assertTrue(TestCodeGen.test(input,expect,503))
+    def test_array_function(self):
+        input = """
+        Function: main
+        Parameter: args
+        Body:
+            Var: a[2][2]={{1,2}, {3,4}};
+        EndBody.
+        """
         expect = ""
-        self.assertTrue(TestCodeGen.test(input,expect,502))
+        self.assertTrue(TestCodeGen.test(input,expect,503))
 
     # def test_int2_ast(self):
     # 	input = Program([VarDecl(Id("a"), [], IntLiteral(3))])

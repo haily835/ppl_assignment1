@@ -15,13 +15,22 @@ Label1:
 
 .method public static main([Ljava/lang/String;)V
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
-.var 1 is b I from Label0 to Label1
+.var 1 is a [I from Label0 to Label1
 Label0:
-	iconst_3
-	istore_1
+	iconst_2
+	newarray int
+	dup
+	iconst_0
+	iconst_1
+	iastore
+	dup
+	iconst_1
+	iconst_2
+	iastore
+	astore_1
 Label1:
 	return
-.limit stack 1
+.limit stack 4
 .limit locals 2
 .end method
 

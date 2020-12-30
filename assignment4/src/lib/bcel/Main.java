@@ -1,10 +1,5 @@
 public class Main {
-    int a = 5;
     public static void main(String[] args) {
-      System.out.println("Hello World");
-    }
-
-    public int foo(int b) {
-      return this.a + b;
+      int[][][] a = {{{1,2},{3,4}},{{5,6},{7,8}}};
     }
   }
