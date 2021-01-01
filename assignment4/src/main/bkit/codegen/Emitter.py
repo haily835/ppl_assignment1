@@ -92,18 +92,14 @@ class Emitter():
             raise IllegalOperandException(in_)
     
 
-    def emitPUSHARRAY(self, in_ , dimen, frame):
-        # generate code for multidimension array
+    def emitPUSHARRAY(self, in_, frame):
         frame.push()
-        if dimen > 1:
-            typ = ""
-            for x in range(0, dimen):
-                typ += "["
-            typ += self.getJVMType(in_)   
-
-            return self.jvm.emitMULTIANEWARRAY(typ, dimen)
+        if len(in_.dimen) > 1:
+            typ = self.getJVMType(in_.eleType)   
+            return self.jvm.emitANEWARRAY(typ)
         else:
-            return self.jvm.emitNEWARRAY(self.getFullType(in_))
+            return self.jvm.emitNEWARRAY(self.getFullType(in_.eleType))
+
     ##############################################################
 
     def emitALOAD(self, in_, frame):
@@ -127,7 +123,7 @@ class Emitter():
         frame.pop()
         frame.pop()
         frame.pop()
-        if type(in_) is cgen.IntType or type(in_) is cgen.BooleanType:
+        if type(in_) is cgen.IntType or type(in_) is cgen.BoolType:
             return self.jvm.emitIASTORE()
         elif type(in_) is cgen.FloatType:
             return self.jvm.emitFASTORE()            
@@ -333,12 +329,12 @@ class Emitter():
         label1 = frame.getNewLabel()
         label2 = frame.getNewLabel()
         result = list()
-        result.append(emitIFTRUE(label1, frame))
-        result.append(emitPUSHCONST("true", in_, frame))
-        result.append(emitGOTO(label2, frame))
-        result.append(emitLABEL(label1, frame))
-        result.append(emitPUSHCONST("false", in_, frame))
-        result.append(emitLABEL(label2, frame))
+        result.append(self.emitIFTRUE(label1, frame))
+        result.append(self.emitPUSHICONST("True", frame))
+        result.append(self.emitGOTO(label2, frame))
+        result.append(self.emitLABEL(label1, frame))
+        result.append(self.emitPUSHICONST("False", frame))
+        result.append(self.emitLABEL(label2, frame))
         return ''.join(result)
 
     '''
@@ -382,11 +378,13 @@ class Emitter():
                 return self.jvm.emitIMUL()
             else:
                 return self.jvm.emitFMUL()
-        else:
+        elif lexeme == '/':
             if type(in_) is cgen.IntType:
                 return self.jvm.emitIDIV()
             else:
                 return self.jvm.emitFDIV()
+        else:
+            return self.jvm.emitIREM()
 
     def emitDIV(self, frame):
         #frame: Frame
@@ -443,6 +441,20 @@ class Emitter():
             result.append(self.jvm.emitIFICMPEQ(labelF))
         elif op == "==":
             result.append(self.jvm.emitIFICMPNE(labelF))
+        else:
+            result.append(self.jvm.emitFCMPL())
+            if op == "<.":
+                result.append(self.jvm.emitIFLE(labelF))
+            elif op == "<=.":
+                result.append(self.jvm.emitIFLT(labelF))
+            if op == ">.":
+                result.append(self.jvm.emitIFGE(labelF))
+            if op == ">=.":
+                result.append(self.jvm.emitIFGT(labelF))
+            if op == "=/=":
+                result.append(self.jvm.emitIFEQ(labelF))
+
+
         result.append(self.emitPUSHCONST("1", cgen.IntType(), frame))
         frame.pop()
         result.append(self.emitGOTO(labelO, frame))
@@ -592,9 +604,16 @@ class Emitter():
         #in_: Type
         #frame: Frame
 
-        if type(in_) is cgen.IntType:
+        if type(in_) is cgen.IntType or type(in_) is cgen.BoolType:
             frame.pop()
             return self.jvm.emitIRETURN()
+        elif type(in_) is cgen.FloatType:
+            frame.pop()
+            return self.jvm.emitFRETURN()
+        elif type(in_) is cgen.StringType or type(in_) is cgen.ArrayType:
+            frame.pop()
+            return self.jvm.emitARETURN()
+
         elif type(in_) is cgen.VoidType:
             return self.jvm.emitRETURN()
 

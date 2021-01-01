@@ -19,6 +19,7 @@ Label1:
 Label0:
 	iconst_3
 	istore_1
+	return
 Label1:
 	return
 .limit stack 1

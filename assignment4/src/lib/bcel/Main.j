@@ -1,6 +1,6 @@
 ;; Produced by JasminVisitor (BCEL)
 ;; http://bcel.sourceforge.net/
-;; Wed Dec 30 19:29:42 ICT 2020
+;; Fri Jan 01 10:32:27 ICT 2021
 
 .source Main.java
 .class public Main
@@ -22,80 +22,16 @@ Label1:
 .end method
 
 .method public static main([Ljava/lang/String;)V
-.limit stack 10
+.limit stack 1
 .limit locals 2
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
-.var 1 is a [[[I from Label1 to Label1
 
 Label0:
-.line 3
-	iconst_2
-	anewarray [[I
-	dup
-	iconst_0
-	iconst_2
-	anewarray [I
-	dup
-	iconst_0
-	iconst_2
-	newarray int
-	dup
-	iconst_0
-	iconst_1
-	iastore
-	dup
-	iconst_1
-	iconst_2
-	iastore
-	aastore
-	dup
-	iconst_1
-	iconst_2
-	newarray int
-	dup
-	iconst_0
-	iconst_3
-	iastore
-	dup
-	iconst_1
-	iconst_4
-	iastore
-	aastore
-	aastore
-	dup
-	iconst_1
-	iconst_2
-	anewarray [I
-	dup
-	iconst_0
-	iconst_2
-	newarray int
-	dup
-	iconst_0
-	iconst_5
-	iastore
-	dup
-	iconst_1
-	bipush 6
-	iastore
-	aastore
-	dup
-	iconst_1
-	iconst_2
-	newarray int
-	dup
-	iconst_0
-	bipush 7
-	iastore
-	dup
-	iconst_1
-	bipush 8
-	iastore
-	aastore
-	aastore
-	astore_1
-Label1:
 .line 4
+	iconst_0
+	istore_1
+Label1:
+.line 6
 	return
 
 .end method

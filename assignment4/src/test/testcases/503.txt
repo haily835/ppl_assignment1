@@ -1,7 +1,12 @@
 
         Function: main
-        Parameter: args
         Body:
-            Var: a[2][2]={{1,2}, {3,4}};
+            foo(True);
+        EndBody.
+
+        Function: foo
+        Parameter: a
+        Body:
+            Return;
         EndBody.
         

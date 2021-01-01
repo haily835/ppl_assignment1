@@ -1,0 +1,12 @@
+
+        Function: main
+        Body:
+            If True Then
+                Var: a = 1;
+                print(string_of_int(a));
+            Else
+                Var: a = 5;
+                print(string_of_int(a));
+            EndIf.
+        EndBody.
+        

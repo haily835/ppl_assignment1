@@ -1,0 +1,13 @@
+
+        Function: main
+        Parameter: args
+        Body:
+            Var: a = 3;
+            If True Then
+                Var: a = 1;
+                print(string_of_int(a));
+            EndIf.
+            
+            Return;
+        EndBody.
+        

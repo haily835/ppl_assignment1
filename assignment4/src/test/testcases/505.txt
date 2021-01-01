@@ -1,0 +1,7 @@
+
+        Function: main
+        Parameter: args
+        Body:
+            Var: a[2]={1,2};
+        EndBody.
+        

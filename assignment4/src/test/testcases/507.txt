@@ -1,0 +1,9 @@
+
+        Function: main
+        Parameter: args
+        Body:
+            Var: a = 123;
+            print(string_of_bool(True));
+            Return;
+        EndBody.
+        

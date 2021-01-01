@@ -14,24 +14,21 @@ Label1:
 .end method
 
 .method public static main([Ljava/lang/String;)V
-.var 0 is args [Ljava/lang/String; from Label0 to Label1
-.var 1 is a [I from Label0 to Label1
 Label0:
-	iconst_2
-	newarray int
-	dup
-	iconst_0
 	iconst_1
-	iastore
-	dup
-	iconst_1
-	iconst_2
-	iastore
-	astore_1
+	invokestatic MCClass/foo(Z)V
 Label1:
+.limit stack 2
+.limit locals 0
+.end method
+
+.method public static foo(Z)V
+.var 0 is a Z from Label0 to Label1
+Label0:
 	return
-.limit stack 4
-.limit locals 2
+Label1:
+.limit stack 0
+.limit locals 1
 .end method
 
 .method public <clinit>()V

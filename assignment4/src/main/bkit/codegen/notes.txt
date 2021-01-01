@@ -82,3 +82,29 @@ push(): simulating a push execution
 pop(): simulating a pop execution
 getMaxOpStackSize(): return the max size of the operand stack
 
+
+
+IF False Then
+    print(1)
+ElseIf True Then 
+    print(2)
+Else:
+    print(3)
+
+
+iconst_0
+ifle LableNext
+StartLabelOfNewScope:
+// code to print
+// go to LabelOut
+EndLabelOfNewScope:
+LabelNext:
+iconst_1
+ifle LabelNext
+StartLabelOfNewScope:
+// code to print
+// go to LabelOut
+EndLabelOfNewScope:
+LabelNext:
+// code of elsepart
+LabelOut
