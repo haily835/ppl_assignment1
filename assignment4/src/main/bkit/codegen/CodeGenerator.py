@@ -333,8 +333,6 @@ class CodeGenVisitor(BaseVisitor):
             self.emit.printout(self.emit.emitRETURN(VoidType(), o.frame))
 
     def visitIf(self, ctx, o):
-        next = ""
-
         # generate next label for each else if
         labelNexts = [o.frame.getNewLabel() for x in range(0, len(ctx.ifthenStmt) - 1)]
 
@@ -399,11 +397,167 @@ class CodeGenVisitor(BaseVisitor):
             o.frame.exitScope()
         self.emit.printout(self.emit.emitLABEL(labelOut, o.frame))
 
-    def visitFor(self, ctx, o): pass
-    def visitWhile(self, ctx, o): pass
-    def visitDoWhile(self, ctx, o): pass
-    def visitBreak(self, ctx, o): pass
-    def visitContinue(self, ctx, o): pass
+    def visitFor(self, ctx, o):
+        o.frame.enterLoop()
+        labelBegin = o.frame.getNewLabel()
+        
+        # code to initialize the variable
+        codeInit, typeInit = ctx.expr1.accept(self, Access(o.frame, o.sym, False))
+        self.emit.printout(codeInit)
+        codeId, typeId = ctx.idx1.accept(self, Access(o.frame, o.sym, True))
+        self.emit.printout(codeId)
+
+        # emit label begin
+        self.emit.printout(self.emit.emitLABEL(labelBegin, o.frame))
+
+        # code to evaluate the condition
+        codeCon, typeCon = ctx.expr2.accept(self, Access(o.frame, o.sym, False))
+        self.emit.printout(codeCon)
+
+        # code to go to Label Out if false
+        self.emit.printout(self.emit.emitIFFALSE(o.frame.getBreakLabel(), o.frame))
+
+        # code to execute the statement inside
+        o.frame.enterScope(False)
+        localSyms = o.sym
+        varInitCodes = ''
+        self.emit.printout(self.emit.emitLABEL(o.frame.getStartLabel(), o.frame))
+        for var in ctx.loop[0]:
+            sym, varInitCode = var.accept(self, SubBody(o.frame, localSyms))
+            localSyms = [sym] + localSyms
+            varInitCodes += varInitCode
+
+        self.emit.printout(varInitCodes)
+
+        [x.accept(self, SubBody(o.frame, localSyms)) for x in ctx.loop[1]]
+        self.emit.printout(self.emit.emitLABEL(o.frame.getEndLabel(), o.frame))
+        o.frame.exitScope()
+
+        # code to update the variable
+        codeExpr, typeExpr = ctx.expr3.accept(self, Access(o.frame, o.sym, False))
+        self.emit.printout(codeExpr)
+        loadIdCode, typeId = ctx.idx1.accept(self, Access(o.frame, o.sym, False))
+        self.emit.printout(loadIdCode)
+
+        # continue label = go to the update state and start a new iteration
+        self.emit.printout(self.emit.emitLABEL(o.frame.getContinueLabel(), o.frame))
+        
+        # adding 
+        self.emit.printout(self.emit.emitADDOP('+', IntType(), o.frame))
+        updateIdCode, typeUpdate = ctx.idx1.accept(self, Access(o.frame, o.sym, True))
+        self.emit.printout(updateIdCode)
+
+        # go to LabelBegin
+        self.emit.printout(self.emit.emitGOTO(labelBegin, o.frame))
+        self.emit.printout(self.emit.emitLABEL(o.frame.getBreakLabel(), o.frame))
+
+        o.frame.exitLoop()
+
+    def visitWhile(self, ctx, o):
+        labelBegin = o.frame.getNewLabel()
+        o.frame.enterLoop()
+
+        # emit the label begin
+        self.emit.printout(self.emit.emitLABEL(labelBegin, o.frame))
+
+        # evalue the expression
+        exprCode, exprType = ctx.exp.accept(self, Access(o.frame, o.sym, False))
+        self.emit.printout(exprCode)
+
+        # code if false go to break label
+        self.emit.emitIFFALSE(o.frame.getBreakLabel(), o.frame)
+
+        # code for inside scope
+        o.frame.enterScope(False)
+        localSyms = o.sym
+        varInitCodes = ''
+
+        # start label of inside scope
+        self.emit.emitLABEL(o.frame.getStartLabel(), o.frame)
+
+        # directive for inside var
+        for var in ctx.sl[0]:
+            sym, initCode = var.accept(self, SubBody(o.frame, localSyms))
+            localSyms = [sym] + localSyms
+            varInitCodes += initCode
+
+        # init code var
+        self.emit.printout(varInitCodes)
+
+        # code for statements inside
+        [x.accept(self, SubBody(o.frame, localSyms)) for x in ctx.sl[2]]
+
+        # print end label of scope
+        self.emit.printout(self.emit.emitLABEL(o.frame.getEndLabel(), o.frame))
+        o.frame.exitScope()
+
+        # emit Continue label
+        self.emit.printout(self.emit.emitLABEL(o.frame.getContinueLabel(), o.frame))
+
+        # emit go to the begin label
+        self.emit.printout(self.emit.emitGOTO(labelBegin))
+
+        # emit break label
+        self.emit.printout(self.emit.emitLABEL(o.frame.getBreakLabel(), o.frame))
+
+        # exitLoop
+        o.frame.exitLoop()
+
+    def visitDoWhile(self, ctx, o): 
+        labelBegin = o.frame.getNewLabel()
+        o.frame.enterLoop()
+
+        # emit the label begin
+        self.emit.printout(self.emit.emitLABEL(labelBegin, o.frame))
+
+        # code for inside scope
+        o.frame.enterScope(False)
+        localSyms = o.sym
+        varInitCodes = ''
+
+        # start label of inside scope
+        self.emit.emitLABEL(o.frame.getStartLabel(), o.frame)
+
+        # directive for inside var
+        for var in ctx.sl[0]:
+            sym, initCode = var.accept(self, SubBody(o.frame, localSyms))
+            localSyms = [sym] + localSyms
+            varInitCodes += initCode
+
+        # init code var
+        self.emit.printout(varInitCodes)
+
+        # code for statements inside
+        [x.accept(self, SubBody(o.frame, localSyms)) for x in ctx.sl[2]]
+
+        # print end label of scope
+        self.emit.printout(self.emit.emitLABEL(o.frame.getEndLabel(), o.frame))
+        o.frame.exitScope()
+
+        # evalue the expression
+        exprCode, exprType = ctx.exp.accept(self, Access(o.frame, o.sym, False))
+        self.emit.printout(exprCode)
+
+        # code if false go to break label
+        self.emit.emitIFFALSE(o.frame.getBreakLabel(), o.frame)
+
+        # emit Continue label
+        self.emit.printout(self.emit.emitLABEL(o.frame.getContinueLabel(), o.frame))
+
+        # emit go to the begin label
+        self.emit.printout(self.emit.emitGOTO(labelBegin))
+
+        # emit break label
+        self.emit.printout(self.emit.emitLABEL(o.frame.getBreakLabel(), o.frame))
+
+        # exitLoop
+        o.frame.exitLoop()
+
+    def visitBreak(self, ctx, o): 
+        self.emit.printout(self.emit.emitGOTO(o.frame.getBreakLabel(), o.frame))
+        
+    def visitContinue(self, ctx, o):
+        self.emit.printout(self.emit.emitGOTO(o.frame.getContinueLabel(), o.frame))
     
     def visitArrayCell(self, ctx, o): pass
     

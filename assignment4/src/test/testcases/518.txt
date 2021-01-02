@@ -1,0 +1,12 @@
+
+        Function: main
+        Parameter: args
+        Body:
+            Var: i = 0;
+            For( i = 0, i < 9, 1) Do
+                If i % 2 == 0 Then
+                    print(string_of_int(i));
+                EndIf.
+            EndFor.
+        EndBody.
+        

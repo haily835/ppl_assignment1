@@ -1,0 +1,12 @@
+
+        Function: main
+        Parameter: args
+        Body:
+            Var: i = 0, j = 0;
+            For( i = 0, i < 3, 1) Do
+                For( j = 0, j < 3, 1) Do
+                    print(string_of_int(3));
+                EndFor.
+            EndFor.
+        EndBody.
+        

@@ -1,0 +1,11 @@
+
+        Function: main
+        Parameter: args
+        Body:
+            Var: i = 0;
+            For( i = 0, i < 9, 1) Do
+                Var: i = 5;
+                print(string_of_int(i));
+            EndFor.
+        EndBody.
+        

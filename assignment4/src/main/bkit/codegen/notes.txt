@@ -108,3 +108,13 @@ EndLabelOfNewScope:
 LabelNext:
 // code of elsepart
 LabelOut
+
+
+----For statement----
+Code to initialize the variable
+LabelBegin:
+Code to evaluate the condition
+Code to go to LableOut if false
+Code to execute statement inside
+Code to update the variable and go to LabelBegin
+LabelOut:
