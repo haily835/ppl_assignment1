@@ -1,7 +1,7 @@
 .source MCClass.java
 .class public MCClass
 .super java.lang.Object
-.field static a [I
+.field static a [[I
 .field static i I
 .field static j I
 
@@ -84,7 +84,7 @@ Label12:
 Label13:
 	ifle Label10
 Label14:
-	getstatic MCClass.a [I
+	getstatic MCClass.a [[I
 	getstatic MCClass.i I
 	aaload
 	getstatic MCClass.j I

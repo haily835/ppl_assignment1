@@ -163,10 +163,8 @@ class Emitter():
         #... -> ..., value
         
         frame.push()
-        if type(inType) is cgen.IntType:
+        if type(inType) is cgen.IntType or type(inType) is cgen.BoolType:
             return self.jvm.emitILOAD(index)
-        elif type(inType) is cgen.BoolType:
-            return self.jvm.emitBLOAD(index)
         elif type(inType) is cgen.FloatType:
             return self.jvm.emitFLOAD(index)
         elif type(inType) is cgen.ArrayType or type(inType) is cgen.ClassType or type(inType) is cgen.StringType:
@@ -386,7 +384,7 @@ class Emitter():
                 return self.jvm.emitIMUL()
             else:
                 return self.jvm.emitFMUL()
-        elif lexeme == '/':
+        elif lexeme == '\\':
             if type(in_) is cgen.IntType:
                 return self.jvm.emitIDIV()
             else:

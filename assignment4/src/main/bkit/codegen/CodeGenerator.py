@@ -32,8 +32,8 @@ class Symbol:
 
     def inferFuncOut(self, expect):
         if isinstance(self.mtype, MType):
-            if isinstance(self.mtype.partype, Unknown):
-                self.mtype.partype = expect
+            if isinstance(self.mtype.rettype, Unknown):
+                self.mtype.rettype = expect
         # else:
         #     raise Undeclared(Function(), self.name)
 
@@ -95,6 +95,9 @@ class CodeGenerator():
 
         # list of function with full detail of types
         env = StaticChecker(ast).check()
+        # print(env[0][-1].name)
+        # print(env[0][-1].mtype.partype)
+        # print(env[0][-1].mtype.rettype)
         gc = CodeGenVisitor(ast, env[0], dir_)
         gc.visit(ast, None)
 
@@ -122,7 +125,14 @@ class CodeGenVisitor(BaseVisitor):
         for var in globalVarDecls:
             for sym in self.env:
                 if sym.name == var.variable.name:
-                    self.emit.printout(self.emit.emitATTRIBUTE(sym.name, sym.mtype, False, ""))
+                    if var.varDimen == []:
+                        self.emit.printout(self.emit.emitATTRIBUTE(sym.name, sym.mtype, False, ""))
+                    else:
+                        typ = sym.mtype.eleType
+                        for dimen in var.varDimen:
+                            typ = ArrayType(typ, var.varDimen)
+                        self.emit.printout(self.emit.emitATTRIBUTE(sym.name, typ, False, ""))
+                            
             
 
         # generate default constructor
@@ -134,7 +144,6 @@ class CodeGenVisitor(BaseVisitor):
         # visit function declarations
         globalFuncs = list(filter(lambda ele: isinstance(ele,FuncDecl), ast.decl))
         [x.accept(self, MethodEnv(None, self.env)) for x in globalFuncs]
-
         self.emit.emitEPILOG()
         return c
 
@@ -146,8 +155,8 @@ class CodeGenVisitor(BaseVisitor):
 
         # generate code to initialize the variable
         for vardecl in globalVarDecls:
-            initCode, initType = vardecl.varInit.accept(self,SubBody(frame, self.env))            
-            self.emit.printout(initCode)
+            initCode, initType = vardecl.varInit.accept(self,SubBody(frame, self.env))
+            self.emit.printout(initCode)     
             self.emit.printout(self.emit.emitPUTSTATIC('MCClass' + '.' + vardecl.variable.name, initType, frame))
         
         self.emit.printout(self.emit.emitRETURN(methodtype.rettype, frame))
@@ -196,6 +205,7 @@ class CodeGenVisitor(BaseVisitor):
         # write variable
         # if len(ctx.varDimen) > 0:
         #     initCode = self.emit.emitPUSHICONST(ctx.varDimen[0], o.frame) + initCode
+
         initCode += self.emit.emitWRITEVAR(ctx.variable.name, initType, idx, o.frame)
 
         # directive
@@ -270,6 +280,11 @@ class CodeGenVisitor(BaseVisitor):
                     if isinstance(id.value, Index):
                         return self.emit.emitREADVAR(id.name, id.mtype, id.value.value, o.frame), id.mtype
                     else:
+                        if type(id.mtype) is ArrayType:
+                            typ = id.mtype.eleType
+                            for dimen in id.mtype.dimen:
+                                typ = ArrayType(typ, id.mtype.dimen)
+                            return self.emit.emitGETSTATIC(id.value.value + '.' + id.name, typ, o.frame), id.mtype
                         return self.emit.emitGETSTATIC(id.value.value + '.' + id.name, id.mtype, o.frame), id.mtype
     
     
@@ -282,7 +297,7 @@ class CodeGenVisitor(BaseVisitor):
         left, typeL = ctx.left.accept(self,o)
         right, typeR = ctx.right.accept(self,o)
         code = left + right
-        if ctx.op in ('+', '-', '*', '/', '+.', '-.', '*.', '/.', '%'):
+        if ctx.op in ('+', '-', '*', '\\', '+.', '-.', '*.', '\\.', '%'):
             code += (self.emit.emitADDOP(ctx.op[0],typeL,o.frame) if ctx.op in ('+', '-', '+.', '-.') else self.emit.emitMULOP(ctx.op[0],typeL,o.frame))
             return code, typeL
 
@@ -302,6 +317,9 @@ class CodeGenVisitor(BaseVisitor):
         code, type = ctx.body.accept(self, o)
         if ctx.op == '!':
             code += self.emit.emitNOT(type, o.frame)
+            return code, type
+        if ctx.op in ('-', '-.'):
+            code += self.emit.emitNEGOP(type, o.frame)
             return code, type
 
 
@@ -611,7 +629,7 @@ class CodeGenVisitor(BaseVisitor):
         return self.emit.emitPUSHICONST(ctx.value, o.frame), IntType()
 
     def visitFloatLiteral(self, ctx, o):
-        return self.emit.emitPUSHFCONST(ctx.value, o.frame), FloatType()
+        return self.emit.emitPUSHFCONST(str(ctx.value), o.frame), FloatType()
 
     def visitStringLiteral(self, ctx, o):
         return self.emit.emitPUSHCONST('"' + ctx.value + '"', StringType(), o.frame), StringType()

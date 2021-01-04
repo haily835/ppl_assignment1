@@ -1,0 +1,6 @@
+
+Function: main
+Body:
+print(string_of_bool(bool_of_string("True")));
+EndBody.
+        

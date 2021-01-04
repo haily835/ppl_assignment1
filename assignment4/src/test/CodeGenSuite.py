@@ -411,18 +411,280 @@ class CheckCodeGenSuite(unittest.TestCase):
 #         expect = "12345"
 #         self.assertTrue(TestCodeGen.test(input,expect,526))
 
-    def test_array_cell_5(self):
+#     def test_array_cell_5(self):
+#         input = """
+
+# Var: a[2][2] = {{1,2},{3,4}};
+# Var: i = 0, j = 0;
+# Function: main
+# Body:
+# For( i = 0, i < 2, 1) Do
+#     For(j = 0, j < 2, 1) Do
+#         print(string_of_int(a[i][j]));
+#     EndFor.
+# EndFor.
+# EndBody.
+#         """
+#         expect = "1234"
+#         self.assertTrue(TestCodeGen.test(input,expect,527))
+
+#     def test_array_cell_6(self):
+#         input = """
+
+# Var: a[2][2][2] = {{{1,2},{3,4}}, {{5,6},{7,8}}};
+# Var: i = 0, j = 0, k = 0;
+# Function: main
+# Body:
+# For( i = 0, i < 2, 1) Do
+#     For(j = 0, j < 2, 1) Do
+#         For(k = 0, k < 2, 1) Do
+#             print(string_of_int(a[i][j][k]));
+#         EndFor.
+#     EndFor.
+# EndFor.
+# EndBody.
+#         """
+#         expect = "12345678"
+#         self.assertTrue(TestCodeGen.test(input,expect,528))
+
+
+#     def test_array_cell_7(self):
+#         input = """
+# Var: a[2] = {1,2};
+
+# Function: main
+# Body:
+# printArray1(a);
+# EndBody.
+
+# Function: printArray1
+# Parameter: a
+# Body:
+# Var: i = 0;
+# For( i = 0, i < 2, 1) Do
+#     print(string_of_int(a[i]));
+# EndFor.
+# Return;
+# EndBody.
+#         """
+#         expect = "12"
+#         self.assertTrue(TestCodeGen.test(input,expect,529))
+
+#     def test_binary_1(self):
+#         input = """
+# Function: main
+# Body:
+# print(string_of_int((1+2)*2));
+# EndBody.
+#         """
+#         expect = "6"
+#         self.assertTrue(TestCodeGen.test(input,expect,530))
+    
+#     def test_binary_2(self):
+#         input = """
+# Function: main
+# Body:
+# print(string_of_int((1+2+2)*2*2));
+# EndBody.
+#         """
+#         expect = "20"
+#         self.assertTrue(TestCodeGen.test(input,expect,531))
+
+#     def test_binary_3(self):
+#         input = """
+# Function: main
+# Body:
+# print(string_of_int((1-2-2)*2*2));
+# EndBody.
+#         """
+#         expect = "-12"
+#         self.assertTrue(TestCodeGen.test(input,expect,532))
+
+#     def test_binary_4(self):
+#         input = """
+# Function: main
+# Body:
+# print(string_of_int(15 % 2 % 2));
+# EndBody.
+#         """
+#         expect = "1"
+#         self.assertTrue(TestCodeGen.test(input,expect,533))
+
+
+#     def test_binary_5(self):
+#         input = """
+# Function: main
+# Body:
+# print(string_of_int(15 \\ 2 \\ 2));
+# EndBody.
+#         """
+#         expect = "3"
+#         self.assertTrue(TestCodeGen.test(input,expect,534))
+
+#     def test_binary_6(self):
+#         input = """
+# Function: main
+# Body:
+# print(string_of_int(-5 + 2));
+# EndBody.
+#         """
+#         expect = "-3"
+#         self.assertTrue(TestCodeGen.test(input,expect,535))
+
+#     def test_binary_7(self):
+#         input = """
+# Function: main
+# Body:
+# print(string_of_float(-.5.0 +. 2.0));
+# EndBody.
+#         """
+#         expect = "-3.0"
+#         self.assertTrue(TestCodeGen.test(input,expect,536))
+
+#     def test_binary_8(self):
+#         input = """
+# Function: main
+# Body:
+# print(string_of_float(5.0 *. 2.0));
+# EndBody.
+#         """
+#         expect = "10.0"
+#         self.assertTrue(TestCodeGen.test(input,expect,537))
+
+#     def test_binary_9(self):
+#         input = """
+# Function: main
+# Body:
+# print(string_of_float(5.0 *. 2.0 *. 2.0 -. 3.0));
+# EndBody.
+#         """
+#         expect = "17.0"
+#         self.assertTrue(TestCodeGen.test(input,expect,538))
+
+#     def test_binary_10(self):
+#         input = """
+# Function: main
+# Body:
+# print(string_of_float(5.0 +. 2.0 +. 2.0 -. 3.0));
+# EndBody.
+#         """
+#         expect = "6.0"
+#         self.assertTrue(TestCodeGen.test(input,expect,539))
+            
+#     def test_binary_11(self):
+#         input = """
+# Function: main
+# Body:
+# print(string_of_float(5.0 \\. 2.0));
+# EndBody.
+#         """
+#         expect = "2.5"
+#         self.assertTrue(TestCodeGen.test(input,expect,540))
+
+#     def test_binary_12(self):
+#         input = """
+# Function: main
+# Body:
+# print(string_of_float(5.0 \\. 2.0 \\. 0.5));
+# EndBody.
+#         """
+#         expect = "5.0"
+#         self.assertTrue(TestCodeGen.test(input,expect,541))
+
+#     def test_binary_13(self):
+#         input = """
+# Function: main
+# Body:
+# print(string_of_float(-15.0 \\. 2.0));
+# EndBody.
+#         """
+#         expect = "-7.5"
+#         self.assertTrue(TestCodeGen.test(input,expect,542))
+
+#     def test_binary_14(self):
+#         input = """
+# Function: main
+# Body:
+# print(string_of_float(float_to_int(1) +. 2.0));
+# EndBody.
+#         """
+#         expect = "3.0"
+#         self.assertTrue(TestCodeGen.test(input,expect,543))
+
+#     def test_binary_15(self):
+#         input = """
+# Function: main
+# Body:
+# print(string_of_int(int_of_float(1.0) * 2));
+# EndBody.
+#         """
+#         expect = "2"
+#         self.assertTrue(TestCodeGen.test(input,expect,544))
+
+#     def test_binary_16(self):
+#         input = """
+# Function: main
+# Body:
+# print(string_of_float(float_of_string("1.0") * 2.0));
+# EndBody.
+#         """
+#         expect = "2.0"
+#         self.assertTrue(TestCodeGen.test(input,expect,545))
+
+#     def test_binary_17(self):
+#         input = """
+# Function: main
+# Body:
+# print(string_of_int(int_of_string("1") * 2));
+# EndBody.
+#         """
+#         expect = "2"
+#         self.assertTrue(TestCodeGen.test(input,expect,546))
+
+#     def test_boolean(self):
+#         input = """
+# Function: main
+# Body:
+# print(string_of_bool(bool_of_string("True")));
+# EndBody.
+#         """
+#         expect = "true"
+#         self.assertTrue(TestCodeGen.test(input,expect,547))
+
+#     def test_boolean_2(self):
+#         input = """
+# Function: main
+# Body:
+# Var: a = 0;
+# Var: b = 0;
+# If bool_of_string("True") Then
+#     a = int_of_string(read());
+#     b = float_to_int(a) + 2.0;
+#     print(string_of_float(b));
+# EndIf.
+# EndBody.
+#         """
+#         expect = "true"
+#         self.assertTrue(TestCodeGen.test(input,expect,548))
+
+    def test_sum_array(self):
         input = """
-Var: a[2][2] = {{1,2},{3,4}};
-Var: i = 0, j = 0;
 Function: main
 Body:
-For(i = 0, i < 2, 1) Do
-    For(j = 0, j < 2, 1) Do
-        print(string_of_int(a[i][j]));
-    EndFor.
+Var: a[5] = {1,2,3,4,5};
+print(string_of_int(sum(a, 5)));
+EndBody.
+
+Function: sum
+Parameter: a, size
+Body:
+Var: i = 0;
+Var: result = 0;
+For(i = 0, i < size, 1) Do
+    result = result + a[i];
 EndFor.
+Return result;
 EndBody.
         """
-        expect = "1234"
-        self.assertTrue(TestCodeGen.test(input,expect,527))
+        expect = "15"
+        self.assertTrue(TestCodeGen.test(input,expect,549))

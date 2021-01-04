@@ -1,0 +1,6 @@
+
+Function: main
+Body:
+print(string_of_int(int_of_float(1.0) * 2));
+EndBody.
+        
