@@ -1,0 +1,10 @@
+
+        Function: main
+        Parameter: args
+        Body:
+            While True Do
+                print(string_of_int(1));
+                Break;
+            EndWhile.
+        EndBody.
+        

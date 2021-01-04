@@ -19,8 +19,6 @@ Label1:
 Label0:
 	iconst_0
 	istore_1
-	iconst_1
-	istore_1
 Label4:
 	iload_1
 	iconst_5
@@ -35,12 +33,12 @@ Label7:
 	iload_1
 	invokestatic io/string_of_int(I)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
-Label8:
-	iconst_1
 	iload_1
-Label2:
+	iconst_1
 	iadd
 	istore_1
+Label8:
+Label2:
 	goto Label4
 Label3:
 Label1:

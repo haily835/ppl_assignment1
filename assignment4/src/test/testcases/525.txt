@@ -1,0 +1,7 @@
+
+Function: main
+Body:
+Var: a[2][2] = {{"String","var"},{"3","trign"}};
+print(a[0][0]);
+EndBody.
+        

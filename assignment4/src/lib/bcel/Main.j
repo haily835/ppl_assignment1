@@ -1,6 +1,6 @@
 ;; Produced by JasminVisitor (BCEL)
 ;; http://bcel.sourceforge.net/
-;; Sat Jan 02 14:52:07 ICT 2021
+;; Sun Jan 03 22:33:23 ICT 2021
 
 .source Main.java
 .class public Main
@@ -22,28 +22,91 @@ Label1:
 .end method
 
 .method public static main([Ljava/lang/String;)V
-.limit stack 2
+.limit stack 10
 .limit locals 2
-.var 0 is args [Ljava/lang/String; from Label2 to Label0
-.var 1 is i I from Label1 to Label0
+.var 0 is args [Ljava/lang/String; from Label0 to Label1
+.var 1 is a [[[Z from Label2 to Label1
 
-Label2:
+Label0:
 .line 3
+	iconst_2
+	anewarray [[Z
+	dup
 	iconst_0
-	istore_1
-Label1:
-	iload_1
-	iconst_5
-	if_icmpge Label0
+	iconst_2
+	anewarray [Z
+	dup
+	iconst_0
+	iconst_2
+	newarray boolean
+	dup
+	iconst_0
+	iconst_1
+	bastore
+	dup
+	iconst_1
+	iconst_0
+	bastore
+	aastore
+	dup
+	iconst_1
+	iconst_2
+	newarray boolean
+	dup
+	iconst_0
+	iconst_1
+	bastore
+	dup
+	iconst_1
+	iconst_0
+	bastore
+	aastore
+	aastore
+	dup
+	iconst_1
+	iconst_2
+	anewarray [Z
+	dup
+	iconst_0
+	iconst_2
+	newarray boolean
+	dup
+	iconst_0
+	iconst_1
+	bastore
+	dup
+	iconst_1
+	iconst_0
+	bastore
+	aastore
+	dup
+	iconst_1
+	iconst_2
+	newarray boolean
+	dup
+	iconst_0
+	iconst_1
+	bastore
+	dup
+	iconst_1
+	iconst_0
+	bastore
+	aastore
+	aastore
+	astore_1
+Label2:
 .line 4
 	getstatic java.lang.System.out Ljava/io/PrintStream;
-	iload_1
-	invokevirtual java/io/PrintStream/println(I)V
-.line 3
-	iinc 1 1
-	goto Label1
-Label0:
-.line 6
+	aload_1
+	iconst_0
+	aaload
+	iconst_0
+	aaload
+	iconst_1
+	baload
+	invokevirtual java/io/PrintStream/print(Z)V
+Label1:
+.line 5
 	return
 
 .end method

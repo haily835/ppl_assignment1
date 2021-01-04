@@ -11,7 +11,7 @@
             ElseIf False Then
                 Var: a = 3;
                 print(string_of_int(a));
-            ElseIf True Then
+            ElseIf False Then
                 Var: a = 4;
                 print(string_of_int(a));
             Else

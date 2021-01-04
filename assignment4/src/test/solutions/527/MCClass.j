@@ -1,6 +1,9 @@
 .source MCClass.java
 .class public MCClass
 .super java.lang.Object
+.field static a [I
+.field static i I
+.field static j I
 
 .method public <init>()V
 .var 0 is this LMCClass; from Label0 to Label1
@@ -13,20 +16,53 @@ Label1:
 .limit locals 1
 .end method
 
+.method public <clinit>()V
+	iconst_2
+	anewarray [I
+	dup
+	iconst_0
+	iconst_2
+	newarray int
+	dup
+	iconst_0
+	iconst_1
+	iastore
+	dup
+	iconst_1
+	iconst_2
+	iastore
+	aastore
+	dup
+	iconst_1
+	iconst_2
+	newarray int
+	dup
+	iconst_0
+	iconst_3
+	iastore
+	dup
+	iconst_1
+	iconst_4
+	iastore
+	aastore
+	putstatic MCClass.a [[I
+	iconst_0
+	putstatic MCClass.i I
+	iconst_0
+	putstatic MCClass.j I
+	return
+.limit stack 8
+.limit locals 0
+.end method
+
 .method public static main([Ljava/lang/String;)V
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
-.var 1 is i I from Label0 to Label1
-.var 2 is j I from Label0 to Label1
 Label0:
 	iconst_0
-	istore_1
-	iconst_0
-	istore_2
-	iconst_0
-	istore_1
+	putstatic MCClass.i I
 Label4:
-	iload_1
-	iconst_3
+	getstatic MCClass.i I
+	iconst_2
 	if_icmpge Label5
 	iconst_1
 	goto Label6
@@ -36,10 +72,10 @@ Label6:
 	ifle Label3
 Label7:
 	iconst_0
-	istore_2
+	putstatic MCClass.j I
 Label11:
-	iload_2
-	iconst_3
+	getstatic MCClass.j I
+	iconst_2
 	if_icmpge Label12
 	iconst_1
 	goto Label13
@@ -48,33 +84,31 @@ Label12:
 Label13:
 	ifle Label10
 Label14:
-	iconst_3
+	getstatic MCClass.a [I
+	getstatic MCClass.i I
+	aaload
+	getstatic MCClass.j I
+	iaload
 	invokestatic io/string_of_int(I)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label15:
 	iconst_1
-	iload_2
+	getstatic MCClass.j I
 Label9:
 	iadd
-	istore_2
+	putstatic MCClass.j I
 	goto Label11
 Label10:
 Label8:
 	iconst_1
-	iload_1
+	getstatic MCClass.i I
 Label2:
 	iadd
-	istore_1
+	putstatic MCClass.i I
 	goto Label4
 Label3:
 Label1:
 	return
 .limit stack 6
-.limit locals 3
-.end method
-
-.method public <clinit>()V
-	return
-.limit stack 0
-.limit locals 0
+.limit locals 1
 .end method

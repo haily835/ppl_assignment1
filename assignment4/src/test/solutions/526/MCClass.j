@@ -1,6 +1,7 @@
 .source MCClass.java
 .class public MCClass
 .super java.lang.Object
+.field static a [I
 
 .method public <init>()V
 .var 0 is this LMCClass; from Label0 to Label1
@@ -19,7 +20,7 @@ Label1:
 Label0:
 	iconst_0
 	istore_1
-	iconst_1
+	iconst_0
 	istore_1
 Label4:
 	iload_1
@@ -32,7 +33,9 @@ Label5:
 Label6:
 	ifle Label3
 Label7:
+	getstatic MCClass.a [I
 	iload_1
+	iaload
 	invokestatic io/string_of_int(I)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label8:
@@ -50,7 +53,30 @@ Label1:
 .end method
 
 .method public <clinit>()V
+	iconst_5
+	newarray int
+	dup
+	iconst_0
+	iconst_1
+	iastore
+	dup
+	iconst_1
+	iconst_2
+	iastore
+	dup
+	iconst_2
+	iconst_3
+	iastore
+	dup
+	iconst_3
+	iconst_4
+	iastore
+	dup
+	iconst_4
+	iconst_5
+	iastore
+	putstatic MCClass.a [I
 	return
-.limit stack 0
+.limit stack 4
 .limit locals 0
 .end method

@@ -1,0 +1,12 @@
+
+Function: main
+Body:
+print(string_of_int(foo(2)));
+EndBody.
+
+Function: foo
+Parameter: a
+Body:
+Return 3;
+EndBody.
+        

@@ -35,7 +35,6 @@ Label7:
 .var 2 is a I from Label7 to Label8
 	iconst_0
 	istore_2
-Label2:
 	iload_1
 	istore_2
 	iload_2
@@ -44,6 +43,7 @@ Label2:
 Label8:
 	iconst_1
 	iload_1
+Label2:
 	iadd
 	istore_1
 	goto Label4

@@ -32,7 +32,6 @@ Label5:
 Label6:
 	ifle Label3
 Label7:
-Label2:
 	iload_1
 	iconst_2
 	irem
@@ -54,6 +53,7 @@ Label9:
 Label8:
 	iconst_1
 	iload_1
+Label2:
 	iadd
 	istore_1
 	goto Label4

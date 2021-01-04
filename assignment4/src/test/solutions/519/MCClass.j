@@ -35,13 +35,13 @@ Label7:
 .var 2 is i I from Label7 to Label8
 	iconst_5
 	istore_2
-Label2:
 	iload_2
 	invokestatic io/string_of_int(I)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label8:
 	iconst_1
 	iload_1
+Label2:
 	iadd
 	istore_1
 	goto Label4

@@ -97,6 +97,8 @@ class Emitter():
         if len(in_.dimen) > 1:
             typ = self.getJVMType(in_.eleType)   
             return self.jvm.emitANEWARRAY(typ)
+        elif type(in_.eleType) is cgen.StringType:
+            return self.jvm.emitANEWARRAY(self.getFullType(in_.eleType))
         else:
             return self.jvm.emitNEWARRAY(self.getFullType(in_.eleType))
 
@@ -110,6 +112,8 @@ class Emitter():
         frame.pop()
         if type(in_) is cgen.IntType:
             return self.jvm.emitIALOAD()
+        elif type(in_) is cgen.BoolType:
+            return self.jvm.emitBALOAD()
         elif type(in_) is cgen.ArrayType or type(in_) is cgen.ClassType or type(in_) is cgen.StringType:
             return self.jvm.emitAALOAD()
         else:
@@ -123,11 +127,13 @@ class Emitter():
         frame.pop()
         frame.pop()
         frame.pop()
-        if type(in_) is cgen.IntType or type(in_) is cgen.BoolType:
+        if type(in_) is cgen.IntType:
             return self.jvm.emitIASTORE()
+        elif type(in_) is cgen.BoolType:
+            return self.jvm.emitBASTORE()
         elif type(in_) is cgen.FloatType:
             return self.jvm.emitFASTORE()            
-        elif type(in_) is cgen.ArrayType or type(in_) is ClassType or type(in_) is cgen.StringType:
+        elif type(in_) is cgen.ArrayType or type(in_) is cgen.ClassType or type(in_) is cgen.StringType:
             return self.jvm.emitAASTORE()
         else:
             raise IllegalOperandException(str(in_))
@@ -157,8 +163,10 @@ class Emitter():
         #... -> ..., value
         
         frame.push()
-        if type(inType) in [cgen.IntType, cgen.BoolType]:
+        if type(inType) is cgen.IntType:
             return self.jvm.emitILOAD(index)
+        elif type(inType) is cgen.BoolType:
+            return self.jvm.emitBLOAD(index)
         elif type(inType) is cgen.FloatType:
             return self.jvm.emitFLOAD(index)
         elif type(inType) is cgen.ArrayType or type(inType) is cgen.ClassType or type(inType) is cgen.StringType:

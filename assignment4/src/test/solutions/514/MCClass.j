@@ -52,7 +52,7 @@ Label11:
 Label12:
 	goto Label6
 Label4:
-	iconst_1
+	iconst_0
 	ifle Label5
 .var 1 is a I from Label13 to Label14
 Label13:
