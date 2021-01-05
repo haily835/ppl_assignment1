@@ -1412,3 +1412,51 @@ EndBody.
         """
         expect = "true"
         self.assertTrue(TestCodeGen.test(input,expect,595))
+
+    def test_95(self):
+        input = """
+Function: main
+Body:
+Var: a = True;
+a = True || ( 3 > 5 ) ||  1 \\ 0;
+print(string_of_bool(a));
+EndBody.
+        """
+        expect = "true"
+        self.assertTrue(TestCodeGen.test(input,expect,596))
+
+    def test_96(self):
+        input = """
+Function: main
+Body:
+Var: a = True, b = False;
+a = True || b ||  1 \\ 0;
+print(string_of_bool(a));
+EndBody.
+        """
+        expect = "true"
+        self.assertTrue(TestCodeGen.test(input,expect,597))
+
+    def test_98(self):
+        input = """
+Function: main
+Body:
+Var: a = True, b = False;
+a = True && b &&  1 \\ 0;
+print(string_of_bool(a));
+EndBody.
+        """
+        expect = "false"
+        self.assertTrue(TestCodeGen.test(input,expect,598))
+
+    def test_99(self):
+        input = """
+Function: main
+Body:
+Var: a = True, b = False;
+a = True && True || True ||  1 \\ 0;
+print(string_of_bool(a));
+EndBody.
+        """
+        expect = "true"
+        self.assertTrue(TestCodeGen.test(input,expect,599))

@@ -1,0 +1,8 @@
+
+Function: main
+Body:
+Var: a = True, b = False;
+a = True || b ||  1 \ 0;
+print(string_of_bool(a));
+EndBody.
+        
