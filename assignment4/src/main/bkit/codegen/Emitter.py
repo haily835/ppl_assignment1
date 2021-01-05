@@ -10,6 +10,8 @@ class Emitter():
 
     def getJVMType(self, inType):
         typeIn = type(inType)
+        if typeIn is list:
+            print(inType)
         if typeIn is cgen.IntType:
             return "I"
         elif typeIn is cgen.FloatType:
@@ -180,9 +182,16 @@ class Emitter():
         #typ: Type
         #frame: Frame
         #... -> ..., value
+        frame.push()
+        if type(typ) is cgen.IntType:
+            return self.jvm.emitIALOAD()
+        elif type(typ) is cgen.BoolType:
+            return self.jvm.emitBALOAD()
+        elif type(typ) is cgen.ArrayType or type(typ) is cgen.ClassType or type(typ) is cgen.StringType:
+            return self.jvm.emitAALOAD()
+        else:
+            raise IllegalOperandException(str(typ))
 
-        #frame.push()
-        raise IllegalOperandException(name)
 
     '''
     *   generate code to pop a value on top of the operand stack and store it to a block-scoped variable.
@@ -449,15 +458,15 @@ class Emitter():
             result.append(self.jvm.emitIFICMPNE(labelF))
         else:
             result.append(self.jvm.emitFCMPL())
-            if op == "<.":
-                result.append(self.jvm.emitIFLE(labelF))
-            elif op == "<=.":
-                result.append(self.jvm.emitIFLT(labelF))
             if op == ">.":
+                result.append(self.jvm.emitIFLE(labelF))
+            elif op == ">=.":
+                result.append(self.jvm.emitIFLT(labelF))
+            elif op == "<.":
                 result.append(self.jvm.emitIFGE(labelF))
-            if op == ">=.":
+            elif op == "<=.":
                 result.append(self.jvm.emitIFGT(labelF))
-            if op == "=/=":
+            elif op == "=/=":
                 result.append(self.jvm.emitIFEQ(labelF))
 
 

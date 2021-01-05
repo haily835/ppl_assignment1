@@ -1,0 +1,15 @@
+
+Function: main
+Body:
+Var: a[3] = {"a", "b", "c"}, i = 0;
+While i < 3 Do
+    If i == 1 Then
+        i = i + 1;
+        Continue;
+    Else
+        print(a[i]);
+        i = i + 1;
+    EndIf.
+EndWhile.
+EndBody.
+        

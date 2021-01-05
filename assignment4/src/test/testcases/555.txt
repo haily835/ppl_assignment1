@@ -1,0 +1,17 @@
+
+Var: i = 0, j = 0;
+Function: main
+Body:
+Var: a[2][2] = {{1,2}, {3,4}};
+While i < 2 Do
+    While j < 2 Do
+        print(string_of_int(a[i][j]));
+        j = j + 1;
+    EndWhile.
+    If i == 1 Then
+        Break;
+    EndIf.
+    i = i + 1;
+EndWhile.
+EndBody.
+        

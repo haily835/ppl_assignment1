@@ -1,19 +1,18 @@
 
 Var: x = 0;
-
-Function: main
-Body:
-x = 10;
-print(string_of_int(fact(x)));
-EndBody.
-
 Function: fact
 Parameter: n
 Body:
 If n == 0 Then
 Return 1;
-ElseIf n!=0 Then
+Else
 Return n*fact (n - 1);
 EndIf.
+EndBody.
+
+Function: main
+Body:
+x = 10;
+print(string_of_int(fact(x)));
 EndBody.
         

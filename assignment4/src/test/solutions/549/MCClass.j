@@ -87,9 +87,9 @@ Label7:
 	iadd
 	istore_3
 Label8:
+Label2:
 	iconst_1
 	iload_2
-Label2:
 	iadd
 	istore_2
 	goto Label4
@@ -97,6 +97,6 @@ Label3:
 	iload_3
 	ireturn
 Label1:
-.limit stack 5
+.limit stack 6
 .limit locals 4
 .end method

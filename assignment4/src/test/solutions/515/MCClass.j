@@ -13,6 +13,12 @@ Label1:
 .limit locals 1
 .end method
 
+.method public <clinit>()V
+	return
+.limit stack 0
+.limit locals 0
+.end method
+
 .method public static main([Ljava/lang/String;)V
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
 .var 1 is i I from Label0 to Label1
@@ -36,9 +42,9 @@ Label7:
 	invokestatic io/string_of_int(I)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label8:
+Label2:
 	iconst_1
 	iload_1
-Label2:
 	iadd
 	istore_1
 	goto Label4
@@ -47,10 +53,4 @@ Label1:
 	return
 .limit stack 4
 .limit locals 2
-.end method
-
-.method public <clinit>()V
-	return
-.limit stack 0
-.limit locals 0
 .end method

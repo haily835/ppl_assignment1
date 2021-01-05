@@ -95,9 +95,12 @@ class CodeGenerator():
 
         # list of function with full detail of types
         env = StaticChecker(ast).check()
-        # print(env[0][-1].name)
-        # print(env[0][-1].mtype.partype)
-        # print(env[0][-1].mtype.rettype)
+        print(env[0][-2].name)
+        print(env[0][-2].mtype.partype)
+        print(env[0][-2].mtype.rettype.eleType)
+        print(env[0][-1].name)
+        print(env[0][-1].mtype.partype[0].eleType)
+        
         gc = CodeGenVisitor(ast, env[0], dir_)
         gc.visit(ast, None)
 
@@ -225,6 +228,7 @@ class CodeGenVisitor(BaseVisitor):
         return Symbol(ctx.variable.name, initType, Index(idx)), initCode
 
     def visitFuncDecl(self,ctx,o):
+        hasReturn = False
         funcSym = None
         for func in o.sym:
             if func.name == ctx.name.name:
@@ -259,10 +263,14 @@ class CodeGenVisitor(BaseVisitor):
         
         self.emit.printout(self.emit.emitLABEL(frame.getStartLabel(), frame))
         self.emit.printout(varInitCode)
-        [x.accept(self, SubBody(frame, o.sym[::-1])) for x in ctx.body[1]]
+
+        for stmt in ctx.body[1]:
+            stmt.accept(self, SubBody(frame, o.sym[::-1]))
+        
         self.emit.printout(self.emit.emitLABEL(frame.getEndLabel(), frame))
         if funcSym.name == "main":
             self.emit.printout(self.emit.emitRETURN(VoidType(), frame))
+        
         self.emit.printout(self.emit.emitENDMETHOD(frame))
         frame.exitScope()
 
@@ -291,7 +299,15 @@ class CodeGenVisitor(BaseVisitor):
     def visitAssign(self, ctx, o):
         codeR, typeR = ctx.rhs.accept(self, Access(o.frame, o.sym, False))
         codeL, typeL = ctx.lhs.accept(self, Access(o.frame, o.sym, True))
-        self.emit.printout(codeR + codeL)
+        
+        if type(ctx.lhs) is ArrayCell:
+            lines = codeL.split('\n')
+            lines.insert(-2, codeR[:-1])
+            for line in lines:
+                self.emit.printout(line + '\n')
+        else:
+            self.emit.printout(codeR + codeL)
+
 
     def visitBinaryOp(self,ctx,o):
         left, typeL = ctx.left.accept(self,o)
@@ -380,7 +396,6 @@ class CodeGenVisitor(BaseVisitor):
         for i in range(0, len(ctx.ifthenStmt)):
             exprCode, exprType = ctx.ifthenStmt[i][0].accept(self, Access(o.frame, o.sym, False))
 
-
             # emit the label for the current elseif part
             if (i != 0):
                 self.emit.printout(self.emit.emitLABEL(labelNexts[i-1], o.frame))
@@ -392,7 +407,6 @@ class CodeGenVisitor(BaseVisitor):
                 if i < len(labelNexts):
                     self.emit.printout(self.emit.emitIFFALSE(labelNexts[i], o.frame))
                 else:
-                    isLast = True
                     self.emit.printout(self.emit.emitIFFALSE(labelOut, o.frame))
             else:
                 self.emit.printout(self.emit.emitIFFALSE(labelNexts[i], o.frame))
@@ -409,17 +423,11 @@ class CodeGenVisitor(BaseVisitor):
             self.emit.printout(self.emit.emitLABEL(o.frame.getStartLabel(), o.frame))
             self.emit.printout(varInitCode)
 
-            # save the last return to emit outside scope
             for x in ctx.ifthenStmt[i][2]:
-                if isinstance(x, Return) and isLast:
-                    lastReturn = x
-                    continue
                 x.accept(self, SubBody(o.frame,localSym))
+
             self.emit.printout(self.emit.emitLABEL(o.frame.getEndLabel(), o.frame))
             o.frame.exitScope()
-
-            if lastReturn:
-                lastReturn.accept(self, SubBody(o.frame, localSym))
 
             self.emit.printout(self.emit.emitGOTO(labelOut, o.frame))
             i += 1
@@ -437,7 +445,7 @@ class CodeGenVisitor(BaseVisitor):
             self.emit.printout(self.emit.emitLABEL(o.frame.getStartLabel(), o.frame))
             self.emit.printout(varInitCode)
             for x in ctx.elseStmt[1]:
-                if isinstance(x, Return) and isLast:
+                if isinstance(x, Return):
                     lastReturn = x
                     continue
                 x.accept(self, SubBody(o.frame,localSym))
@@ -484,14 +492,15 @@ class CodeGenVisitor(BaseVisitor):
         self.emit.printout(self.emit.emitLABEL(o.frame.getEndLabel(), o.frame))
         o.frame.exitScope()
 
+        # continue label = go to the update state and start a new iteration
+        self.emit.printout(self.emit.emitLABEL(o.frame.getContinueLabel(), o.frame))
+
         # code to update the variable
         codeExpr, typeExpr = ctx.expr3.accept(self, Access(o.frame, o.sym, False))
         self.emit.printout(codeExpr)
         loadIdCode, typeId = ctx.idx1.accept(self, Access(o.frame, o.sym, False))
         self.emit.printout(loadIdCode)
 
-        # continue label = go to the update state and start a new iteration
-        self.emit.printout(self.emit.emitLABEL(o.frame.getContinueLabel(), o.frame))
         
         # adding 
         self.emit.printout(self.emit.emitADDOP('+', IntType(), o.frame))
@@ -554,10 +563,9 @@ class CodeGenVisitor(BaseVisitor):
         # exitLoop
         o.frame.exitLoop()
 
-    def visitDoWhile(self, ctx, o): 
+    def visitDowhile(self, ctx, o): 
         o.frame.enterLoop()
         labelBegin = o.frame.getNewLabel()
-
         # emit the label begin
         self.emit.printout(self.emit.emitLABEL(labelBegin, o.frame))
 
@@ -567,7 +575,7 @@ class CodeGenVisitor(BaseVisitor):
         varInitCodes = ''
 
         # start label of inside scope
-        self.printout(self.emit.emitLABEL(o.frame.getStartLabel(), o.frame))
+        self.emit.printout(self.emit.emitLABEL(o.frame.getStartLabel(), o.frame))
 
         # directive for inside var
         for var in ctx.sl[0]:
@@ -585,6 +593,9 @@ class CodeGenVisitor(BaseVisitor):
         self.emit.printout(self.emit.emitLABEL(o.frame.getEndLabel(), o.frame))
         o.frame.exitScope()
 
+        # emit Continue label
+        self.emit.printout(self.emit.emitLABEL(o.frame.getContinueLabel(), o.frame))
+
         # evalue the expression
         exprCode, exprType = ctx.exp.accept(self, Access(o.frame, o.sym, False))
         self.emit.printout(exprCode)
@@ -592,8 +603,6 @@ class CodeGenVisitor(BaseVisitor):
         # code if false go to break label
         self.emit.printout(self.emit.emitIFFALSE(o.frame.getBreakLabel(), o.frame))
 
-        # emit Continue label
-        self.emit.printout(self.emit.emitLABEL(o.frame.getContinueLabel(), o.frame))
 
         # emit go to the begin label
         self.emit.printout(self.emit.emitGOTO(labelBegin, o.frame))
@@ -622,7 +631,10 @@ class CodeGenVisitor(BaseVisitor):
         
         codeExp, typeExp = ctx.idx[-1].accept(self, Access(o.frame, o.sym, False))
         retCode += codeExp
-        retCode += self.emit.emitALOAD(typeId.eleType, o.frame)
+        if o.isLeft:
+            retCode += self.emit.emitASTORE(typeId.eleType, o.frame)
+        else:
+            retCode += self.emit.emitREADVAR2("" ,typeId.eleType, o.frame)
         return retCode, typeId.eleType
 
     def visitIntLiteral(self, ctx, o):
@@ -726,7 +738,7 @@ class StaticChecker(BaseVisitor):
         else:
             sym = self.getSym(c,expr.method.name)
             sym.inferFuncOut(expect)
-            return sym.mtype.restype
+            return sym.mtype.rettype
 
     def visitProgram(self, ast, c):
         varDecls = list(filter(lambda x: isinstance(x, VarDecl), ast.decl))
@@ -855,9 +867,9 @@ class StaticChecker(BaseVisitor):
         argsType = [x.accept(self, c) for x in ast.param]
         sym = self.getFuncSym(c, ast.method.name)
 
-
         # modify here
         sym.inferFunc(argsType)
+        return sym.mtype.rettype
 
         # for typ in argsType:
         #     if isinstance(typ, Unknown):
@@ -892,25 +904,25 @@ class StaticChecker(BaseVisitor):
         #     raise Undeclared(Identifier(), ast.name)
 
     def visitArrayCell(self, ast, c):
-        # dimen = 0
+        dimen = 0
         
         # count dimension and check type of indexes
-        # for x in ast.idx:
-        #     if isinstance(x.accept(self,c), Unknown):
-        #         self.infer(c, x, IntType())
-        #     if not isinstance(x.accept(self, c), IntType):
-        #         raise TypeMismatchInExpression(ast)
-        #     dimen += 1
+        for x in ast.idx:
+            if isinstance(x.accept(self,c), Unknown):
+                self.infer(c, x, IntType())
+            if not isinstance(x.accept(self, c), IntType):
+                raise TypeMismatchInExpression(ast)
+            dimen += 1
         
-        # # try to infer type
-        # if isinstance(ast.arr.accept(self, c), Unknown):
-        #     self.infer(c, ast.arr, ArrayType([-1 for x in range(0, dimen)], Unknown()))
+        # try to infer type
+        if isinstance(ast.arr.accept(self, c), Unknown):
+            self.infer(c, ast.arr, ArrayType(Unknown(),[-1 for x in range(0, dimen)]))
 
         # if isinstance(ast.arr.accept(self, c), ArrayType):
         #     if not (len(ast.arr.accept(self,c).dimen) == dimen):
         #         raise TypeMismatchInExpression(ast)
 
-        #     # there still some dimension has no size.
+        #     there still some dimension has no size.
         #     if (-1) in ast.arr.accept(self,c).dimen:
         #         raise TypeCannotBeInferred(c[-1])
         # else:

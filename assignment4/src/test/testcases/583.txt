@@ -1,0 +1,17 @@
+
+Function: main
+Body:
+Var: a[3] = {1,2,3};
+a = incrArr(a,3);
+EndBody.
+
+Function: incrArr
+Parameter: a,size
+Body:
+Var: i = 0;
+For( i = 0, i < size, 1 ) Do
+    a[i] = a[i] + 1;
+EndFor.
+Return a;
+EndBody.
+        

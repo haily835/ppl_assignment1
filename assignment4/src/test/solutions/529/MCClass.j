@@ -67,15 +67,15 @@ Label7:
 	invokestatic io/string_of_int(I)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label8:
+Label2:
 	iconst_1
 	iload_1
-Label2:
 	iadd
 	istore_1
 	goto Label4
 Label3:
 	return
 Label1:
-.limit stack 4
+.limit stack 6
 .limit locals 2
 .end method

@@ -1,0 +1,15 @@
+
+Function: main
+Body:
+print(string_of_int(foo()));
+EndBody.
+
+Function: foo
+Body:
+Var: i = 5;
+If i == 2 Then
+    Return i;
+EndIf.
+Return 4;
+EndBody.
+        

@@ -1455,4 +1455,3 @@ class CheckSuite(unittest.TestCase):
 		"""
 		expect = str()
 		self.assertTrue(TestChecker.test(input,expect,499))
-

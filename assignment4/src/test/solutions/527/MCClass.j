@@ -92,23 +92,23 @@ Label14:
 	invokestatic io/string_of_int(I)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label15:
+Label9:
 	iconst_1
 	getstatic MCClass.j I
-Label9:
 	iadd
 	putstatic MCClass.j I
 	goto Label11
 Label10:
 Label8:
+Label2:
 	iconst_1
 	getstatic MCClass.i I
-Label2:
 	iadd
 	putstatic MCClass.i I
 	goto Label4
 Label3:
 Label1:
 	return
-.limit stack 6
+.limit stack 8
 .limit locals 1
 .end method

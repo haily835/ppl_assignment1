@@ -1,0 +1,13 @@
+
+Function: main
+Body:
+Var: a = 5, b = 6;
+print(string_of_bool(isSmaller(a,b)));
+EndBody.
+
+Function: isSmaller
+Parameter: a, b
+Body:
+    Return a < b;
+EndBody.
+        

@@ -182,6 +182,7 @@ Symbol(name='printStrLn', mtype=(MType([StringType()], VoidType())))]
             x.accept(self, c)
         if foundMain == 0:
             raise NoEntryPoint()
+        print(c)
 
     def visitVarDecl(self, ast, c):
         for x in c:

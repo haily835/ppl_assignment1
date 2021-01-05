@@ -1,0 +1,12 @@
+
+Function: main
+Body:
+print(string_of_int(incr(3)));
+EndBody.
+
+Function: incr
+Parameter: a
+Body:
+Return a + 1;
+EndBody.
+        

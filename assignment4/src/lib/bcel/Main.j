@@ -1,12 +1,11 @@
 ;; Produced by JasminVisitor (BCEL)
 ;; http://bcel.sourceforge.net/
-;; Mon Jan 04 09:16:32 ICT 2021
+;; Tue Jan 05 07:24:45 ICT 2021
 
 .source Main.java
 .class public Main
 .super java/lang/Object
 
-.field static a [[I
 
 .method public <init>()V
 .limit stack 1
@@ -23,59 +22,47 @@ Label1:
 .end method
 
 .method public static main([Ljava/lang/String;)V
-.limit stack 3
+.limit stack 2
 .limit locals 1
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
 
 Label0:
-.line 4
+.line 3
 	getstatic java.lang.System.out Ljava/io/PrintStream;
-	getstatic Main.a [[I
-	iconst_0
-	aaload
-	iconst_0
-	iaload
+	iconst_2
+	invokestatic Main/foo(I)I
 	invokevirtual java/io/PrintStream/print(I)V
 Label1:
-.line 5
+.line 4
 	return
 
 .end method
 
-.method static <clinit>()V
-.limit stack 7
-.limit locals 0
+.method static foo(I)I
+.limit stack 2
+.limit locals 1
+.var 0 is a I from Label2 to Label3
 
-.line 2
-	iconst_2
-	anewarray [I
-	dup
-	iconst_0
-	iconst_2
-	newarray int
-	dup
-	iconst_0
-	iconst_1
-	iastore
-	dup
-	iconst_1
-	iconst_2
-	iastore
-	aastore
-	dup
-	iconst_1
-	iconst_2
-	newarray int
-	dup
-	iconst_0
+Label2:
+.line 7
+	iload_0
 	iconst_3
-	iastore
-	dup
+	if_icmple Label0
+.line 8
 	iconst_1
-	iconst_4
-	iastore
-	aastore
-	putstatic Main.a [[I
-	return
+	ireturn
+Label0:
+.line 9
+	iload_0
+	iconst_2
+	if_icmpge Label1
+.line 10
+	iconst_2
+	ireturn
+Label1:
+.line 12
+	iconst_3
+Label3:
+	ireturn
 
 .end method

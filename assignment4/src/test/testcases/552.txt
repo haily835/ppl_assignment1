@@ -1,0 +1,10 @@
+
+Var: i = 0;
+Function: main
+Body:
+While i < 5 Do
+    print(string_of_int(i));
+    i = i + 1;
+EndWhile.
+EndBody.
+        
