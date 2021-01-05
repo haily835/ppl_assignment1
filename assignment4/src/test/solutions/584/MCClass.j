@@ -21,38 +21,73 @@ Label1:
 
 .method public static main([Ljava/lang/String;)V
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
+.var 1 is a [I from Label0 to Label1
 Label0:
 	iconst_3
-	invokestatic MCClass/incr(I)I
-	invokestatic MCClass/double(I)I
-	invokestatic io/string_of_int(I)Ljava/lang/String;
-	invokestatic io/print(Ljava/lang/String;)V
+	newarray int
+	dup
+	iconst_0
+	iconst_1
+	iastore
+	dup
+	iconst_1
+	iconst_2
+	iastore
+	dup
+	iconst_2
+	iconst_3
+	iastore
+	astore_1
+	aload_1
+	iconst_3
+	invokestatic MCClass/incrArr([II)[I
+	astore_1
 Label1:
 	return
-.limit stack 1
-.limit locals 1
+.limit stack 4
+.limit locals 2
 .end method
 
-.method public static incr(I)I
-.var 0 is a I from Label0 to Label1
+.method public static incrArr([II)[I
+.var 0 is a [I from Label0 to Label1
+.var 1 is size I from Label0 to Label1
+.var 2 is i I from Label0 to Label1
 Label0:
-	iload_0
+	iconst_0
+	istore_2
+	iconst_0
+	istore_2
+Label4:
+	iload_2
+	iload_1
+	if_icmpge Label5
+	iconst_1
+	goto Label6
+Label5:
+	iconst_0
+Label6:
+	ifle Label3
+Label7:
+	aload_0
+	iload_2
+	aload_0
+	iload_2
+	iaload
 	iconst_1
 	iadd
-	ireturn
-Label1:
-.limit stack 2
-.limit locals 1
-.end method
+	iastore
 
-.method public static double(I)I
-.var 0 is a I from Label0 to Label1
-Label0:
-	iconst_2
-	iload_0
-	imul
-	ireturn
+Label8:
+Label2:
+	iconst_1
+	iload_2
+	iadd
+	istore_2
+	goto Label4
+Label3:
+	aload_0
+	areturn
 Label1:
-.limit stack 2
-.limit locals 1
+.limit stack 7
+.limit locals 3
 .end method

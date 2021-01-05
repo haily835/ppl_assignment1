@@ -1,13 +1,10 @@
 
-
-Var: a[2][2] = {{1,2},{3,4}};
-Var: i = 0, j = 0;
+Var: a[5] = {1,2,3,4,5};
 Function: main
 Body:
-For( i = 0, i < 2, 1) Do
-    For(j = 0, j < 2, 1) Do
-        print(string_of_int(a[i][j]));
-    EndFor.
+Var: i = 0;
+For(i = 0, i < 5, 1) Do
+    print(string_of_int(a[i]));
 EndFor.
 EndBody.
         

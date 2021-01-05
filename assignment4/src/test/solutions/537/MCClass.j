@@ -23,8 +23,9 @@ Label1:
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
 Label0:
 	ldc 5.0
+	fneg
 	ldc 2.0
-	fmul
+	fadd
 	invokestatic io/string_of_float(F)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label1:

@@ -2,6 +2,6 @@
 Var: b = 3.0, c = 4.0;
 Function: main
 Body:
-print(string_of_bool(b <=. c));
+print(string_of_bool(b >=. c));
 EndBody.
         

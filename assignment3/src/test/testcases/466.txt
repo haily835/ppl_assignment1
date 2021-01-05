@@ -1,8 +1,15 @@
 
-		Function: main
-		Parameter: a[10], x
-		Body:
-		    If a[a[x]] Then
-		    EndIf.
-		EndBody.
-		
+Function: foo
+Body:
+EndBody.
+
+Function: main
+Body:
+    Var: a = 1;
+    foo();
+
+    foo() = a
+    
+EndBody.
+
+        

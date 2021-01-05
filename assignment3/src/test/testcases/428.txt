@@ -1,10 +1,6 @@
 
-		Function: main
-		Body:
-		    foo();
-		EndBody.
-		Function: foo
-		Body:
-		    main();
-		EndBody.
-		
+Function: main
+Body:
+    Var: a = 1;
+EndBody.
+        

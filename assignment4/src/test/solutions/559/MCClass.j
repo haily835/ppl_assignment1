@@ -21,29 +21,72 @@ Label1:
 
 .method public static main([Ljava/lang/String;)V
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
+.var 1 is a [Ljava/lang/String; from Label0 to Label1
+.var 2 is i I from Label0 to Label1
 Label0:
 	iconst_3
-	iconst_4
-	if_icmpge Label2
-	iconst_1
-	goto Label3
-Label2:
+	anewarray java/lang/String
+	dup
 	iconst_0
-Label3:
-	ldc 3.0
-	ldc 4.0
-	fcmpl
-	ifge Label4
+	ldc "a"
+	aastore
+	dup
 	iconst_1
-	goto Label5
+	ldc "b"
+	aastore
+	dup
+	iconst_2
+	ldc "c"
+	aastore
+	astore_1
+	iconst_0
+	istore_2
 Label4:
-	iconst_0
 Label5:
-	iand
-	invokestatic io/string_of_bool(Z)Ljava/lang/String;
+	iload_2
+	iconst_1
+	if_icmpne Label9
+	iconst_1
+	goto Label10
+Label9:
+	iconst_0
+Label10:
+	ifle Label7
+Label11:
+	iload_2
+	iconst_1
+	iadd
+	istore_2
+	goto Label2
+Label12:
+	goto Label8
+Label7:
+Label13:
+	aload_1
+	iload_2
+	aaload
 	invokestatic io/print(Ljava/lang/String;)V
+	iload_2
+	iconst_1
+	iadd
+	istore_2
+Label14:
+Label8:
+Label6:
+Label2:
+	iload_2
+	iconst_3
+	if_icmpge Label15
+	iconst_1
+	goto Label16
+Label15:
+	iconst_0
+Label16:
+	ifle Label3
+	goto Label4
+Label3:
 Label1:
 	return
-.limit stack 6
-.limit locals 1
+.limit stack 8
+.limit locals 3
 .end method

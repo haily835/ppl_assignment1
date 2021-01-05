@@ -1,1 +1,1 @@
-Type Cannot Be Inferred: CallStmt(Id(printLn),[CallExpr(Id(string_of_int),[CallExpr(Id(double),[CallExpr(Id(incr),[IntLiteral(4)])])])])
+Type Mismatch In Statement: CallStmt(Id(printStrLn),[])

@@ -21,57 +21,54 @@ Label1:
 
 .method public static main([Ljava/lang/String;)V
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
-.var 1 is a I from Label0 to Label1
-.var 2 is iSum I from Label0 to Label1
+.var 1 is a [I from Label0 to Label1
 Label0:
+	iconst_3
+	newarray int
+	dup
 	iconst_0
-	istore_1
-	iconst_0
-	istore_2
-Label4:
-Label5:
-	iload_1
 	iconst_1
-	iadd
-	istore_1
-	iload_1
+	iastore
+	dup
+	iconst_1
 	iconst_2
-	irem
-	iconst_0
-	if_icmpne Label8
+	iastore
+	dup
+	iconst_2
+	iconst_3
+	iastore
+	astore_1
+	aload_1
+	iconst_2
+	iconst_5
+	iastore
+
+	aload_1
 	iconst_1
-	goto Label9
-Label8:
+	iconst_1
+	imul
 	iconst_0
-Label9:
-	ifle Label7
-Label10:
-	goto Label2
-Label11:
-	goto Label7
-Label7:
-	iload_2
-	iload_1
 	iadd
-	istore_2
-Label6:
-Label2:
-	iload_1
-	bipush 20
-	if_icmpge Label12
+	aload_1
+	iconst_2
+	iaload
+	aload_1
 	iconst_1
-	goto Label13
-Label12:
-	iconst_0
-Label13:
-	ifle Label3
-	goto Label4
-Label3:
-	iload_2
+	iaload
+	imul
+	aload_1
+	iconst_1
+	iaload
+	imul
+	iastore
+
+	aload_1
+	iconst_1
+	iaload
 	invokestatic io/string_of_int(I)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label1:
 	return
-.limit stack 5
-.limit locals 3
+.limit stack 11
+.limit locals 2
 .end method

@@ -1,26 +1,12 @@
 
-		Function: a
-		Parameter: x
-		Body:
-		    Return x + 1;
-		EndBody.
-		Function: b
-		Parameter: x
-		Body:
-		    Return a(x);
-		EndBody.
-		Function: c
-		Parameter: x
-		Body:
-		    Return b(x);
-		EndBody.
-		Function: main
-		Parameter: x
-		Body:
-		    While a(b(x)) == b(c(x)) Do
-		        Do
-		            x = x + 1;
-		        While c(b(x)) == b(a(x)) EndDo.
-		    EndWhile.
-		EndBody.
-		
+Function: foo
+Body:
+    Var a[3];
+    Return a;
+EndBody.
+
+Function: main
+Body:
+    foo()[0] = 1;
+EndBody.
+        

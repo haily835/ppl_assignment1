@@ -1,0 +1,19 @@
+
+Function: main
+Body:
+Var: a = 0, iSum = 0;
+
+Do 
+    a = a + 1;
+    If a > 17 Then
+        Break;
+    EndIf.
+    If a % 2 == 0 Then
+        Continue;
+    EndIf.
+    iSum = iSum + a;
+While a < 20
+EndDo.
+print(string_of_int(iSum));
+EndBody.
+        

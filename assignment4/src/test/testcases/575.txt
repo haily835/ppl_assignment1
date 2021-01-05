@@ -3,8 +3,7 @@ Function: main
 Body:
 Var: a[3] = {1,2,3};
 a[2] = 5;
-a[1] = a[2];
-print(string_of_int(a[1]));
+print(string_of_int(a[2]));
 EndBody.
 
         

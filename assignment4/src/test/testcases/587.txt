@@ -1,0 +1,16 @@
+
+
+Function: main
+Body:
+Var: a[3] = {1,2,3};
+change(a);
+print(string_of_int(a[2]));
+EndBody.
+
+Function: change
+Parameter: a
+Body:
+a[2] = 5;
+Return;
+EndBody.
+        

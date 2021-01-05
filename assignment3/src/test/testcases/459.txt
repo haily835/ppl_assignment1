@@ -1,22 +1,17 @@
 
-		Function: a
-		Parameter: x
-		Body:
-		    x = 0;
-		    b(x);
-		EndBody.
-		Function: b
-		Parameter: x
-		Body:
-		    c(x);
-		EndBody.
-		Function: c
-		Parameter: x
-		Body:
-		    a(x);
-		EndBody.
-		Function: main
-		Body:
-		    main(a(x));
-		EndBody.
-		
+Function: main
+Body:
+    Var: x = True;
+    While foo() Do
+        Var: x;
+        If True Then
+            Var: x;
+        EndIf.
+    EndWhile.
+EndBody.
+
+Function: foo
+Body:
+    Return True;
+EndBody.
+        

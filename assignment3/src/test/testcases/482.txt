@@ -1,8 +1,19 @@
 
-		Function: main
-		Parameter: x
-		Body:
-		    If main(x > 1) Then
-		    EndIf.
-		EndBody.
-		
+Function: main
+Body:
+    Var: a,b,c,d,e;
+    Var: f,g,h,i,k;
+    b = a +. a;
+    c = a -. a;
+    d = d *. d;
+    e = e \. e;
+    f = b =/= b;
+    g = c <. c;
+    h = i <=. i;
+    e = e +. foo()
+EndBody.
+
+Function: foo
+Body:
+    Return 3.0;
+EndBody.

@@ -1,8 +1,8 @@
 .source MCClass.java
 .class public MCClass
 .super java.lang.Object
-.field static b F
-.field static c F
+.field static b I
+.field static c I
 
 .method public <init>()V
 .var 0 is this LMCClass; from Label0 to Label1
@@ -16,10 +16,10 @@ Label1:
 .end method
 
 .method public <clinit>()V
-	ldc 3.0
-	putstatic MCClass.b F
-	ldc 4.0
-	putstatic MCClass.c F
+	iconst_3
+	putstatic MCClass.b I
+	iconst_4
+	putstatic MCClass.c I
 	return
 .limit stack 1
 .limit locals 0
@@ -28,10 +28,9 @@ Label1:
 .method public static main([Ljava/lang/String;)V
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
 Label0:
-	getstatic MCClass.b F
-	getstatic MCClass.c F
-	fcmpl
-	ifle Label2
+	getstatic MCClass.b I
+	getstatic MCClass.c I
+	if_icmple Label2
 	iconst_1
 	goto Label3
 Label2:

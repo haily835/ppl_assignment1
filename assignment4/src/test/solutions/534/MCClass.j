@@ -24,9 +24,9 @@ Label1:
 Label0:
 	bipush 15
 	iconst_2
-	idiv
+	irem
 	iconst_2
-	idiv
+	irem
 	invokestatic io/string_of_int(I)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label1:

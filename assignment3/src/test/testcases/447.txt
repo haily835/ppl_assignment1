@@ -1,7 +1,15 @@
 
-		Function: main
-		Body:
-		    Var: x[5];
-		    Return x;
-		EndBody.
-		
+Function: main
+Body:
+    Var: a = True;
+    
+    If a Then
+        Var: a;
+        a = 1;
+    ElseIf (a && True) Then
+        Var: a;
+    Else
+        Var: a;
+    EndIf.
+EndBody.
+        

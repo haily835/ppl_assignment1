@@ -25,8 +25,6 @@ Label0:
 	ldc 5.0
 	ldc 2.0
 	fdiv
-	ldc 0.5
-	fdiv
 	invokestatic io/string_of_float(F)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label1:

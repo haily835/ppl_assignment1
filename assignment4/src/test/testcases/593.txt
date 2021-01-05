@@ -1,0 +1,24 @@
+
+Function: main
+Body:
+Var: i = 0;
+For( i = 0, i < 10, 1 ) Do
+    print(string_of_int(fibonacci(i)));
+EndFor.
+EndBody.
+
+Function: fibonacci
+Parameter: i
+Body:
+If i == 0 Then
+    Return 0;
+EndIf.
+
+If i == 1 Then
+    Return 1;
+EndIf.
+
+Return fibonacci(i - 1) + fibonacci(i - 2);
+EndIf.
+EndBody.
+        

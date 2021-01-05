@@ -1,15 +1,13 @@
 
-		Function: a
-		Parameter: x
-		Body:
-		    Return x + 1;
-		EndBody.
-		Function: b
-		Parameter: x
-		Body:
-		    Return a(x) == b(x);
-		EndBody.
-		Function: main
-		Body:
-		EndBody.
-		
+Function: main
+Body:
+    Var: a,b,c,d,e;
+    b = !(a==a) && (d <. 2.0) && (c != c);
+    e = e +. foo()
+EndBody.
+
+Function: foo
+Body:
+    Return 3.0;
+EndBody.
+        

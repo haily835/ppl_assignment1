@@ -31,7 +31,7 @@ Label0:
 	getstatic MCClass.b F
 	getstatic MCClass.c F
 	fcmpl
-	ifeq Label2
+	ifgt Label2
 	iconst_1
 	goto Label3
 Label2:

@@ -2,10 +2,9 @@
 Var: i = 0;
 Function: main
 Body:
-Do 
+While i < 5 Do
     print(string_of_int(i));
     i = i + 1;
-While False
-EndDo.
+EndWhile.
 EndBody.
         

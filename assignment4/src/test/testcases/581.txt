@@ -1,7 +1,7 @@
 
 Function: main
 Body:
-print(string_of_int(foo() + foo1()));
+print(string_of_int(foo()));
 EndBody.
 
 Function: foo
@@ -11,10 +11,5 @@ If i == 2 Then
     Return i;
 EndIf.
 Return 4;
-EndBody.
-
-Function: foo1
-Body:
-Return 6;
 EndBody.
         

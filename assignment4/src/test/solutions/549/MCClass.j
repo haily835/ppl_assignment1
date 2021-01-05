@@ -21,82 +21,33 @@ Label1:
 
 .method public static main([Ljava/lang/String;)V
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
-.var 1 is a [I from Label0 to Label1
+.var 1 is a I from Label0 to Label1
+.var 2 is b I from Label0 to Label1
 Label0:
-	iconst_5
-	newarray int
-	dup
 	iconst_0
-	iconst_1
-	iastore
-	dup
-	iconst_1
-	iconst_2
-	iastore
-	dup
-	iconst_2
-	iconst_3
-	iastore
-	dup
-	iconst_3
-	iconst_4
-	iastore
-	dup
-	iconst_4
-	iconst_5
-	iastore
-	astore_1
-	aload_1
-	iconst_5
-	invokestatic MCClass/sum([II)I
-	invokestatic io/string_of_int(I)Ljava/lang/String;
+	istore_1
+	iconst_0
+	istore_2
+	ldc "True"
+	invokestatic io/bool_of_string(Ljava/lang/String;)Z
+	ifle Label2
+Label3:
+	invokestatic io/read()Ljava/lang/String;
+	invokestatic io/int_of_string(Ljava/lang/String;)I
+	istore_1
+	iload_1
+	invokestatic io/float_to_int(I)F
+	ldc 2.0
+	fadd
+	istore_2
+	iload_2
+	invokestatic io/string_of_float(F)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
+Label4:
+	goto Label2
+Label2:
 Label1:
 	return
-.limit stack 4
-.limit locals 2
-.end method
-
-.method public static sum([II)I
-.var 0 is a [I from Label0 to Label1
-.var 1 is size I from Label0 to Label1
-.var 2 is i I from Label0 to Label1
-.var 3 is result I from Label0 to Label1
-Label0:
-	iconst_0
-	istore_2
-	iconst_0
-	istore_3
-	iconst_0
-	istore_2
-Label4:
-	iload_2
-	iload_1
-	if_icmpge Label5
-	iconst_1
-	goto Label6
-Label5:
-	iconst_0
-Label6:
-	ifle Label3
-Label7:
-	iload_3
-	aload_0
-	iload_2
-	iaload
-	iadd
-	istore_3
-Label8:
-Label2:
-	iconst_1
-	iload_2
-	iadd
-	istore_2
-	goto Label4
-Label3:
-	iload_3
-	ireturn
-Label1:
-.limit stack 6
-.limit locals 4
+.limit stack 2
+.limit locals 3
 .end method

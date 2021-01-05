@@ -44,19 +44,12 @@ Label0:
 	iastore
 
 	aload_1
-	iconst_1
-	aload_1
 	iconst_2
-	iaload
-	iastore
-
-	aload_1
-	iconst_1
 	iaload
 	invokestatic io/string_of_int(I)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label1:
 	return
-.limit stack 6
+.limit stack 4
 .limit locals 2
 .end method

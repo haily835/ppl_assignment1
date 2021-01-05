@@ -1,6 +1,5 @@
 
-		Function: main
-		Body:
-		    foo();
-		EndBody.
-		
+Function: main
+Body:
+    Var: x,y,z,x;
+EndBody.

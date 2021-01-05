@@ -26,10 +26,6 @@ Label0:
 	iconst_2
 	iadd
 	iconst_2
-	iadd
-	iconst_2
-	imul
-	iconst_2
 	imul
 	invokestatic io/string_of_int(I)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V

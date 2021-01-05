@@ -1,14 +1,7 @@
 
-		Function: main
-		Parameter: x
-		Body:
-		    Var: i = 0, j;
-		    If main(i) Then
-		        If x == 0 Then
-		            Return j;
-		        Else
-		            Return main(j);
-		        EndIf.
-		    EndIf.
-		EndBody.
-		
+Function: main
+Body:
+    Var: a;
+    a[0] = 1;
+EndBody.
+        

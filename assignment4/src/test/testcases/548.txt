@@ -1,12 +1,6 @@
 
 Function: main
 Body:
-Var: a = 0;
-Var: b = 0;
-If bool_of_string("True") Then
-    a = int_of_string(read());
-    b = float_to_int(a) + 2.0;
-    print(string_of_float(b));
-EndIf.
+print(string_of_bool(bool_of_string("True")));
 EndBody.
         

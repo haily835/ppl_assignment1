@@ -1,7 +1,14 @@
 
-		Function: main
-		Body:
-		    Var: a;
-		    a = a =/= 1.0;
-		EndBody.
-		
+Function: main
+Body:
+    Var: a = True;
+    
+    If a Then
+        If True Then
+            If True Then
+                a = 1;
+            EndIf.
+        EndIf.
+    EndIf.
+EndBody.
+        

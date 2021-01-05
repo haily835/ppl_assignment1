@@ -1,1 +1,1 @@
-Undeclared Function: x
+Redeclared Function: foo1

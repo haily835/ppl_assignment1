@@ -1,12 +1,7 @@
 
-		Function: foo
-		Parameter: x
-		Body:
-		    Return -.main(foo(x));
-		EndBody.
-		Function: main
-		Parameter: x
-		Body:
-		    Return -.x;
-		EndBody.
-		
+Function: main
+Body:
+    Var: a[3];
+    a[0] = 1;
+EndBody.
+        

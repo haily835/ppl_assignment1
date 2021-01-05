@@ -1,19 +1,11 @@
 
-		Function: main
-		Body:
-		    Var: x = 0;
-		    If f(g(x)) == g(f(x)) Then
-		        printStrLn("Hello World");
-		    EndIf.
-		EndBody.
-		Function: f
-		Parameter: x
-		Body:
-		    Return f(x);
-		EndBody.
-		Function: g
-		Parameter: x
-		Body:
-		    Return g(x);
-		EndBody.
-		
+Function: main
+Body:
+    foo(2,2,2);
+EndBody.
+Function: foo
+Parameter: x, y, z
+Body:
+    Var: a;
+    a = 1.0 +. foo(3,2,1);
+EndBody.

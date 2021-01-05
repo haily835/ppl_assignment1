@@ -1,7 +1,7 @@
 
-		Function: main
-		Parameter: x
-		Body:
-		    x = x();
-		EndBody.
-		
+Function: main
+Parameter: a, b, c
+Body:
+    Var: a = 5;
+EndBody.
+        

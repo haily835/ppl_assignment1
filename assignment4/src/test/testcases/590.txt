@@ -1,0 +1,21 @@
+
+Function: main
+Body:
+Var: a = 2;
+If a > 5 Then
+    If a % 2 == 0 Then
+        a = a * 2;
+    Else
+        a = a \ 2;
+    EndIf.
+Else
+    a = 11;
+    If a % 3 == 0 Then
+        a = a * 3;
+    Else
+        a = a * 3 \ 2;
+    EndIf.
+EndIf.
+print(string_of_int(a));
+EndBody.
+        

@@ -1,1 +1,1 @@
-Type Mismatch In Statement: Assign(ArrayCell(Id(a),[IntLiteral(0)]),ArrayCell(Id(b),[ArrayCell(Id(a),[IntLiteral(0)])]))
+Type Cannot Be Inferred: While(CallExpr(Id(foo),[Id(a),Id(b),ArrayCell(Id(c),[IntLiteral(2)])]),[VarDecl(Id(x))],[])

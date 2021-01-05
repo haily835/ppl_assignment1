@@ -22,9 +22,10 @@ Label1:
 .method public static main([Ljava/lang/String;)V
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
 Label0:
-	ldc 15.0
-	fneg
+	ldc 5.0
 	ldc 2.0
+	fdiv
+	ldc 0.5
 	fdiv
 	invokestatic io/string_of_float(F)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V

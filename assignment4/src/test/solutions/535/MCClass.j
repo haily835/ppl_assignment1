@@ -22,10 +22,11 @@ Label1:
 .method public static main([Ljava/lang/String;)V
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
 Label0:
-	iconst_5
-	ineg
+	bipush 15
 	iconst_2
-	iadd
+	idiv
+	iconst_2
+	idiv
 	invokestatic io/string_of_int(I)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label1:

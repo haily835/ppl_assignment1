@@ -39,14 +39,15 @@ Label0:
 	iastore
 	astore_1
 	aload_1
-	iconst_1
+	iconst_2
+	iconst_5
+	iastore
+
 	aload_1
 	iconst_1
-	iaload
 	aload_1
-	iconst_1
+	iconst_2
 	iaload
-	imul
 	iastore
 
 	aload_1
@@ -56,6 +57,6 @@ Label0:
 	invokestatic io/print(Ljava/lang/String;)V
 Label1:
 	return
-.limit stack 8
+.limit stack 6
 .limit locals 2
 .end method

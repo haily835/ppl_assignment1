@@ -34,26 +34,47 @@ Label1:
 .method public static foo()I
 .var 0 is i I from Label0 to Label1
 Label0:
-	iconst_5
+	iconst_0
 	istore_0
+	iconst_0
+	istore_0
+Label4:
+	iload_0
+	iconst_3
+	if_icmpge Label5
+	iconst_1
+	goto Label6
+Label5:
+	iconst_0
+Label6:
+	ifle Label3
+Label7:
 	iload_0
 	iconst_2
-	if_icmpne Label3
+	if_icmpne Label10
 	iconst_1
-	goto Label4
-Label3:
+	goto Label11
+Label10:
 	iconst_0
-Label4:
-	ifle Label2
-Label5:
+Label11:
+	ifle Label9
+Label12:
 	iload_0
 	ireturn
-Label6:
-	goto Label2
+Label13:
+	goto Label9
+Label9:
+Label8:
 Label2:
-	iconst_4
+	iconst_1
+	iload_0
+	iadd
+	istore_0
+	goto Label4
+Label3:
+	iconst_5
 	ireturn
 Label1:
-.limit stack 3
+.limit stack 6
 .limit locals 1
 .end method

@@ -1,14 +1,12 @@
 
 
-Var: a[2][2][2] = {{{1,2},{3,4}}, {{5,6},{7,8}}};
-Var: i = 0, j = 0, k = 0;
+Var: a[2][2] = {{1,2},{3,4}};
+Var: i = 0, j = 0;
 Function: main
 Body:
 For( i = 0, i < 2, 1) Do
     For(j = 0, j < 2, 1) Do
-        For(k = 0, k < 2, 1) Do
-            print(string_of_int(a[i][j][k]));
-        EndFor.
+        print(string_of_int(a[i][j]));
     EndFor.
 EndFor.
 EndBody.

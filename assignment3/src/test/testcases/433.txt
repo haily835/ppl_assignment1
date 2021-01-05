@@ -1,7 +1,8 @@
 
-		Var: x;
-		Function: main
-		Body:
-		    x = 1 + 2.0;
-		EndBody.
-		
+Function: main
+Body:
+    Var: a;
+    Var: y;
+    y = a;
+EndBody.
+        

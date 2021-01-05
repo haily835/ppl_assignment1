@@ -1,6 +1,6 @@
 
 Function: main
 Body:
-print(string_of_int(15 \ 2 \ 2));
+print(string_of_int(15 % 2 % 2));
 EndBody.
         

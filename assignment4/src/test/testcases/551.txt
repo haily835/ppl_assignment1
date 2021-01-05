@@ -2,10 +2,15 @@
 Var: i = 0;
 Function: main
 Body:
-Do 
-    print(string_of_int(i));
-    i = i + 1;
-While i < 5
-EndDo.
+For( i = 0, i < 3, 1 ) Do
+    print(createArr(i));
+EndFor.
+EndBody.
+
+Function: createArr
+Parameter: i
+Body:
+Var: a[3] = {"Happy ", "new ", "year"};
+Return a[i];
 EndBody.
         

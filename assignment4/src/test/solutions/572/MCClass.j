@@ -43,12 +43,10 @@ Label3:
 Label4:
 	iconst_0
 Label5:
-	iconst_0
-	ior
 	invokestatic io/string_of_bool(Z)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label1:
 	return
-.limit stack 8
+.limit stack 6
 .limit locals 1
 .end method

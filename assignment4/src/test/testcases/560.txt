@@ -1,7 +1,6 @@
 
-Var: b = 3, c = 4;
 Function: main
 Body:
-print(string_of_bool(b == c));
+print(string_of_bool((3 < 4) && (3.0 <. 4.0)));
 EndBody.
         

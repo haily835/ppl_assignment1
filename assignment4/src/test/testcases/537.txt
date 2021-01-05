@@ -1,6 +1,6 @@
 
 Function: main
 Body:
-print(string_of_float(5.0 *. 2.0));
+print(string_of_float(-.5.0 +. 2.0));
 EndBody.
         

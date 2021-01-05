@@ -30,7 +30,7 @@ Label1:
 Label0:
 	getstatic MCClass.b I
 	getstatic MCClass.c I
-	if_icmpeq Label2
+	if_icmpne Label2
 	iconst_1
 	goto Label3
 Label2:

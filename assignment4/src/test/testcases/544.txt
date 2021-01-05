@@ -1,6 +1,6 @@
 
 Function: main
 Body:
-print(string_of_int(int_of_float(1.0) * 2));
+print(string_of_float(float_to_int(1) +. 2.0));
 EndBody.
         

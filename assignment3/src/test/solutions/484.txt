@@ -1,1 +1,1 @@
-Type Cannot Be Inferred: Return(CallExpr(Id(int_of_float),[CallExpr(Id(a),[ArrayLiteral(FloatLiteral(1.0),FloatLiteral(2.0))])]))
+Type Mismatch In Expression: ArrayCell(Id(a),[IntLiteral(1)])

@@ -1,9 +1,13 @@
 
 Function: main
 Body:
-Var: a[3] = {1,2,3};
-a[2] = 5;
-print(string_of_int(a[2]));
+Var: a = 5, b = 6;
+print(string_of_bool(isSmaller(a,b)));
 EndBody.
 
+Function: isSmaller
+Parameter: a, b
+Body:
+    Return a < b;
+EndBody.
         

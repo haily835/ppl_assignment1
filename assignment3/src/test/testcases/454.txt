@@ -1,7 +1,8 @@
 
-		Function: main
-		Body:
-		    Var: a[10], x;
-		    a[x] = a[x] =/= 1.0;
-		EndBody.
-		
+Function: main
+Body:
+    Var: i;
+    For(i = 1, i + 10, 1) Do
+    EndFor.
+EndBody.
+        

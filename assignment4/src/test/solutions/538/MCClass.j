@@ -25,10 +25,6 @@ Label0:
 	ldc 5.0
 	ldc 2.0
 	fmul
-	ldc 2.0
-	fmul
-	ldc 3.0
-	fsub
 	invokestatic io/string_of_float(F)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label1:

@@ -1,1 +1,1 @@
-Undeclared Function: float_to_int
+Type Mismatch In Statement: Return(IntLiteral(1))

@@ -1,14 +1,13 @@
 
-		Var: x = 1, y = 1.0, z;
-		Function: foo
-		Body:
-		    z = float_to_int(x + int_of_float(y +. float_to_int(x + int_of_float(y)))) >=. 2.0 *. (float_to_int(x) +. y);
-		    Return z;
-		EndBody.
-		Function: main
-		Body:
-		    Var: a;
-		    a = z;
-		    Return a || foo();
-		EndBody.
-		
+Function: main
+Body:
+    Var: a = True;
+    
+    If a Then
+        Var: a;
+        If True Then
+            a = 1;
+        EndIf.
+    EndIf.
+EndBody.
+        

@@ -1,12 +1,20 @@
 
 Function: main
 Body:
-print(string_of_int(incr(3)));
+print(string_of_int(foo() + foo1()));
 EndBody.
 
-Function: incr
-Parameter: a
+Function: foo
 Body:
-Return a + 1;
+Var: i = 5;
+If i == 2 Then
+    Return i;
+EndIf.
+Return 4;
+EndBody.
+
+Function: foo1
+Body:
+Return 6;
 EndBody.
         

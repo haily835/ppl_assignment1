@@ -1,9 +1,8 @@
 
-		Function: main
-		Parameter: x
-		Body:
-		    While x Do
-		        x = 1;
-		    EndWhile.
-		EndBody.
-		
+Function: main
+Parameter: x
+Body:
+    main(main(5));
+EndBody.
+
+        

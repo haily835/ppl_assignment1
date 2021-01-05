@@ -2,12 +2,10 @@
 Var: i = 0;
 Function: main
 Body:
-While i < 10 Do
-    If i == 5 Then
-        Break;
-    EndIf.
+Do 
     print(string_of_int(i));
     i = i + 1;
-EndWhile.
+While False
+EndDo.
 EndBody.
         

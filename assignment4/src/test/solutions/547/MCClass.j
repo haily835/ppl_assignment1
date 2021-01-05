@@ -22,12 +22,14 @@ Label1:
 .method public static main([Ljava/lang/String;)V
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
 Label0:
-	ldc "True"
-	invokestatic io/bool_of_string(Ljava/lang/String;)Z
-	invokestatic io/string_of_bool(Z)Ljava/lang/String;
+	ldc "1"
+	invokestatic io/int_of_string(Ljava/lang/String;)I
+	iconst_2
+	imul
+	invokestatic io/string_of_int(I)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label1:
 	return
-.limit stack 1
+.limit stack 2
 .limit locals 1
 .end method

@@ -1,0 +1,20 @@
+
+Function: main
+Body:
+
+EndBody.
+
+Function: foo
+Parameter: a
+Body:
+a = a + 1;
+Return;
+EndBody.
+
+Function: printsom
+Parameter: a
+Body:
+foo(a);
+Return;
+EndBody.
+        

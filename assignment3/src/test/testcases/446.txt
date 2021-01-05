@@ -1,14 +1,12 @@
 
-		Var: x = 0;
-		Function: foo
-		Parameter: a
-		Body:
-		    x = main(x) + a;
-		EndBody.
-		Function: main
-		Parameter: a
-		Body:
-		    x = foo(a);
-		    a = a +. 1.0;
-		EndBody.
-		
+Function: main
+Body:
+    Var: a = True;
+    If a Then
+        Var: a;
+        a = 1;
+        If a Then 
+        EndIf.
+    EndIf.
+EndBody.
+        

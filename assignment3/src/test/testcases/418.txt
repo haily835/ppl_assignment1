@@ -1,6 +1,7 @@
 
-		Var: main;
-		Function: main
-		Body:
-		EndBody.
-		
+Var: a;
+Function: main
+Body:
+    main();
+EndBody.
+        

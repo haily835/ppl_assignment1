@@ -1,9 +1,17 @@
 
-		Var: x;
-		Function: x
-		Body:
-		EndBody.
-		Function: main
-		Body:
-		EndBody.
-		
+Var: x, y, z;
+Function: main
+Body:
+    Var: x;
+    Var: y;
+    Var: z;
+EndBody.
+
+Var: x, y, z;
+Function: foo
+Body:
+    Var: x;
+    Var: y;
+    Var: z;
+EndBody.
+        

@@ -41,6 +41,8 @@ Label0:
 	astore_1
 	iconst_0
 	istore_2
+	iconst_0
+	istore_2
 Label4:
 	iload_2
 	iconst_3
@@ -54,35 +56,28 @@ Label6:
 Label7:
 	iload_2
 	iconst_1
-	if_icmpne Label11
+	if_icmpne Label10
 	iconst_1
-	goto Label12
-Label11:
+	goto Label11
+Label10:
 	iconst_0
-Label12:
+Label11:
 	ifle Label9
-Label13:
-	iload_2
-	iconst_1
-	iadd
-	istore_2
+Label12:
 	goto Label2
-Label14:
-	goto Label10
+Label13:
+	goto Label9
 Label9:
-Label15:
 	aload_1
 	iload_2
 	aaload
 	invokestatic io/print(Ljava/lang/String;)V
-	iload_2
-	iconst_1
-	iadd
-	istore_2
-Label16:
-Label10:
 Label8:
 Label2:
+	iconst_1
+	iload_2
+	iadd
+	istore_2
 	goto Label4
 Label3:
 Label1:

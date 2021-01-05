@@ -1,18 +1,12 @@
 
 Function: main
 Body:
-Var: a[5] = {1,2,3,4,5};
-print(string_of_int(sum(a, 5)));
-EndBody.
-
-Function: sum
-Parameter: a, size
-Body:
-Var: i = 0;
-Var: result = 0;
-For(i = 0, i < size, 1) Do
-    result = result + a[i];
-EndFor.
-Return result;
+Var: a = 0;
+Var: b = 0;
+If bool_of_string("True") Then
+    a = int_of_string(read());
+    b = float_to_int(a) + 2.0;
+    print(string_of_float(b));
+EndIf.
 EndBody.
         

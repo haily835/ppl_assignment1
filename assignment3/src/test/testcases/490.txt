@@ -1,15 +1,14 @@
 
-		Function: foo
-		Parameter: x
-		Body:
-		    If x > 0 Then
-		        Var: a;
-		        a = foo(x-1);
-		    Else
-		        Return 0;
-		    EndIf.
-		EndBody.
-		Function: main
-		Body:
-		EndBody.
-		
+Function: foo
+Parameter: x, y, z
+Body:
+    x = 3;
+    y = True;
+    z = "String";
+    Return 3;
+EndBody.
+Function: main
+Body:
+    Var: x;
+    x = foo(x, False, "2") + foo(x, False, "2");
+EndBody.

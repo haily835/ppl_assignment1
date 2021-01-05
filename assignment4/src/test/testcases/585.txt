@@ -1,7 +1,7 @@
 
 Function: main
 Body:
-print(string_of_int(square(double(incr(3)))));
+print(string_of_int(double(incr(3))));
 EndBody.
 
 Function: incr
@@ -14,11 +14,5 @@ Function: double
 Parameter: a
 Body:
 Return 2*a;
-EndBody.
-
-Function: square
-Parameter: a
-Body:
-Return a*a;
 EndBody.
         

@@ -22,24 +22,49 @@ Label1:
 .method public static main([Ljava/lang/String;)V
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
 Label0:
-	iconst_3
-	invokestatic MCClass/incr(I)I
+	invokestatic MCClass/foo()I
+	invokestatic MCClass/foo1()I
+	iadd
 	invokestatic io/string_of_int(I)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label1:
 	return
-.limit stack 1
+.limit stack 2
 .limit locals 1
 .end method
 
-.method public static incr(I)I
-.var 0 is a I from Label0 to Label1
+.method public static foo()I
+.var 0 is i I from Label0 to Label1
 Label0:
+	iconst_5
+	istore_0
 	iload_0
+	iconst_2
+	if_icmpne Label3
 	iconst_1
-	iadd
+	goto Label4
+Label3:
+	iconst_0
+Label4:
+	ifle Label2
+Label5:
+	iload_0
+	ireturn
+Label6:
+	goto Label2
+Label2:
+	iconst_4
 	ireturn
 Label1:
-.limit stack 2
+.limit stack 3
 .limit locals 1
+.end method
+
+.method public static foo1()I
+Label0:
+	bipush 6
+	ireturn
+Label1:
+.limit stack 1
+.limit locals 0
 .end method

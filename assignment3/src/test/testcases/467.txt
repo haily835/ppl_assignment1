@@ -1,10 +1,15 @@
 
-		Function: main
-		Parameter: a[10], x
-		Body:
-		    If a[x] Then
-		        a[x+1] = a[x] && a[x-1];
-		        Return main(a, x+1);
-		    EndIf.
-		EndBody.
-		
+Function: foo
+Body:
+EndBody.
+
+Function: main
+Body:
+    Var: a = 1;
+    Var: b,c;
+    b = a;
+    a = c;
+    
+EndBody.
+
+        

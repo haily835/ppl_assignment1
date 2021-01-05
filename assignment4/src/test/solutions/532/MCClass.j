@@ -24,9 +24,9 @@ Label1:
 Label0:
 	iconst_1
 	iconst_2
-	isub
+	iadd
 	iconst_2
-	isub
+	iadd
 	iconst_2
 	imul
 	iconst_2

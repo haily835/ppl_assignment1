@@ -22,10 +22,10 @@ Label1:
 .method public static main([Ljava/lang/String;)V
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
 Label0:
-	iconst_1
-	invokestatic io/float_to_int(I)F
+	ldc 15.0
+	fneg
 	ldc 2.0
-	fadd
+	fdiv
 	invokestatic io/string_of_float(F)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label1:

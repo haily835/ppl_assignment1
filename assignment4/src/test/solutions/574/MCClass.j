@@ -21,35 +21,38 @@ Label1:
 
 .method public static main([Ljava/lang/String;)V
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
-.var 1 is a [I from Label0 to Label1
+.var 1 is a I from Label0 to Label1
+.var 2 is b I from Label0 to Label1
 Label0:
-	iconst_3
-	newarray int
-	dup
-	iconst_0
-	iconst_1
-	iastore
-	dup
-	iconst_1
-	iconst_2
-	iastore
-	dup
-	iconst_2
-	iconst_3
-	iastore
-	astore_1
-	aload_1
-	iconst_2
 	iconst_5
-	iastore
-
-	aload_1
-	iconst_2
-	iaload
-	invokestatic io/string_of_int(I)Ljava/lang/String;
+	istore_1
+	bipush 6
+	istore_2
+	iload_1
+	iload_2
+	invokestatic MCClass/isSmaller(II)Z
+	invokestatic io/string_of_bool(Z)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label1:
 	return
-.limit stack 4
+.limit stack 2
+.limit locals 3
+.end method
+
+.method public static isSmaller(II)Z
+.var 0 is a I from Label0 to Label1
+.var 1 is b I from Label0 to Label1
+Label0:
+	iload_0
+	iload_1
+	if_icmpge Label2
+	iconst_1
+	goto Label3
+Label2:
+	iconst_0
+Label3:
+	ireturn
+Label1:
+.limit stack 3
 .limit locals 2
 .end method

@@ -1,6 +1,16 @@
 
 Function: main
 Body:
-print(string_of_bool((3 < 4) && (3.0 <. 4.0)));
+Var: a[3] = {"a", "b", "c"}, i = 0;
+Do
+    If i == 1 Then
+        i = i + 1;
+        Continue;
+    Else
+        print(a[i]);
+        i = i + 1;
+    EndIf.
+While i < 3
+EndDo.
 EndBody.
         

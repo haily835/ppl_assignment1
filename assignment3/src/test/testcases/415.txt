@@ -1,7 +1,13 @@
 
-		Function: main
-		Body:
-		    Var: a, b[5];
-		    a = b;
-		EndBody.
-		
+Function: foo
+Parameter: a, b, c, foo
+Body:
+    Var: printLn;
+EndBody.
+
+Function: main
+Body:
+    Var: foo;
+    Var: main;
+EndBody.
+        

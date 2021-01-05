@@ -1,7 +1,17 @@
 
-		Var: x;
-		Function: main
-		Body:
-		    x = x;
-		EndBody.
-		
+Function: main
+Body:
+    Var: x = 1;
+    Var: y = 0.5;
+    Var: a;
+    a = -foo(1, 1, 1, 1);
+EndBody.
+
+Function: foo
+Parameter: a,b,c,d
+Body:
+    Var k;
+    k = a + b + c + d;
+    Return 3.5;
+EndBody.
+        

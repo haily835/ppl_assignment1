@@ -1,7 +1,6 @@
 
-		Function: main
-		Parameter: x
-		Body:
-		    x();
-		EndBody.
-		
+Function: main
+Parameter: a, b, c, a[5]
+Body:
+EndBody.
+        

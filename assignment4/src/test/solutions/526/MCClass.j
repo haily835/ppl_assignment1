@@ -1,7 +1,6 @@
 .source MCClass.java
 .class public MCClass
 .super java.lang.Object
-.field static a [I
 
 .method public <init>()V
 .var 0 is this LMCClass; from Label0 to Label1
@@ -14,69 +13,92 @@ Label1:
 .limit locals 1
 .end method
 
-.method public static main([Ljava/lang/String;)V
-.var 0 is args [Ljava/lang/String; from Label0 to Label1
-.var 1 is i I from Label0 to Label1
-Label0:
-	iconst_0
-	istore_1
-	iconst_0
-	istore_1
-Label4:
-	iload_1
-	iconst_5
-	if_icmpge Label5
-	iconst_1
-	goto Label6
-Label5:
-	iconst_0
-Label6:
-	ifle Label3
-Label7:
-	getstatic MCClass.a [I
-	iload_1
-	iaload
-	invokestatic io/string_of_int(I)Ljava/lang/String;
-	invokestatic io/print(Ljava/lang/String;)V
-Label8:
-	iconst_1
-	iload_1
-Label2:
-	iadd
-	istore_1
-	goto Label4
-Label3:
-Label1:
+.method public <clinit>()V
 	return
-.limit stack 4
-.limit locals 2
+.limit stack 0
+.limit locals 0
 .end method
 
-.method public <clinit>()V
-	iconst_5
-	newarray int
+.method public static main([Ljava/lang/String;)V
+.var 0 is args [Ljava/lang/String; from Label0 to Label1
+.var 1 is a [[[Z from Label0 to Label1
+Label0:
+	iconst_2
+	anewarray [[Z
+	dup
+	iconst_0
+	iconst_2
+	anewarray [Z
+	dup
+	iconst_0
+	iconst_2
+	newarray boolean
 	dup
 	iconst_0
 	iconst_1
-	iastore
+	bastore
+	dup
+	iconst_1
+	iconst_0
+	bastore
+	aastore
 	dup
 	iconst_1
 	iconst_2
-	iastore
+	newarray boolean
 	dup
+	iconst_0
+	iconst_1
+	bastore
+	dup
+	iconst_1
+	iconst_0
+	bastore
+	aastore
+	aastore
+	dup
+	iconst_1
 	iconst_2
-	iconst_3
-	iastore
+	anewarray [Z
 	dup
-	iconst_3
-	iconst_4
-	iastore
+	iconst_0
+	iconst_2
+	newarray boolean
 	dup
-	iconst_4
-	iconst_5
-	iastore
-	putstatic MCClass.a [I
+	iconst_0
+	iconst_1
+	bastore
+	dup
+	iconst_1
+	iconst_0
+	bastore
+	aastore
+	dup
+	iconst_1
+	iconst_2
+	newarray boolean
+	dup
+	iconst_0
+	iconst_1
+	bastore
+	dup
+	iconst_1
+	iconst_0
+	bastore
+	aastore
+	aastore
+	astore_1
+	aload_1
+	iconst_0
+	aaload
+	iconst_0
+	aaload
+	iconst_1
+	baload
+	invokestatic io/string_of_bool(Z)Ljava/lang/String;
+	invokestatic io/print(Ljava/lang/String;)V
+Label1:
 	return
-.limit stack 4
-.limit locals 0
+.limit stack 22
+.limit locals 2
 .end method

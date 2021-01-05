@@ -1,14 +1,11 @@
 
-		Function: foo
-		Parameter: x[3]
-		Body:
-		    x[0] = x[1] + x[2];
-		    Return x[0];
-		EndBody.
-		Function: main
-		Parameter: x[5]
-		Body:
-		    x = {1, 2, 3, 4, 5};
-		    Return x[foo(x[foo(x[foo(x)])])];
-		EndBody.
-		
+
+Function: main
+Body:
+    foo();
+EndBody.
+Function: foo
+Body:
+    Return 3;
+EndBody.
+        

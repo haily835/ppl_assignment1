@@ -1,7 +1,10 @@
 
-		Var: x;
-		Function: main
-		Body:
-		    x = 1 + int_of_float(2.0);
-		EndBody.
-		
+Function: main
+Body:
+    foo();
+EndBody.
+
+Function: foo
+Body:
+EndBody.
+        

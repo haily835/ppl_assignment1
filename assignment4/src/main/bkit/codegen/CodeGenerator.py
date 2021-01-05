@@ -95,11 +95,11 @@ class CodeGenerator():
 
         # list of function with full detail of types
         env = StaticChecker(ast).check()
-        print(env[0][-2].name)
-        print(env[0][-2].mtype.partype)
-        print(env[0][-2].mtype.rettype.eleType)
-        print(env[0][-1].name)
-        print(env[0][-1].mtype.partype[0].eleType)
+        # print(env[0][-2].name)
+        # print(env[0][-2].mtype.partype)
+        # print(env[0][-2].mtype.rettype.eleType)
+        # print(env[0][-1].name)
+        # print(env[0][-1].mtype.partype[0].eleType)
         
         gc = CodeGenVisitor(ast, env[0], dir_)
         gc.visit(ast, None)
@@ -322,11 +322,13 @@ class CodeGenVisitor(BaseVisitor):
             return code, BoolType()
 
         if ctx.op == '&&':
-            code += self.emit.emitANDOP(o.frame)
+            code = ''
+            code += self.emit.emitANDSHORT(left, right, o.frame)
             return code, BoolType()
         
         if ctx.op == '||':
-            code += self.emit.emitOROP(o.frame)
+            code = ''
+            code += self.emit.emitORSHORT(left, right, o.frame)
             return code, BoolType()
 
     def visitUnaryOp(self,ctx,o):
@@ -1039,10 +1041,13 @@ class StaticChecker(BaseVisitor):
 
     def visitCallStmt(self, ast, c):
         c = c[0]
+        
         argsType = [x.accept(self, c + [ast]) for x in ast.param]
+        
         sym = self.getFuncSym(c,ast.method.name)
         sym.inferFuncOut(VoidType())
         sym.inferFunc(argsType)
+        
         
     def visitIntLiteral(self, ast, c):
         return IntType()

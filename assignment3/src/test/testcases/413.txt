@@ -1,11 +1,10 @@
 
-		Function: x
-		Parameter: x
-		Body:
-		    x = 1;
-		    main(x);
-		EndBody.
-		Function: main
-		Body:
-		EndBody.
-		
+Function: printLn
+Parameter: a, b, c
+Body:
+EndBody.
+
+Function: main
+Body:
+EndBody.
+        

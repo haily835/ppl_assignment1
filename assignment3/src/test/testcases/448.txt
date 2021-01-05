@@ -1,21 +1,14 @@
 
-		Var: x, y, z;
-		Function: a
-		Parameter: x, y
-		Body:
-		    Return x + y + z;
-		EndBody.
-		Function: b
-		Parameter: y, z
-		Body:
-		    Return x +. y +. z;
-		EndBody.
-		Function: c
-		Parameter: x, z
-		Body:
-		    Return x && y && z;
-		EndBody.
-		Function: main
-		Body:
-		EndBody.
-		
+Function: main
+Body:
+    Var: a = True;
+    
+    If a Then
+        a = 1;
+    ElseIf (a && True) Then
+        Var: a;
+    Else
+        Var: a;
+    EndIf.
+EndBody.
+        

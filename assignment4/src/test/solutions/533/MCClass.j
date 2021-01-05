@@ -22,11 +22,15 @@ Label1:
 .method public static main([Ljava/lang/String;)V
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
 Label0:
-	bipush 15
+	iconst_1
 	iconst_2
-	irem
+	isub
 	iconst_2
-	irem
+	isub
+	iconst_2
+	imul
+	iconst_2
+	imul
 	invokestatic io/string_of_int(I)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label1:

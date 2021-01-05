@@ -1,10 +1,6 @@
 
-		Function: foo
-		Body:
-		    Var: x;
-		    Return x;
-		EndBody.
-		Function: main
-		Body:
-		EndBody.
-		
+Function: main
+Body:
+Var: m, n[10];
+EndBody.
+        

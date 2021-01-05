@@ -657,6 +657,65 @@ class Emitter():
     *   .class public MPC.CLASSNAME<p>
     *   .super java/lang/Object<p>
     '''
+
+    def emitORSHORT(self, left, right, frame):
+        result = []
+        labelTrue = frame.getNewLabel()
+        labelOut = frame.getNewLabel()
+
+        result.append(left)
+
+        # if true go out label
+        result.append(self.jvm.emitIFGT(labelTrue))
+        frame.pop()
+
+        # right code
+        result.append(right)
+        result.append(self.jvm.emitIFGT(labelTrue))
+        frame.pop()
+
+        # left and right false then push 0 and go to out label
+        result.append(self.emitPUSHCONST(0, cgen.IntType(), frame))
+        frame.pop()
+        result.append(self.emitGOTO(labelOut,frame))
+
+        # true code
+        result.append(self.emitLABEL(labelTrue,frame))
+        result.append(self.emitPUSHCONST(1, cgen.IntType(), frame))
+
+        result.append(self.emitLABEL(labelOut,frame))
+
+        return ''.join(result)
+
+    def emitANDSHORT(self, left, right, frame):
+        result = []
+        labelFalse = frame.getNewLabel()
+        labelOut = frame.getNewLabel()
+
+        result.append(left)
+
+        # if false go false label
+        result.append(self.jvm.emitIFLE(labelFalse))
+        frame.pop()
+
+        # right code
+        result.append(right)
+        result.append(self.jvm.emitIFLE(labelFalse))
+        frame.pop()
+
+        # left and right false then push 0 and go to out label
+        result.append(self.emitPUSHCONST(1, cgen.IntType(), frame))
+        frame.pop()
+        result.append(self.emitGOTO(labelOut,frame))
+
+        # true code
+        result.append(self.emitLABEL(labelFalse,frame))
+        result.append(self.emitPUSHCONST(0, cgen.IntType(), frame))
+
+        result.append(self.emitLABEL(labelOut,frame))
+
+        return ''.join(result)
+
     def emitPROLOG(self, name, parent):
         #name: String
         #parent: String

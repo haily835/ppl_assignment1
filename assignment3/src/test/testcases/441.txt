@@ -1,10 +1,15 @@
 
-		Function: main
-		Body:
-		    foo()[0] = 1;
-		EndBody.
-		Function: foo
-		Body:
-		    Return 0;
-		EndBody.
-		
+Function: main
+Body:
+    Var: x = 1;
+    Var: y = 0.5;
+    Var: a;
+    a = x + foo(1, 1, 1, 1);
+EndBody.
+
+Function: foo
+Parameter: a,b,c,d
+Body:
+    Return a + b + c + d;
+EndBody.
+        

@@ -26,7 +26,16 @@ Label1:
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
 Label0:
 Label4:
+	getstatic MCClass.i I
+	iconst_5
+	if_icmpge Label5
+	iconst_1
+	goto Label6
 Label5:
+	iconst_0
+Label6:
+	ifle Label3
+Label7:
 	getstatic MCClass.i I
 	invokestatic io/string_of_int(I)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
@@ -34,14 +43,12 @@ Label5:
 	iconst_1
 	iadd
 	putstatic MCClass.i I
-Label6:
+Label8:
 Label2:
-	iconst_0
-	ifle Label3
 	goto Label4
 Label3:
 Label1:
 	return
-.limit stack 2
+.limit stack 4
 .limit locals 1
 .end method

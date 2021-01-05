@@ -1,12 +1,10 @@
 
-		Var: x = 0;
-		Function: foo
-		Parameter: x
-		Body:
-		    x = 0.5;
-		EndBody.
-		Function: main
-		Body:
-		    x = 1.5;
-		EndBody.
-		
+Function: main
+Body:
+    Var: a = 1;
+    If a Then
+        Var: a;
+        a = True;
+    EndIf.
+EndBody.
+        

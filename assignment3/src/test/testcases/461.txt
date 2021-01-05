@@ -1,10 +1,13 @@
 
-		Function: foo
-		Body:
-		    foo();
-		    Return foo();
-		EndBody.
-		Function: main
-		Body:
-		EndBody.
-		
+Function: foo
+Parameter: a,b
+Body:
+    a = 1;
+    b = 5;
+EndBody.
+Function: main
+Body:
+    foo(1.0,1.5);
+
+EndBody.
+        

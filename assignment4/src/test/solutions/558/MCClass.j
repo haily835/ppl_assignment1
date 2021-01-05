@@ -42,26 +42,35 @@ Label0:
 	iconst_0
 	istore_2
 Label4:
+	iload_2
+	iconst_3
+	if_icmpge Label5
+	iconst_1
+	goto Label6
 Label5:
+	iconst_0
+Label6:
+	ifle Label3
+Label7:
 	iload_2
 	iconst_1
-	if_icmpne Label9
+	if_icmpne Label11
 	iconst_1
-	goto Label10
-Label9:
-	iconst_0
-Label10:
-	ifle Label7
+	goto Label12
 Label11:
+	iconst_0
+Label12:
+	ifle Label9
+Label13:
 	iload_2
 	iconst_1
 	iadd
 	istore_2
 	goto Label2
-Label12:
-	goto Label8
-Label7:
-Label13:
+Label14:
+	goto Label10
+Label9:
+Label15:
 	aload_1
 	iload_2
 	aaload
@@ -70,23 +79,14 @@ Label13:
 	iconst_1
 	iadd
 	istore_2
-Label14:
-Label8:
-Label6:
-Label2:
-	iload_2
-	iconst_3
-	if_icmpge Label15
-	iconst_1
-	goto Label16
-Label15:
-	iconst_0
 Label16:
-	ifle Label3
+Label10:
+Label8:
+Label2:
 	goto Label4
 Label3:
 Label1:
 	return
-.limit stack 8
+.limit stack 9
 .limit locals 3
 .end method

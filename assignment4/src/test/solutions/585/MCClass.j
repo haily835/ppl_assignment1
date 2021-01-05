@@ -25,7 +25,6 @@ Label0:
 	iconst_3
 	invokestatic MCClass/incr(I)I
 	invokestatic MCClass/double(I)I
-	invokestatic MCClass/square(I)I
 	invokestatic io/string_of_int(I)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label1:
@@ -50,18 +49,6 @@ Label1:
 .var 0 is a I from Label0 to Label1
 Label0:
 	iconst_2
-	iload_0
-	imul
-	ireturn
-Label1:
-.limit stack 2
-.limit locals 1
-.end method
-
-.method public static square(I)I
-.var 0 is a I from Label0 to Label1
-Label0:
-	iload_0
 	iload_0
 	imul
 	ireturn

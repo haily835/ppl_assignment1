@@ -1,1 +1,1 @@
-Undeclared Function: float_to_int
+Type Mismatch In Statement: CallStmt(Id(foo),[IntLiteral(3),BooleanLiteral(false),IntLiteral(2)])

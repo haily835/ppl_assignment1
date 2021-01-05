@@ -22,11 +22,11 @@ Label1:
 .method public static main([Ljava/lang/String;)V
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
 Label0:
-	ldc 1.0
-	invokestatic io/int_of_float(F)I
-	iconst_2
-	imul
-	invokestatic io/string_of_int(I)Ljava/lang/String;
+	iconst_1
+	invokestatic io/float_to_int(I)F
+	ldc 2.0
+	fadd
+	invokestatic io/string_of_float(F)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label1:
 	return

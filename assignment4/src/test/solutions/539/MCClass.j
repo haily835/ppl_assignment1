@@ -24,9 +24,9 @@ Label1:
 Label0:
 	ldc 5.0
 	ldc 2.0
-	fadd
+	fmul
 	ldc 2.0
-	fadd
+	fmul
 	ldc 3.0
 	fsub
 	invokestatic io/string_of_float(F)Ljava/lang/String;

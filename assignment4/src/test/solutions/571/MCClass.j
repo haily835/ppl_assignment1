@@ -37,16 +37,42 @@ Label0:
 Label2:
 	iconst_0
 Label3:
+	ifle Label6
+	getstatic MCClass.b F
+	getstatic MCClass.c F
+	fcmpl
 	ifgt Label4
 	iconst_1
 	goto Label5
 Label4:
 	iconst_0
 Label5:
+	ifle Label6
+	iconst_1
+	goto Label7
+Label6:
+	iconst_0
+Label7:
+	ifle Label10
+	getstatic MCClass.b F
+	getstatic MCClass.c F
+	fcmpl
+	ifge Label8
+	iconst_1
+	goto Label9
+Label8:
+	iconst_0
+Label9:
+	ifle Label10
+	iconst_1
+	goto Label11
+Label10:
+	iconst_0
+Label11:
 	invokestatic io/string_of_bool(Z)Ljava/lang/String;
 	invokestatic io/print(Ljava/lang/String;)V
 Label1:
 	return
-.limit stack 6
+.limit stack 8
 .limit locals 1
 .end method

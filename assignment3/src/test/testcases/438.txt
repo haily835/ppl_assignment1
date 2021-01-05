@@ -1,7 +1,13 @@
 
-		Var: x;
-		Function: main
-		Body:
-		    x = bool_of_string(read()) && bool_of_string(string_of_bool(True));
-		EndBody.
-		
+Function: main
+Body:
+    foo(1,1);
+    foo(1,1.3);
+EndBody.
+
+Function: foo
+Parameter: x, y
+Body:
+    Return;
+EndBody.
+        
